@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>卖点 &amp; 创意分析 · 日用百货选品&创意机会一览表</title>
+<link rel="stylesheet" href="assets/style.css?v=20260715">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="logo"><span class="dot">日</span>日用百货 · 选品&创意机会一览表</div>
+  <div class="crumb"><a href="index.html">概览</a><span class="sep">/</span>卖点 &amp; 创意分析</div>
+  <div class="spacer"></div>
+  <span class="tag-kpi">卖点 &amp; 创意分析</span>
+</div></div>
+
+<div class="wrap">
+  <div class="page-head">
+    <h1>卖点 &amp; 创意分析看板</h1>
+    <div class="sub">分赛道展示主要卖点词与创意条数/点击率/3s完播/CVR均值（二层）。点击赛道卡片下钻查看词云、常见话术、跑量关键点与Top素材黄金五段式拆解（三层）。</div>
+  </div>
+
+  <!-- ===== 二层：分赛道概览卡片 ===== -->
+  <div id="overview">
+    <div class="grid-cards" id="trackGrid" style="grid-template-columns:repeat(3,1fr)"></div>
+  </div>
+
+  <!-- ===== 三层：赛道详情 ===== -->
+  <div id="detail" style="display:none">
+    <div class="tabs" style="margin-bottom:18px">
+      <div class="tab" onclick="showOverview()">← 返回赛道总览</div>
+      <div id="trackSwitch" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+    </div>
+
+    <h2 id="dTitle" style="font-size:22px;margin-bottom:16px"></h2>
+
+    <!-- 1. 赛道指标均值 -->
+    <div class="card">
+      <div class="h"><span class="bar"></span>赛道指标均值<span class="hint">与外层数据保持一致</span></div>
+      <div class="metric-row" id="dMetrics"></div>
+    </div>
+
+    <!-- 2. 卖点词云 -->
+    <div class="card">
+      <div class="h"><span class="bar"></span>主要卖点词云<span class="hint">浓度越高字体越大越居中</span></div>
+      <div class="wordcloud" id="dCloud"></div>
+    </div>
+
+    <!-- 2.5 卖点动因 / 背景支撑 -->
+    <div class="card" id="dContextCard">
+      <div class="h"><span class="bar"></span>卖点动因 · 需求背景<span class="hint">卖点为何成立：时令/换季/场景/情绪等动因 → 真实需求 → 可用支撑词</span></div>
+      <div class="ctx-list" id="dContext"></div>
+    </div>
+
+    <!-- 3-1 常见话术 -->
+    <div class="card">
+      <div class="h"><span class="bar"></span>常见爆款话术<span class="hint">基于素材创意抽象聚类（≥2条素材出现）</span></div>
+      <div class="script-grid" id="dScripts"></div>
+    </div>
+
+    <!-- 3-2 跑量关键点 -->
+    <div class="card">
+      <div class="h"><span class="bar"></span>跑量关键点<span class="hint">钩子对比 · 节点痛点 · 福利紧迫 · 明星IP</span></div>
+      <div class="kp-list" id="dKeyPoints"></div>
+    </div>
+
+    <!-- 3-3 Top素材拆解 -->
+    <div class="card">
+      <div class="h"><span class="bar"></span>Top 素材拆解<span class="hint">关键帧轮播 + 黄金五段式：钩子-痛点-解药-演示-收尾</span></div>
+      <div id="dMaterials"></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">数据源：创意素材分析 · benchmark 引用 home-daily-knowledge 共享知识层</div>
+
+<button id="backTop" class="back-top" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 顶部</button>
+
+<script src="data/creative.js?v=20260715"></script>
+<script>
+const C = window.CREATIVE_DATA, tracks = C.tracks;
+
+/* 图片兜底：加载失败重试一次再隐藏 */
+function imgFallback(el){
+  if(!el.dataset.retry){ el.dataset.retry='1'; const u=el.src; el.src=''; setTimeout(()=>{el.src=u+(u.indexOf('?')>-1?'&':'?')+'r='+Date.now();},500); return; }
+  el.onerror=null; el.style.display='none';
+}
+
+/* ===== 二层：赛道概览卡片 ===== */
+function trackCard(t){
+  const words = t.sellingWords.slice(0,6).map(w=>`<span class="chip">${w.word}</span>`).join('');
+  const m = t.metrics;
+  const ctx = (t.sellingContext&&t.sellingContext[0])
+    ? `<div class="tc-driver">🎯 当期动因：<b>${t.sellingContext[0].driver}</b></div>` : '';
+  return `<div class="tofu" style="cursor:pointer" onclick="showDetail('${t.key}')">
+    <h2 style="font-size:18px">${t.name}</h2>
+    ${ctx}
+    <div class="desc" style="min-height:auto">主要卖点：</div>
+    <div class="chips">${words}</div>
+    <div class="kv" style="grid-template-columns:repeat(4,1fr);margin-top:16px">
+      <div class="box"><div class="n" style="font-size:18px">${m.creativeCount}</div><div class="l">创意条数</div></div>
+      <div class="box"><div class="n" style="font-size:18px">${m.ctr}%</div><div class="l">点击率</div></div>
+      <div class="box"><div class="n" style="font-size:18px">${m.play3s}%</div><div class="l">3s完播</div></div>
+      <div class="box"><div class="n" style="font-size:18px">${m.cvr}%</div><div class="l">CVR</div></div>
+    </div>
+    <div class="enter">查看赛道详情 →</div>
+  </div>`;
+}
+document.getElementById('trackGrid').innerHTML = tracks.map(trackCard).join('');
+
+/* ===== 三层：赛道详情 ===== */
+function metricBox(n,l,cls){return `<div class="metric"><div class="n ${cls}">${n}</div><div class="l">${l}</div></div>`}
+
+function renderCloud(words){
+  // 权重映射字体大小 & 排序（大在中间）
+  const sorted=[...words].sort((a,b)=>b.weight-a.weight);
+  const arranged=[]; sorted.forEach((w,i)=>{ i%2? arranged.push(w):arranged.unshift(w); });
+  const palette=['#f5b544','#4b8bf5','#37c98a','#9b6cf0','#f0645f','#e8ecf3'];
+  return arranged.map((w,i)=>{
+    const size=14+Math.round(w.weight/100*30); // 14~44px
+    const op=0.55+w.weight/100*0.45;
+    const color=palette[i%palette.length];
+    return `<span class="wc-word" style="font-size:${size}px;color:${color};opacity:${op}">${w.word}</span>`;
+  }).join('');
+}
+
+/* 卖点动因 / 背景支撑：动因 → 需求 → 支撑卖点词 */
+function renderContext(t){
+  const card = document.getElementById('dContextCard');
+  const list = t.sellingContext || [];
+  if(!list.length){ card.style.display='none'; return; }
+  card.style.display='';
+  document.getElementById('dContext').innerHTML = list.map(c=>`
+    <div class="ctx-item">
+      <div class="ctx-driver"><span class="ctx-ico">🎯</span><span class="ctx-dtxt">${c.driver}</span></div>
+      <div class="ctx-arrow">↓ 因此产生需求</div>
+      <div class="ctx-need">${c.need}</div>
+      <div class="ctx-words">${(c.words||[]).map(w=>`<span class="chip gold">${w}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+function materialBlock(mt){
+  const frames = (mt.frames&&mt.frames.length)
+    ? mt.frames.map((f,i)=>`<div class="frame"><span class="no">${i+1}</span><img src="${f}" onerror="imgFallback(this)"></div>`).join('')
+    : Array.from({length:6}).map((_,i)=>`<div class="frame"><span class="no">${i+1}/6</span>关键帧待补充</div>`).join('');
+  const g=mt.golden5;
+  const seg=(cls,label,d)=>`<div class="seg ${cls}"><div class="sh">${label}<span class="tm">${d.time}</span></div><div class="sd">${d.desc}</div></div>`;
+  // 保护客户视频创意：不对外暴露原片入口，仅展示关键帧拆解
+  const vurl = '';
+  return `<div style="margin-bottom:26px">
+    <div class="mat-head">
+      <div class="rk">#${mt.rank}</div>
+      <div class="info"><div class="tt">${mt.title}</div><div class="st">${mt.product} · 时长 ${mt.duration||'—'}</div></div>
+      <div class="tagp">${mt.tag||'产品展示'}</div>
+    </div>
+    <div class="metric-row">
+      ${metricBox((mt.ctr||'—')+(mt.ctr?'%':''),'CTR','g')}
+      ${metricBox((mt.cvr||'—')+(mt.cvr?'%':''),'CVR','gr')}
+      ${metricBox(mt.roi||'—','ROI','b')}
+      ${metricBox('¥'+(mt.cpm||'—'),'CPM','p')}
+      ${metricBox(mt.duration||'—','时长','')}
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin:16px 0 4px">
+      <div style="font-weight:700;font-size:13px">🎞 关键帧轮播</div>${vurl}
+    </div>
+    <div class="frames">${frames}</div>
+    <div style="font-weight:700;font-size:14px;margin:14px 0 4px">🥇 黄金五段式拆解</div>
+    <div class="g5">
+      ${seg('s1','钩子',g.hook)}
+      ${seg('s2','痛点',g.pain)}
+      ${seg('s3','解药',g.cure)}
+      ${seg('s4','演示',g.demo)}
+      ${seg('s5','收尾',g.ending)}
+    </div>
+  </div>`;
+}
+
+function showDetail(key){
+  const t = tracks.find(x=>x.key===key);
+  document.getElementById('overview').style.display='none';
+  document.getElementById('detail').style.display='';
+  document.getElementById('dTitle').textContent = t.name + ' · 卖点 & 创意详情';
+  // 赛道快速切换
+  document.getElementById('trackSwitch').innerHTML = tracks.map(x=>
+    `<div class="tab ${x.key===key?'on':''}" onclick="showDetail('${x.key}')">${x.name}</div>`).join('');
+  // 指标
+  const m=t.metrics;
+  document.getElementById('dMetrics').innerHTML =
+    metricBox(m.creativeCount,'创意条数','g')+
+    metricBox(m.ctr+'%','点击率','b')+
+    metricBox(m.play3s+'%','3s完播率','gr')+
+    metricBox(m.cvr+'%','CVR','p')+
+    metricBox('¥'+m.cpm,'CPM','');
+  // 词云
+  document.getElementById('dCloud').innerHTML = renderCloud(t.sellingWords);
+  // 卖点动因 / 背景支撑
+  renderContext(t);
+  // 话术
+  document.getElementById('dScripts').innerHTML = t.scripts.map(s=>`<div class="script">${s}</div>`).join('');
+  // 跑量关键点
+  document.getElementById('dKeyPoints').innerHTML = t.keyPoints.map((k,i)=>
+    `<div class="kp"><div class="idx">${['a','b','c','d'][i]||i+1}</div><div><div class="t">${k.title}</div><div class="d">${k.desc}</div></div></div>`).join('');
+  // Top素材
+  document.getElementById('dMaterials').innerHTML = t.topMaterials.map(materialBlock).join('');
+  window.scrollTo(0,0);
+}
+function showOverview(){
+  document.getElementById('detail').style.display='none';
+  document.getElementById('overview').style.display='';
+  window.scrollTo(0,0);
+}
+
+/* 支持从外层 OnePage 带 ?track=key 直接下钻到对应赛道 */
+(function(){
+  const key = new URLSearchParams(location.search).get('track');
+  if(key && tracks.some(t=>t.key===key)){ showDetail(key); }
+})();
+
+/* 回到顶部按钮 */
+(function(){var b=document.getElementById('backTop');window.addEventListener('scroll',function(){b.classList.toggle('show',window.scrollY>300);});})();
+</script>
+</body>
+</html>

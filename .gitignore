@@ -1,0 +1,11 @@
+# 保护客户视频创意原片，不推送到公开仓库
+*.mp4
+*.mov
+*.avi
+site/assets/media*.mp4
+
+# 系统 / 编辑器
+.DS_Store
+.codebuddy/
+node_modules/
+*.log

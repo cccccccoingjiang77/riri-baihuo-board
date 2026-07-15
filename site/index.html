@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title id="pageTitle">日用百货 · 选品&创意机会一览表</title>
+<link rel="stylesheet" href="assets/style.css?v=20260715">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="logo"><span class="dot">日</span><span id="brandTitle">日用百货 · 选品&创意机会一览表</span></div>
+  <div class="spacer"></div>
+  <span class="tag-kpi" id="brandTag">选品 &amp; 创意 · 机会一览</span>
+</div></div>
+
+<div class="wrap">
+  <div class="page-head">
+    <h1 id="headTitle">日用百货 · 选品 &amp; 创意机会一览表</h1>
+    <div class="sub">别再自己闷头试！这里帮你把<b style="color:var(--gold)">当下正在跑量的爆品</b>和<b style="color:var(--gold)">已验证跑量的创意套路</b>一次看全 —— 跟着抄品、抄卖点、抄脚本，选品少踩坑、起量更省心。点击下方板块即可下钻到完整榜单，挑对标、拿灵感、直接上手。</div>
+    <div class="meta" id="ovMeta"></div>
+  </div>
+
+  <!-- ============ 豆腐块1：选品看板 ============ -->
+  <section class="tofu-x" onclick="if(event.target.closest('a'))return;location.href='selection.html'">
+    <div class="tofu-x-head">
+      <div class="lft"><span class="ico">🛒</span>
+        <div><h2>选品看板</h2>
+          <div class="desc">分链路（闭环/非闭环）+ 热点周期节气双视角，一眼看到当期最热跑品与当前热门节点。</div>
+        </div>
+      </div>
+      <a class="enter-btn" href="selection.html">进入完整榜单 →</a>
+    </div>
+
+    <div class="kv-inline" id="selKv"></div>
+    <div class="chips" id="selChips" style="margin:14px 0 6px"></div>
+
+    <!-- 分链路 Top3 -->
+    <div class="mini-title">🔥 各链路最热跑品 Top3（按在跑条数 = 拿量热度）</div>
+    <div class="top3-cols" id="selTop3"></div>
+
+    <!-- 当前热门节点 -->
+    <div class="mini-title">📅 当前 / 临近热门节点 Top3</div>
+    <div class="node-row" id="selNodes"></div>
+  </section>
+
+  <!-- ============ 豆腐块2：卖点创意分析 ============ -->
+  <section class="tofu-x" onclick="if(event.target.closest('a'))return;location.href='creative.html'">
+    <div class="tofu-x-head">
+      <div class="lft"><span class="ico">🎬</span>
+        <div><h2>卖点 &amp; 创意分析看板</h2>
+          <div class="desc">分赛道展示主要卖点词 + 当期卖点动因（时令/换季/场景），下钻看词云、卖点需求背景、话术与 Top 素材黄金五段式拆解。</div>
+        </div>
+      </div>
+      <a class="enter-btn" href="creative.html">进入创意分析 →</a>
+    </div>
+
+    <div class="kv-inline" id="creKv"></div>
+
+    <!-- 分赛道卖点 + 基础数据 -->
+    <div class="mini-title">🏷 分赛道主要卖点词 &amp; 基础数据</div>
+    <div class="track-mini" id="creTracks"></div>
+  </section>
+</div>
+
+<div class="footer">数据源：2026年日百家居行业选品台 · benchmark 引用 home-daily-knowledge 共享知识层 · 商品图由系统按商品名自动生成</div>
+
+<button id="backTop" class="back-top" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 顶部</button>
+<script>
+(function(){var b=document.getElementById('backTop');window.addEventListener('scroll',function(){b.classList.toggle('show',window.scrollY>300);});})();
+</script>
+
+<script src="data/selection.js?v=20260715"></script>
+<script src="data/creative.js?v=20260715"></script>
+<script src="data/calendar.js?v=20260715"></script>
+<script>
+const S = window.SELECTION_DATA, C = window.CREATIVE_DATA, CAL = window.CALENDAR_DATA;
+
+/* ---------- 期次标题（结合选品&创意，形如 20260713期） ---------- */
+const periodTag = (S.meta.updatedAt||'').replace(/-/g,'') || '';
+const titleTxt = `日用百货 · 选品&创意机会一览表${periodTag?'（'+periodTag+'期）':''}`;
+document.getElementById('pageTitle').textContent = titleTxt;
+document.getElementById('brandTitle').textContent = titleTxt;
+document.getElementById('headTitle').innerHTML = titleTxt;
+
+/* ---------- 商品图兜底：加载失败自动重试一次，仍失败再显示占位 ---------- */
+function imgFallback(el){
+  if(!el.dataset.retry){ el.dataset.retry='1'; const u=el.src; el.src=''; setTimeout(()=>{el.src=u+(u.indexOf('?')>-1?'&':'?')+'r='+Date.now();},400); return; }
+  el.onerror=null; el.style.visibility='hidden';
+  const ph=el.parentNode.querySelector('.t3ph'); if(ph) ph.style.display='';
+}
+
+/* ---------- 概览 meta ---------- */
+document.getElementById('ovMeta').innerHTML =
+  `<span class="pill">榜单期次 <b>${S.meta.period}</b></span>`+
+  `<span class="pill">更新 <b>${S.meta.updatedAt}</b></span>`+
+  `<span class="pill">数据源 <b>选品台xlsx</b></span>`;
+
+/* ================= 选品豆腐块 ================= */
+const nonC = S.nonClosed.items;
+const qyt = S.closed.channels.quanyutong.items;
+const adq = S.closed.channels.adq.items;
+const allSel = [...nonC, ...qyt, ...adq];
+const avgPrice = (allSel.filter(x=>x.price).reduce((a,b)=>a+b.price,0)/allSel.filter(x=>x.price).length).toFixed(0);
+const catCnt = {};
+allSel.forEach(x=>{catCnt[x.category2]=(catCnt[x.category2]||0)+1});
+const topCats = Object.entries(catCnt).sort((a,b)=>b[1]-a[1]);
+
+document.getElementById('selKv').innerHTML =
+  box(allSel.length,'当期选品数')+
+  box('¥'+avgPrice,'平均客单')+
+  box(topCats.length,'覆盖二级赛道')+
+  box(nonC.length+' / '+(qyt.length+adq.length),'非闭环 / 闭环');
+document.getElementById('selChips').innerHTML =
+  topCats.slice(0,6).map(([k,v])=>`<span class="chip">${k} · ${v}</span>`).join('');
+
+function box(n,l){return `<div class="kbox"><div class="n">${n}</div><div class="l">${l}</div></div>`}
+
+/* 分链路 Top3：按在跑条数(dupCount)降序 = 拿量热度；ROI 作为辅助信息 */
+function top3col(title,color,items){
+  const sorted = [...items].sort((a,b)=>(b.dupCount||0)-(a.dupCount||0) || (b.roi||0)-(a.roi||0));
+  const rows = sorted.slice(0,3).map((x,i)=>`
+    <a class="t3" href="selection.html" onclick="event.stopPropagation()">
+      <span class="rk r${i+1}">${i+1}</span>
+      <div class="t3img"><img src="${x.image}" loading="lazy" onerror="imgFallback(this)"><span class="t3ph" style="display:none">图</span></div>
+      <div class="mid"><div class="nm">${x.name}</div><div class="sub2">${x.leaf||x.category2}</div></div>
+      <div class="rgt"><div class="hot">🔥 ${x.dupCount||1} 条</div><div class="pr">ROI ${x.roi||'—'} · ¥${x.price||'—'}</div></div>
+    </a>`).join('');
+  return `<div class="t3col"><div class="t3h" style="color:${color}">${title}</div>${rows}</div>`;
+}
+document.getElementById('selTop3').innerHTML =
+  top3col('非闭环 · CID/小程序','#4b8bf5',nonC)+
+  top3col('闭环 · 全域通','#37c98a',qyt)+
+  top3col('闭环 · ADQ','#9b6cf0',adq);
+
+/* 当前/临近热门节点：优先"当前正处于窗口内"的节点，其次临近 */
+function parseWin(n){
+  // 解析 window 里所有月份数字，返回 [起始月, 结束月]
+  const w = (n.window||n.win||'');
+  const ms = (w.match(/(\d{1,2})\s*月/g)||[]).map(s=>parseInt(s));
+  if(!ms.length) return null;
+  return [ms[0], ms[ms.length-1]];
+}
+function pickNodes(){
+  const today = new Date();
+  const m = today.getMonth()+1;
+  const scored = CAL.map(n=>{
+    const rg = parseWin(n);
+    let inside=false, dist=99;
+    if(rg){
+      const [a,b]=rg;
+      // 处理跨年（如12~1月）
+      if(a<=b){ inside = m>=a && m<=b; dist = inside?0:Math.min(Math.abs(m-a),Math.abs(m-b)); }
+      else { inside = m>=a || m<=b; dist = inside?0:Math.min(Math.abs(m-a),Math.abs(m-b)); }
+    }
+    return {n, inside, dist};
+  }).sort((x,y)=> (y.inside-x.inside) || (x.dist-y.dist));
+  return scored.slice(0,3).map(s=>s.n);
+}
+document.getElementById('selNodes').innerHTML = pickNodes().map(n=>`
+  <a class="node-card" href="selection.html" onclick="event.stopPropagation()">
+    <div class="nh"><span class="nm">${n.name}</span><span class="cal-type ${n.type}">${n.type}</span></div>
+    <div class="win">🗓 ${n.window||n.win||''}</div>
+    <div class="cats">${(n.categories||[]).slice(0,4).map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+  </a>`).join('');
+
+/* ================= 创意豆腐块 ================= */
+const tracks = C.tracks;
+const totalCre = tracks.reduce((a,b)=>a+b.metrics.creativeCount,0);
+const avgCtr = (tracks.reduce((a,b)=>a+b.metrics.ctr,0)/tracks.length).toFixed(1);
+const avgP3 = (tracks.reduce((a,b)=>a+b.metrics.play3s,0)/tracks.length).toFixed(0);
+const avgCvr = (tracks.reduce((a,b)=>a+b.metrics.cvr,0)/tracks.length).toFixed(1);
+document.getElementById('creKv').innerHTML =
+  box(totalCre,'创意素材条数')+
+  box(avgCtr+'%','平均点击率')+
+  box(avgP3+'%','平均3s完播')+
+  box(avgCvr+'%','平均CVR');
+
+document.getElementById('creTracks').innerHTML = tracks.map(t=>{
+  const words = t.sellingWords.slice(0,5).map((w,i)=>
+    `<span class="sw sw${i}">${w.word}</span>`).join('');
+  const ctx = (t.sellingContext&&t.sellingContext[0])
+    ? `<div class="tm-driver">🎯 当期动因：<b>${t.sellingContext[0].driver}</b></div>` : '';
+  const m=t.metrics;
+  return `<a class="track-mini-card" href="creative.html?track=${t.key}" onclick="event.stopPropagation()">
+    <div class="tm-h">${t.name}</div>
+    ${ctx}
+    <div class="tm-words">${words}</div>
+    <div class="tm-metrics">
+      <span>创意 <b>${m.creativeCount}</b></span>
+      <span>CTR <b>${m.ctr}%</b></span>
+      <span>3s <b>${m.play3s}%</b></span>
+      <span>CVR <b>${m.cvr}%</b></span>
+    </div>
+  </a>`;
+}).join('');
+</script>
+</body>
+</html>
