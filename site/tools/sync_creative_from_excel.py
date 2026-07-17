@@ -6,8 +6,11 @@
       未在表格维护的字段（Top素材/关键帧/videoUrl 等）原样保留，绝不误删。
 
 用法:
-    python3 tools/sync_creative_from_excel.py [可选:xlsx路径]
-    默认读取项目根目录的《创意卖点填报模板.xlsx》
+    python3 tools/sync_creative_from_excel.py [可选:xlsx路径 或 文件夹路径]
+    - 不带参数：默认读项目根目录的《创意卖点填报模板.xlsx》（总模板，多sheet）
+    - 传一个 xlsx 文件：读该总模板
+    - 传一个文件夹：读该文件夹下所有 xlsx（分赛道模式，每份一个赛道）
+      若不带参数且存在《填报-分赛道》目录，也会自动合并该目录下的分表
 可选一键推送:
     python3 tools/sync_creative_from_excel.py --push
 """
@@ -18,6 +21,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))       # site/
 PROJ = os.path.dirname(ROOT)                                            # 项目根
 CREATIVE_JS = os.path.join(ROOT, "data", "creative.js")
 DEFAULT_XLSX = os.path.join(PROJ, "创意卖点填报模板.xlsx")
+SPLIT_DIR = os.path.join(PROJ, "填报-分赛道")
 
 # ---------- 读现有 creative.js（作为基底，保留未维护字段） ----------
 def load_current():
@@ -55,8 +59,8 @@ def parse_track_sheet(ws):
                 return r
         return None
 
-    # ① 指标：表头下一行取5个数
-    r = find("创意条数")
+    # ① 指标：表头下一行取5个数（用 exact 精确匹配表头，避免命中含"创意条数"的说明行）
+    r = find("创意条数", exact=True)
     if r:
         out["metrics"] = {
             "creativeCount": to_num(cell(ws, r + 1, 1)),
@@ -128,18 +132,18 @@ def dump_js(data):
              ""]
     return "\n".join(lines)
 
-def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    do_push = "--push" in sys.argv
-    xlsx = args[0] if args else DEFAULT_XLSX
-    if not os.path.exists(xlsx):
-        print("找不到填报表:", xlsx); sys.exit(1)
+def collect_xlsx(path):
+    """把输入路径归一化为一批 xlsx 文件列表。"""
+    if os.path.isdir(path):
+        files = [os.path.join(path, f) for f in sorted(os.listdir(path))
+                 if f.lower().endswith(".xlsx") and not f.startswith("~$")]
+        return files
+    return [path]
 
-    data = load_current()
-    wb = load_workbook(xlsx, data_only=True)
-    name2track = {t["name"]: t for t in data["tracks"]}
-
+def apply_workbook(xlsx, name2track):
+    """读一个 xlsx，把其中的赛道 sheet 合并进 name2track，返回本文件更新的赛道名。"""
     updated = []
+    wb = load_workbook(xlsx, data_only=True)
     for sh in wb.sheetnames:
         if sh not in name2track:      # 跳过"使用说明"等非赛道页
             continue
@@ -147,10 +151,43 @@ def main():
         if parsed:
             name2track[sh].update(parsed)   # 只覆盖填写字段，其余（Top素材等）保留
             updated.append(sh)
+    return updated
+
+def main():
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    do_push = "--push" in sys.argv
+
+    # 决定数据源：显式路径 > 分赛道目录 > 总模板
+    if args:
+        src = args[0]
+    elif os.path.isdir(SPLIT_DIR) and any(
+            f.lower().endswith(".xlsx") and not f.startswith("~$")
+            for f in os.listdir(SPLIT_DIR)):
+        src = SPLIT_DIR
+    else:
+        src = DEFAULT_XLSX
+
+    files = collect_xlsx(src)
+    files = [f for f in files if os.path.exists(f)]
+    if not files:
+        print("找不到填报表:", src); sys.exit(1)
+
+    data = load_current()
+    name2track = {t["name"]: t for t in data["tracks"]}
+
+    updated = []
+    for f in files:
+        got = apply_workbook(f, name2track)
+        if got:
+            print(f"  读入 {os.path.basename(f)} → {got}")
+        updated.extend(got)
+
+    if not updated:
+        print("没有识别到任何赛道数据（检查 sheet 名是否与赛道名一致）。")
 
     data["meta"]["updatedAt"] = datetime.date.today().isoformat()
     open(CREATIVE_JS, "w", encoding="utf-8").write(dump_js(data))
-    print("已同步赛道:", updated)
+    print("已同步赛道:", sorted(set(updated)))
     print("写入:", CREATIVE_JS)
 
     if do_push:
