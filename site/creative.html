@@ -146,29 +146,30 @@ function renderContext(t){
 function materialBlock(mt){
   const frames = (mt.frames&&mt.frames.length)
     ? mt.frames.map((f,i)=>`<div class="frame"><span class="no">${i+1}</span><img src="${f}" onerror="imgFallback(this)"></div>`).join('')
-    : Array.from({length:6}).map((_,i)=>`<div class="frame"><span class="no">${i+1}/6</span>关键帧待补充</div>`).join('');
+    : `<div class="frame empty"><span class="no">①</span>关键帧待补充</div><div class="frame empty"><span class="no">②</span>关键帧待补充</div><div class="frame empty"><span class="no">③</span>关键帧待补充</div>`;
   const g=mt.golden5;
-  const seg=(cls,label,d)=>`<div class="seg ${cls}"><div class="sh">${label}<span class="tm">${d.time}</span></div><div class="sd">${d.desc}</div></div>`;
-  // 保护客户视频创意：不对外暴露原片入口，仅展示关键帧拆解
-  const vurl = '';
-  return `<div style="margin-bottom:26px">
+  const seg=(cls,label,d)=>`<div class="seg ${cls}"><div class="sh"><span class="seg-label">${label}</span><span class="tm">${d.time}</span></div><div class="sd">${d.desc}</div></div>`;
+  const chainTag = mt.chain ? `<span class="chain-tag" data-chain="${mt.chain}">【${mt.chain}】</span>` : '';
+  const custTag = mt.customer ? `<span class="cust-tag">${mt.customer}</span>` : '';
+  return `<div class="mat-card">
     <div class="mat-head">
       <div class="rk">#${mt.rank}</div>
-      <div class="info"><div class="tt">${mt.title}</div><div class="st">${mt.product} · 时长 ${mt.duration||'—'}</div></div>
+      <div class="info">
+        <div class="tt">${mt.title}</div>
+        <div class="st">${mt.product} ${custTag?'· '+custTag:''} ${chainTag}</div>
+      </div>
       <div class="tagp">${mt.tag||'产品展示'}</div>
     </div>
-    <div class="metric-row">
-      ${metricBox((mt.ctr||'—')+(mt.ctr?'%':''),'CTR','g')}
-      ${metricBox((mt.cvr||'—')+(mt.cvr?'%':''),'CVR','gr')}
-      ${metricBox(mt.roi||'—','ROI','b')}
-      ${metricBox('¥'+(mt.cpm||'—'),'CPM','p')}
-      ${metricBox(mt.duration||'—','时长','')}
+    <div class="mat-metrics">
+      <span class="mm g">CTR ${mt.ctr||'—'}%</span>
+      <span class="mm gr">CVR ${mt.cvr||'—'}%</span>
+      <span class="mm b">ROI ${mt.roi||'—'}</span>
+      <span class="mm p">CPM ¥${mt.cpm||'—'}</span>
+      <span class="mm">⏱ ${mt.duration||'—'}</span>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;margin:16px 0 4px">
-      <div style="font-weight:700;font-size:13px">🎞 关键帧轮播</div>${vurl}
-    </div>
+    <div class="frames-label">🎞 关键帧轮播</div>
     <div class="frames">${frames}</div>
-    <div style="font-weight:700;font-size:14px;margin:14px 0 4px">🥇 黄金五段式拆解</div>
+    <div class="g5-label">🥇 黄金五段式拆解</div>
     <div class="g5">
       ${seg('s1','钩子',g.hook)}
       ${seg('s2','痛点',g.pain)}
