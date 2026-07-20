@@ -1,8 +1,5 @@
 /* 卖点 & 创意分析数据层（Creative Board） */
-/* 基于全量CSV文档文案分析（2,494条清洁工具素材）+ 词频统计 + Top素材拆解 */
-/* 赛道均值取自CSV「整体」行，非自行计算 */
-/* 爆款话术已去品牌化，强调功能特征与利他点 */
-/* 卖点动因保留3条最典型；跑量关键点+爆款话术合并为跑量公式 */
+/* 由在线上传后端自动写入；关键帧按每次上传的素材URL异步重建 */
 window.CREATIVE_DATA = {
   "meta": {
     "period": "2026年7月（全量2,494条素材）",
@@ -212,9 +209,9 @@ window.CREATIVE_DATA = {
       "name": "生活日用-清洁工具",
       "owner": "待分配",
       "metrics": {
-        "creativeCount": 2494,
+        "creativeCount": 10001,
         "ctr": 3.46,
-        "play3s": 31.53,
+        "play3s": 68.47,
         "cvr": 5.94,
         "cpm": 37.2
       },
@@ -224,717 +221,551 @@ window.CREATIVE_DATA = {
           "weight": 100
         },
         {
-          "word": "强力去污",
-          "weight": 95
+          "word": "一擦即净",
+          "weight": 94
         },
         {
-          "word": "吸水干爽",
-          "weight": 90
+          "word": "吸水不掉毛",
+          "weight": 88
         },
         {
-          "word": "不用泡水",
-          "weight": 86
+          "word": "缝隙死角清洁",
+          "weight": 85
         },
         {
-          "word": "棉头不发硬",
+          "word": "增压花洒",
           "weight": 82
         },
         {
-          "word": "草莓香氛",
-          "weight": 78
+          "word": "过滤杂质",
+          "weight": 79
         },
         {
-          "word": "一擦即净",
-          "weight": 74
+          "word": "防霉不发硬",
+          "weight": 76
         },
         {
-          "word": "缝隙死角",
+          "word": "二次利用洗脸巾",
+          "weight": 73
+        },
+        {
+          "word": "免打孔安装",
           "weight": 70
         },
         {
-          "word": "360°旋转",
-          "weight": 66
+          "word": "强力粘鼠",
+          "weight": 67
         },
         {
-          "word": "即拿即用",
-          "weight": 62
+          "word": "除螨除菌",
+          "weight": 64
         },
         {
-          "word": "锁水不滴漏",
+          "word": "抽绳收口",
+          "weight": 61
+        },
+        {
+          "word": "沥水防潮",
           "weight": 58
         },
         {
-          "word": "明星同款",
-          "weight": 54
+          "word": "加厚承重",
+          "weight": 55
         },
         {
-          "word": "拖地不用等",
-          "weight": 50
+          "word": "不脏手",
+          "weight": 52
         },
         {
-          "word": "xxx礼盒",
-          "weight": 46
-        },
-        {
-          "word": "新型高吸水棉",
-          "weight": 42
-        },
-        {
-          "word": "吸附毛发",
-          "weight": 38
-        },
-        {
-          "word": "免弯腰",
-          "weight": 34
-        },
-        {
-          "word": "不伤地板",
-          "weight": 30
-        },
-        {
-          "word": "告别异味",
-          "weight": 26
-        },
-        {
-          "word": "家居神器",
-          "weight": 22
+          "word": "一刷多用",
+          "weight": 49
         }
       ],
       "painWords": [
         {
           "word": "拖地弯腰累",
-          "weight": 92
+          "weight": 90
         },
         {
-          "word": "棉头变硬发臭",
-          "weight": 88
+          "word": "抹布发霉有异味",
+          "weight": 85
         },
         {
-          "word": "老式胶棉需泡水",
-          "weight": 84
-        },
-        {
-          "word": "拖完有水渍毛絮",
+          "word": "缝隙死角难清理",
           "weight": 80
         },
         {
-          "word": "厨房地面油腻",
-          "weight": 76
+          "word": "水龙头出水杂质多",
+          "weight": 75
         },
         {
-          "word": "缝隙死角难清洁",
-          "weight": 72
+          "word": "花洒水压小洗澡不爽",
+          "weight": 70
         },
         {
-          "word": "收纳桶放不下",
-          "weight": 68
-        },
-        {
-          "word": "清洁工具占地",
-          "weight": 64
+          "word": "厨房油污重难清洁",
+          "weight": 65
         }
       ],
       "sellingContext": [
         {
-          "driver": "梅雨/回南天·地面返潮，拖把吸水后难干易发臭",
-          "need": "需要一款吸水快、易挤干、不发臭的拖把，减少细菌滋生",
-          "words": [
-            "吸水干爽",
-            "棉头不发硬",
-            "锁水不滴漏",
-            "告别异味"
-          ]
-        },
-        {
-          "driver": "日常家务疲劳，弯腰拖地导致腰酸背痛",
-          "need": "希望拖把轻便、免手洗、免弯腰，省时省力",
+          "driver": "回南天/梅雨季·地面潮湿难干",
+          "need": "消费者需要快速吸干地面水分、不留水印、避免滑倒和发霉",
           "words": [
             "免手洗",
-            "免弯腰",
-            "即拿即用",
-            "拖地不用等",
-            "360°旋转"
+            "一擦即净",
+            "吸水不掉毛"
           ]
         },
         {
-          "driver": "厨房重油污、客厅宠物毛絮，传统拖把清洁力不足",
-          "need": "需要强力去污、吸附毛发、一擦即净的清洁工具",
+          "driver": "厨房重油污·缝隙藏垢",
+          "need": "消费者需要能深入缝隙、强力去油、不伤表面的清洁工具",
           "words": [
-            "强力去污",
-            "一擦即净",
-            "吸附毛发",
-            "缝隙死角"
+            "缝隙死角清洁",
+            "一刷多用",
+            "不脏手"
+          ]
+        },
+        {
+          "driver": "老旧小区·水压低/水质差",
+          "need": "消费者需要增压花洒提升淋浴体验，以及过滤水中铁锈泥沙保证用水安全",
+          "words": [
+            "增压花洒",
+            "过滤杂质",
+            "免打孔安装"
           ]
         }
       ],
       "topMaterials": [
         {
           "rank": 1,
-          "title": "夹布拖把·洗脸巾二次利用",
-          "product": "夹布拖把（适配洗脸巾/旧衣物）",
-          "customer": "广州烨靓贸易有限公司",
+          "title": "金属漱口杯·纯钛不发霉",
+          "product": "金属漱口杯",
+          "customer": "上海成事好物信息科技有限公司",
           "chain": "小店",
-          "tag": "废物利用 · 省钱钩子",
-          "ctr": 2.42,
-          "cvr": 13.19,
-          "cpm": 76.8,
-          "duration": "约30s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-01/frame-01.jpg",
-              "time": "2.9s"
-            },
-            {
-              "src": "assets/frames/clean-01/frame-02.jpg",
-              "time": "11.5s"
-            },
-            {
-              "src": "assets/frames/clean-01/frame-03.jpg",
-              "time": "20.7s"
-            },
-            {
-              "src": "assets/frames/clean-01/frame-04.jpg",
-              "time": "29.8s"
-            },
-            {
-              "src": "assets/frames/clean-01/frame-05.jpg",
-              "time": "39.4s"
-            }
-          ],
+          "tag": "功能卖点 · 防霉抗菌",
+          "ctr": 0.95,
+          "cvr": 13.46,
+          "cpm": 73.79,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3aeaagaaaeaaonjygb5vbuaieamaqaa2a.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「用过的洗脸巾千万别急着扔」——反常识钩子，打破「用完即弃」惯性认知，制造好奇+省钱心智。视觉上满屏堆积的洗脸巾特写强化「浪费感」，3秒抓住持家省钱人群。字幕配合大字报式排版，降低理解门槛。"
+              "desc": "展示普通漱口杯发霉特写，引发不适感"
             },
             "pain": {
               "time": "3-10S",
-              "desc": "双痛点叠加：①洗脸巾堆积无处放、扔了浪费；②普通拖把需手洗、脏手恶心。展示传统拖把缠满毛发、手挤污水的画面，放大「浪费+费力」双重焦虑，让观众产生「这不就是我吗」的代入感。"
+              "desc": "强调霉菌滋生、杯口粗糙划伤口腔"
             },
             "cure": {
               "time": "10-20S",
-              "desc": "夹布拖把上场，洗脸巾一夹即用，核心动作特写：打开夹板→放入洗脸巾→扣紧→开始拖地。展示「不脏手、不浪费、零成本」三重解药认知。价格锚点暗示「不用买新拖把头」，建立极致性价比心智。"
+              "desc": "展示纯钛漱口杯不藏污、不发霉、杯口顺滑"
             },
             "demo": {
               "time": "20-27S",
-              "desc": "客厅/卧室/阳台多场景拖地实拍，凸显夹布牢固不掉、拖地干净无残留。配合「轻松打扫还不脏手」话术，展示拖完后洗脸巾脏污对比（拖前白净 vs 拖后脏污），强化清洁效果可信度。"
+              "desc": "对比普通杯与纯钛杯的抗菌测试"
             },
             "ending": {
               "time": "27-30S",
-              "desc": "「还不脏手」核心卖点再次强化，拖把全景展示+价格福利字幕弹出。小店链路直接引导下单，限时优惠暗示紧迫感，整体节奏紧凑不拖沓。"
+              "desc": "强调孩子也能用，安全健康，引导下单"
             }
           }
         },
         {
           "rank": 2,
-          "title": "明星同款草莓香拖把·明星背书",
-          "product": "xxx 草莓香氛新型高吸水棉拖把",
-          "customer": "xxx",
-          "chain": "直播",
-          "tag": "明星代言 · 香氛差异化",
+          "title": "丹菲诺平板拖把·洗脸巾二次利用",
+          "product": "丹菲诺平板拖把",
+          "customer": "广州烨靓贸易有限公司",
+          "chain": "小店",
+          "tag": "创意钩子 · 二次利用",
           "ctr": 2.42,
-          "cvr": 6.79,
-          "cpm": 116.0,
-          "duration": "约25s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-02/frame-01.jpg",
-              "time": "6.8s"
-            },
-            {
-              "src": "assets/frames/clean-02/frame-02.jpg",
-              "time": "27.3s"
-            },
-            {
-              "src": "assets/frames/clean-02/frame-03.jpg",
-              "time": "48.9s"
-            },
-            {
-              "src": "assets/frames/clean-02/frame-04.jpg",
-              "time": "70.5s"
-            },
-            {
-              "src": "assets/frames/clean-02/frame-05.jpg",
-              "time": "93.3s"
-            }
-          ],
+          "cvr": 13.19,
+          "cpm": 76.78,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53smaycaabraamogcz55vbxeyeqgjqdaka.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「明星同款草莓香拖把」——明星IP+草莓香氛差异化双钩子。视觉上展示粉色/红色拖把头特写，与普通灰色/蓝色拖把形成强烈色彩对比，3秒抓住女性用户眼球。明星同款标签建立信任背书。"
+              "desc": "展示用过的洗脸巾准备扔掉，突然被阻止"
             },
             "pain": {
-              "time": "3-8S",
-              "desc": "普通拖把无香味、拖完有异味/腥味痛点放大。对比展示：普通拖把拖完地面发臭 vs 草莓香氛拖把拖完「香一整天」的体验差异。用「拖完地整个屋子都是香的」建立感官联想。"
+              "time": "3-10S",
+              "desc": "洗脸巾用完就扔太浪费"
             },
             "cure": {
-              "time": "8-15S",
-              "desc": "新型高吸水棉材质特写（对比普通海绵棉头），展示棉头柔软度+弹性。草莓香氛释放演示：近景拍摄拖把头香氛微胶囊破裂释放过程，建立「好闻+好用」双重解药认知。强调「新型高吸水棉=黑科技材质」。"
+              "time": "10-20S",
+              "desc": "展示夹布拖把夹住洗脸巾，轻松拖地"
             },
             "demo": {
-              "time": "15-22S",
-              "desc": "拖地实拍+近闻香氛演示，主播俯身闻拖完的地面，表情享受。凸显「拖一次地香一整天」效果，配合明星同款画面闪回强化信任。多场景展示：客厅、卧室、厨房均可使用。"
+              "time": "20-27S",
+              "desc": "拖地效果展示，不脏手，用完即弃"
             },
             "ending": {
-              "time": "22-25S",
-              "desc": "「拖地不用等，家务更轻松」slogan收尾，直播限时价字幕弹出，倒计时营造紧迫感。草莓香氛礼盒装展示提升价值感，促转化。"
+              "time": "27-30S",
+              "desc": "强调省钱又方便，引导购买"
             }
           }
         },
         {
           "rank": 3,
-          "title": "二次挤水胶棉拖·吸水锁水不缠毛",
-          "product": "佳帮手 二次挤水胶棉拖把",
-          "customer": "佳帮手",
+          "title": "宝家洁清洁工具·杨幂同款香氛拖",
+          "product": "宝家洁/BAOJIAJIE清洁工具",
+          "customer": "宝家洁",
           "chain": "直播",
-          "tag": "功能升级 · 吸水强",
-          "ctr": 1.9,
-          "cvr": 7.94,
-          "cpm": 18.4,
-          "duration": "约35s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-03/frame-01.jpg",
-              "time": "5.9s"
-            },
-            {
-              "src": "assets/frames/clean-03/frame-02.jpg",
-              "time": "23.5s"
-            },
-            {
-              "src": "assets/frames/clean-03/frame-03.jpg",
-              "time": "42.1s"
-            },
-            {
-              "src": "assets/frames/clean-03/frame-04.jpg",
-              "time": "60.7s"
-            },
-            {
-              "src": "assets/frames/clean-03/frame-05.jpg",
-              "time": "80.3s"
-            }
-          ],
+          "tag": "明星IP · 黑科技棉",
+          "ctr": 4.67,
+          "cvr": 9.92,
+          "cpm": 298.06,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53imcamaae7aakcsrlknvb4qyeazbqibsa.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「新款二次挤水胶棉拖」——升级款钩子，「二次挤水」功能词制造技术好奇。新款全景展示，视觉上对比老式胶棉拖把的简陋结构，暗示「这款不一样」。"
+              "desc": "杨幂画面或草莓香氛视觉，吸引眼球"
             },
             "pain": {
               "time": "3-10S",
-              "desc": "老式胶棉三大痛点逐一放大：①挤不干、拖完湿漉漉；②缠满毛发难清理；③吸水差需反复拖。展示传统拖把缠满毛絮的恶心画面、手挤污水脏手场景，让观众产生强烈不适感。"
+              "desc": "普通拖把发硬、泡水麻烦"
             },
             "cure": {
               "time": "10-20S",
-              "desc": "二次挤水结构特写：展示双辊挤压机制，对比老式单辊挤水。吸水锁水实测：将拖把浸水后提起，展示不滴水效果。「不缠毛发」实测：在毛发密集地面拖过后，棉头干净无缠绕。建立功能升级解药认知。"
+              "desc": "黑科技ok棉软拖，100天不发硬，不用泡水直接拖"
             },
             "demo": {
-              "time": "20-30S",
-              "desc": "多场景拖地实拍：客厅头发/毛絮一拖即净不缠绕，厨房油污地面一拖即干净。挤水干爽演示：对折挤水后棉头干爽不滴水。凸显「清洁轻松又省力」，省力话术贯穿。"
+              "time": "20-27S",
+              "desc": "展示拖地效果，扫拖一步到位，散发草莓香"
             },
             "ending": {
-              "time": "30-35S",
-              "desc": "「清洁轻松又省力」slogan收尾，直播优惠价字幕弹出。佳帮手品牌logo露出，建立品牌信任。二次挤水结构再次特写强化记忆点。"
+              "time": "27-30S",
+              "desc": "杨幂专属款，限时优惠，引导下单"
             }
           }
         },
         {
           "rank": 4,
-          "title": "魔术扫把·硅胶刮水器",
-          "product": "膜尔 硅胶魔术扫把",
-          "customer": "膜尔",
+          "title": "浴室用品·马桶扶手老人助力架",
+          "product": "浴室用品",
+          "customer": "小满",
           "chain": "CID",
-          "tag": "新品类 · 刮水神器",
-          "ctr": 2.23,
-          "cvr": 11.42,
-          "cpm": 71.9,
-          "duration": "约20s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-04/frame-01.jpg",
-              "time": "3.3s"
-            },
-            {
-              "src": "assets/frames/clean-04/frame-02.jpg",
-              "time": "13.3s"
-            },
-            {
-              "src": "assets/frames/clean-04/frame-03.jpg",
-              "time": "23.9s"
-            },
-            {
-              "src": "assets/frames/clean-04/frame-04.jpg",
-              "time": "34.5s"
-            },
-            {
-              "src": "assets/frames/clean-04/frame-05.jpg",
-              "time": "45.6s"
-            }
-          ],
+          "tag": "场景痛点 · 老人安全",
+          "ctr": 0.97,
+          "cvr": 6.78,
+          "cpm": 378.4,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b535qauuaabheaegjcyufvbx3aejlwacssa.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「2026新款魔术扫把」——年份+魔术+新品三重钩子。硅胶材质视觉新颖，与传统毛刷扫把形成材质对比。全景展示扫把造型，字幕大字报式突出「魔术」「新款」。"
+              "desc": "老人如厕起身困难画面"
             },
             "pain": {
-              "time": "3-8S",
-              "desc": "浴室积水（滑倒隐患）、卫生间头发难清理、传统扫把扫不干水渍三大痛点。展示浴室地面湿滑、头发缠绕传统扫把的画面，放大安全隐患+清洁难题。"
+              "time": "3-10S",
+              "desc": "老人独自在家，如厕起身危险"
             },
             "cure": {
-              "time": "8-14S",
-              "desc": "硅胶刮水条特写：展示柔软硅胶材质+刮水角度。刮水实测：在积水地面一刮即干，对比传统扫把越扫越湿。建立「刮水刮灰两用」「一刮即干」解药认知。"
+              "time": "10-20S",
+              "desc": "展示马桶扶手安装后，老人轻松借力起身"
             },
             "demo": {
-              "time": "14-18S",
-              "desc": "浴室/卫生间/地板多场景刮水刮灰演示。展示挂刷收纳功能（墙壁一挂即收纳），凸显便捷性。干湿两用：先刮水再刮灰，一扫即净。"
+              "time": "20-27S",
+              "desc": "扶手承重测试，稳固不晃动"
             },
             "ending": {
-              "time": "18-20S",
-              "desc": "「扫地神器」标签收尾，CID链路直接跳转购买页。硅胶材质再次特写强化品质感，整体节奏明快。CVR 11.42%验证高转化效率。"
+              "time": "27-30S",
+              "desc": "源头厂家直销，今日特价，速抢"
             }
           }
         },
         {
           "rank": 5,
-          "title": "魔术扫把·刮地效果实测",
-          "product": "硅胶魔术扫把",
-          "customer": "广州启则科技有限公司",
+          "title": "大观园缝隙刷·长柄除尘死角",
+          "product": "大观园/DGY缝隙刷",
+          "customer": "滕州七新哟商贸有限公司",
           "chain": "小店",
-          "tag": "实测对比 · 刮水刮灰",
-          "ctr": 1.19,
-          "cvr": 15.82,
-          "cpm": 47.0,
-          "duration": "约18s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-05/frame-01.jpg",
-              "time": "5.9s"
-            },
-            {
-              "src": "assets/frames/clean-05/frame-02.jpg",
-              "time": "23.8s"
-            },
-            {
-              "src": "assets/frames/clean-05/frame-03.jpg",
-              "time": "42.6s"
-            },
-            {
-              "src": "assets/frames/clean-05/frame-04.jpg",
-              "time": "61.4s"
-            },
-            {
-              "src": "assets/frames/clean-05/frame-05.jpg",
-              "time": "81.2s"
-            }
-          ],
+          "tag": "功能卖点 · 缝隙清洁",
+          "ctr": 3.81,
+          "cvr": 21.9,
+          "cpm": 42.63,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc34yb6iaadeuai3zbqfvvbtzqe4ttahzca.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「魔术扫把好不好，看看刮地效果就知道」——实测钩子，放弃花哨话术直接展示效果，降低决策成本。主播手持扫把准备演示，暗示「眼见为实」。"
+              "desc": "展示灶台缝隙、窗户凹槽积灰特写"
             },
             "pain": {
-              "time": "3-7S",
-              "desc": "地面水渍（脚印残留）、灰尘扫不净痛点。展示传统扫把越扫越脏、灰尘飞扬画面，放大「扫了等于没扫」的无力感。"
+              "time": "3-10S",
+              "desc": "普通刷子刷不到，手指伸不进"
             },
             "cure": {
-              "time": "7-12S",
-              "desc": "魔术扫把刮水+刮灰双效演示。刮水：积水地面一刮即干无残留；刮灰：灰尘毛发一刮聚拢不飞扬。建立「不仅能刮水，刮灰也是一绝」认知，反转「扫把只能扫地」的固有印象。"
+              "time": "10-20S",
+              "desc": "长柄缝隙刷轻松深入，一刷即净"
             },
             "demo": {
-              "time": "12-16S",
-              "desc": "厨房（油污水渍）/浴室（积水头发）/阳台（灰尘落叶）多场景实测，凸显干湿两用、一扫即净。每个场景展示刮前vs刮后对比，强化效果可信度。"
+              "time": "20-27S",
+              "desc": "多场景演示：灶台、窗户、键盘"
             },
             "ending": {
-              "time": "16-18S",
-              "desc": "小店链路引导下单，限时优惠字幕弹出。高CVR 15.82%验证极致性价比，整体节奏紧凑18秒内完成完整种草闭环。"
+              "time": "27-30S",
+              "desc": "拍一发五，不脏手，超实用"
             }
           }
         },
         {
           "rank": 6,
-          "title": "魔术扫把·口碑种草",
-          "product": "硅胶魔术扫把",
-          "customer": "西安洁初日用品有限公司",
-          "chain": "直播",
-          "tag": "口碑种草 · 省力",
-          "ctr": 1.85,
-          "cvr": 15.15,
-          "cpm": 52.5,
-          "duration": "约22s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-06/frame-01.jpg",
-              "time": "1.9s"
-            },
-            {
-              "src": "assets/frames/clean-06/frame-02.jpg",
-              "time": "7.5s"
-            },
-            {
-              "src": "assets/frames/clean-06/frame-03.jpg",
-              "time": "13.4s"
-            },
-            {
-              "src": "assets/frames/clean-06/frame-04.jpg",
-              "time": "19.3s"
-            },
-            {
-              "src": "assets/frames/clean-06/frame-05.jpg",
-              "time": "25.5s"
-            }
-          ],
+          "title": "花洒·增压300孔出水",
+          "product": "花洒",
+          "customer": "漳浦县博本贸易商行",
+          "chain": "CID",
+          "tag": "功能卖点 · 增压淋浴",
+          "ctr": 1.55,
+          "cvr": 11.41,
+          "cpm": 619.96,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3embb2aacemac46bd45vbqiyedurqehka.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「难怪都用这个扫地刮水呢」——从众心理+口碑种草钩子，暗示「大家都在用」制造FOMO（错失恐惧）。语气轻松口语化，拉近与观众距离。"
+              "desc": "洗澡水压小，水流细弱画面"
             },
             "pain": {
-              "time": "3-8S",
-              "desc": "浴室积水滑倒隐患（尤其老人小孩）、地面头发难扫痛点放大。展示湿滑地面脚印残留、头发缠绕扫把的画面，关联安全焦虑。"
+              "time": "3-10S",
+              "desc": "洗澡不爽，冲洗不干净"
             },
             "cure": {
-              "time": "8-14S",
-              "desc": "魔术扫把刮水演示，积水一刮即干。「原来这么好用」反转认知，主播表情惊讶增强感染力。建立省力解药认知，强调「不费劲就能干净」。"
+              "time": "10-20S",
+              "desc": "展示增压花洒300孔出水，水流强劲"
             },
             "demo": {
-              "time": "14-19S",
-              "desc": "多场景刮水刮灰实拍：浴室积水、地板灰尘、卫生间头发。轻松省力演示，单手操作凸显轻便。配合「原来这个魔术扫把这么好用呢」口碑话术贯穿。"
+              "time": "20-27S",
+              "desc": "对比普通花洒与增压花洒的出水效果"
             },
             "ending": {
-              "time": "19-22S",
-              "desc": "直播限时+口碑背书收尾。高CVR 15.15%验证转化效率，主播推荐语气增强信任感。"
+              "time": "27-30S",
+              "desc": "洗澡超级爽，引导购买"
             }
           }
         },
         {
           "rank": 7,
-          "title": "夹布拖把·品牌专区",
-          "product": "索邦 夹布拖把",
-          "customer": "索邦",
+          "title": "意开史蒂夫水龙头过滤器·免安装直饮",
+          "product": "意开史蒂夫水龙头过滤器",
+          "customer": "意开史蒂夫",
           "chain": "直播",
-          "tag": "品牌专区 · 旧物利用",
-          "ctr": 3.69,
-          "cvr": 13.58,
-          "cpm": 67.0,
-          "duration": "约28s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-07/frame-01.jpg",
-              "time": "5s"
-            },
-            {
-              "src": "assets/frames/clean-07/frame-02.jpg",
-              "time": "20s"
-            },
-            {
-              "src": "assets/frames/clean-07/frame-03.jpg",
-              "time": "35.9s"
-            },
-            {
-              "src": "assets/frames/clean-07/frame-04.jpg",
-              "time": "51.7s"
-            },
-            {
-              "src": "assets/frames/clean-07/frame-05.jpg",
-              "time": "68.4s"
-            }
-          ],
+          "tag": "功能卖点 · 过滤净化",
+          "ctr": 8.4,
+          "cvr": 4.66,
+          "cpm": 120.34,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3aacbsaaeoaao4erryzvb4aaedeaaigka.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「用过的洗脸巾千万别急着扔，夹布拖把选索邦」——旧物利用+品牌植入双钩子。品牌名「索邦」前置植入，建立品牌认知。洗脸巾堆积画面+品牌拖把同框，视觉关联强。"
+              "desc": "展示自来水杂质、铁锈"
             },
             "pain": {
-              "time": "3-8S",
-              "desc": "洗脸巾浪费（每月花不少钱）、普通拖把脏手痛点。品牌差异化切入点：强调「选索邦=选品质」，暗示杂牌夹布不牢固。展示杂牌夹布拖把掉布画面作为反面教材。"
+              "time": "3-10S",
+              "desc": "水质差，担心健康"
             },
             "cure": {
-              "time": "8-16S",
-              "desc": "索邦夹布拖把特写：展示加厚夹板+防滑卡扣设计。夹布演示：洗脸巾一夹即牢，用力甩不掉。「选索邦」品牌认知植入，建立品质解药。对比杂牌掉布 vs 索邦牢固。"
+              "time": "10-20S",
+              "desc": "免安装，直接过滤，安心直饮"
             },
             "demo": {
-              "time": "16-24S",
-              "desc": "多场景拖地实拍：客厅、卧室、厨房。凸显夹布牢固、拖地干净不脏手。CTR 3.69%验证高点击率，展示拖前后对比（白巾变脏巾）强化清洁效果。"
+              "time": "20-27S",
+              "desc": "过滤前后水质对比"
             },
             "ending": {
-              "time": "24-28S",
-              "desc": "品牌专区logo露出+直播限时价收尾。索邦品牌信任背书强化，「选索邦」slogan再次出现加深记忆。"
+              "time": "27-30S",
+              "desc": "工厂直购，健康生活"
             }
           }
         },
         {
           "rank": 8,
-          "title": "长柄清洁刷·缝隙死角",
-          "product": "长柄缝隙清洁刷",
-          "customer": "滕州七新哟商贸有限公司",
-          "chain": "小店",
-          "tag": "缝隙清洁 · 免弯腰",
-          "ctr": 1.8,
-          "cvr": 26.24,
-          "cpm": 26.9,
-          "duration": "约25s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-08/frame-01.jpg",
-              "time": "12.5s"
-            },
-            {
-              "src": "assets/frames/clean-08/frame-02.jpg",
-              "time": "49.8s"
-            },
-            {
-              "src": "assets/frames/clean-08/frame-03.jpg",
-              "time": "89.2s"
-            },
-            {
-              "src": "assets/frames/clean-08/frame-04.jpg",
-              "time": "128.7s"
-            },
-            {
-              "src": "assets/frames/clean-08/frame-05.jpg",
-              "time": "170.2s"
-            }
-          ],
+          "title": "纱窗刷·二合一擦纱窗玻璃",
+          "product": "纱窗刷",
+          "customer": "金橙科技",
+          "chain": "CID",
+          "tag": "功能卖点 · 一刷两用",
+          "ctr": 1.57,
+          "cvr": 18.89,
+          "cpm": 271.33,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3jibmmaacuiagcbph4burqsqeyzfafrsa.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「长柄清洁刷，深入缝隙死角」——痛点直给钩子，「缝隙+死角」精准命中清洁难题。长柄设计视觉差异化（对比短柄刷），暗示「够得着」。"
+              "desc": "纱窗积灰，拆洗麻烦"
             },
             "pain": {
-              "time": "3-8S",
-              "desc": "窗台缝隙、边角死角、冰箱底部等难清洁区域痛点逐一放大。展示传统短柄刷够不着、抹布塞不进的窘境，棉签清理缝隙的费劲画面。放大「死角=卫生盲区」焦虑。"
+              "time": "3-10S",
+              "desc": "纱窗难拆难装，清洗费时"
             },
             "cure": {
-              "time": "8-15S",
-              "desc": "长柄刷特写：展示刷头角度+刷毛细密度。深入缝隙演示：长柄设计免弯腰，刷头灵活转向深入死角。「轻松除尘去油污」解药认知，免弯腰卖点突出（适合老人/孕妇）。"
+              "time": "10-20S",
+              "desc": "二合一纱窗刷，一面擦纱窗，一面刮玻璃"
             },
             "demo": {
-              "time": "15-21S",
-              "desc": "多缝隙场景实测：窗台滑轨缝隙、门框边角、键盘缝隙。一刷即净，对比传统方式费时费力。CVR 26.24%全场最高，验证痛点精准+极致性价比。"
+              "time": "20-27S",
+              "desc": "演示擦纱窗和刮玻璃效果"
             },
             "ending": {
-              "time": "21-25S",
-              "desc": "「清洁不脏手」收尾+小店低价CPM 26.9元极致性价比。长柄刷全景展示，整体15-25秒短平快种草闭环。"
+              "time": "27-30S",
+              "desc": "干净省力又清爽"
             }
           }
         },
         {
           "rank": 9,
-          "title": "超强吸水拖把·老婆种草",
-          "product": "美尔雅 超强吸水拖把",
-          "customer": "美尔雅",
+          "title": "佳帮手地刮·魔术扫把干湿两用",
+          "product": "佳帮手/JOYBOS地刮",
+          "customer": "西安洁初日用品有限公司",
           "chain": "直播",
-          "tag": "素人种草 · 吸水强",
-          "ctr": 2.27,
-          "cvr": 7.84,
-          "cpm": 47.6,
-          "duration": "约20s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-09/frame-01.jpg",
-              "time": "5.7s"
-            },
-            {
-              "src": "assets/frames/clean-09/frame-02.jpg",
-              "time": "22.9s"
-            },
-            {
-              "src": "assets/frames/clean-09/frame-03.jpg",
-              "time": "41.1s"
-            },
-            {
-              "src": "assets/frames/clean-09/frame-04.jpg",
-              "time": "59.2s"
-            },
-            {
-              "src": "assets/frames/clean-09/frame-05.jpg",
-              "time": "78.3s"
-            }
-          ],
+          "tag": "功能卖点 · 干湿两用",
+          "ctr": 1.72,
+          "cvr": 18.58,
+          "cpm": 48.72,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3nabpmaacyyalulbyl5vbq2ae6zuaf5sa.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「老婆买的拖把太牛了！」——素人种草+惊讶语气钩子，生活化场景拉近距离。男性视角口播（老公惊讶），反差感强，暗示「连老公都觉得好用」。"
+              "desc": "地面有水渍，普通拖把拖不干"
             },
             "pain": {
-              "time": "3-7S",
-              "desc": "普通拖把吸水差（拖完湿漉漉）、拖不干净（残留水渍）、费力（反复拖）痛点。「以前地都白拖了」共鸣话术，展示传统拖把拖完地面仍有污渍水痕的画面。"
+              "time": "3-10S",
+              "desc": "水渍易滑倒，拖地累"
             },
             "cure": {
-              "time": "7-13S",
-              "desc": "超强吸水拖把上场，吸水实测：将水倒在地面，一拖即干无残留。「清洁干净不费力」解药认知。展示拖把头材质特写，强调吸水材质差异化。"
+              "time": "10-20S",
+              "desc": "魔术扫把双面设计，刮水扫地一次完成"
             },
             "demo": {
-              "time": "13-17S",
-              "desc": "客厅/厨房拖地实拍，水渍一拖即干，省力演示（单手操作）。展示拖前后地面对比：湿漉漉 vs 干爽明亮，强化效果。"
+              "time": "20-27S",
+              "desc": "演示刮水效果，干湿两用"
             },
             "ending": {
-              "time": "17-20S",
-              "desc": "直播限时+「太牛了」口碑收尾促转化。主播再次惊讶表情增强感染力，整体20秒短平快。"
+              "time": "27-30S",
+              "desc": "居家清洁好帮手"
             }
           }
         },
         {
           "rank": 10,
-          "title": "厨房抹布·吸水不掉毛",
-          "product": "竹节绒厨房抹布",
-          "customer": "济南青牛电子商务有限公司",
-          "chain": "小店",
-          "tag": "厨房专用 · 不掉毛",
-          "ctr": 2.22,
-          "cvr": 21.09,
-          "cpm": 19.0,
-          "duration": "约15s",
-          "videoUrl": "",
-          "frames": [
-            {
-              "src": "assets/frames/clean-10/frame-01.jpg",
-              "time": "4.5s"
-            },
-            {
-              "src": "assets/frames/clean-10/frame-02.jpg",
-              "time": "18.2s"
-            },
-            {
-              "src": "assets/frames/clean-10/frame-03.jpg",
-              "time": "32.6s"
-            },
-            {
-              "src": "assets/frames/clean-10/frame-04.jpg",
-              "time": "47s"
-            },
-            {
-              "src": "assets/frames/clean-10/frame-05.jpg",
-              "time": "62.1s"
-            }
-          ],
+          "title": "晾衣架·旅行伸缩晾衣杆",
+          "product": "晾衣架",
+          "customer": "与象",
+          "chain": "CID",
+          "tag": "场景痛点 · 旅行便携",
+          "ctr": 3.39,
+          "cvr": 18.65,
+          "cpm": 226.56,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc33ybhwaactmah4i2xjnubrxqepppae62a.f0.mp4",
+          "frames": [],
           "golden5": {
             "hook": {
               "time": "0-3S",
-              "desc": "「厨房抹布选这款」——场景精准钩子，直接锁定厨房清洁人群，无废话直给。竹节绒材质纹理特写，视觉差异化（对比普通棉布抹布）。"
+              "desc": "酒店湿衣服无处挂"
             },
             "pain": {
-              "time": "3-6S",
-              "desc": "普通抹布三大痛点：掉毛（越擦越多毛）、不吸水（擦完还是湿的）、擦不干净油污（油渍残留）。展示普通抹布擦完台面仍有油渍+掉毛画面，放大清洁无效焦虑。"
+              "time": "3-10S",
+              "desc": "旅行中衣服难干，没地方晾"
             },
             "cure": {
-              "time": "6-10S",
-              "desc": "竹节绒材质特写：展示凹凸纹理结构（增加摩擦力+吸水面积）。吸水实测：浸水后快速吸干。擦油污演示：厨房台面油污一擦即净，不掉毛。「吸水不掉毛」解药认知建立。"
+              "time": "10-20S",
+              "desc": "伸缩晾衣杆，加粗加厚承重稳"
             },
             "demo": {
-              "time": "10-13S",
-              "desc": "厨房台面/锅具/餐具多场景擦拭实拍，凸显「擦啥都顺手」。展示擦完后抹布无毛脱落、台面光洁如新。对比普通抹布掉毛残留。"
+              "time": "20-27S",
+              "desc": "展示安装和使用"
             },
             "ending": {
-              "time": "13-15S",
-              "desc": "小店最低CPM 19.0元+CVR 21.09%高转化收尾。极致性价比暗示，竹节绒抹布叠放展示（多条装），整体15秒最短种草闭环。"
+              "time": "27-30S",
+              "desc": "旅行必备，速抢"
+            }
+          }
+        },
+        {
+          "rank": 11,
+          "title": "塑料垃圾桶·夹缝壁挂式",
+          "product": "塑料垃圾桶",
+          "customer": "钦州烊泠商贸有限公司",
+          "chain": "小店",
+          "tag": "场景痛点 · 空间利用",
+          "ctr": 3.06,
+          "cvr": 17.41,
+          "cpm": 119.2,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3myajyaaat4akqxcyazvbuzqetrtabhca.f0.mp4",
+          "frames": [],
+          "golden5": {
+            "hook": {
+              "time": "0-3S",
+              "desc": "卫生间空间小，垃圾桶占地方"
+            },
+            "pain": {
+              "time": "3-10S",
+              "desc": "普通垃圾桶放地上碍事"
+            },
+            "cure": {
+              "time": "10-20S",
+              "desc": "壁挂式垃圾桶，夹缝安装，不占空间"
+            },
+            "demo": {
+              "time": "20-27S",
+              "desc": "展示安装和承重测试"
+            },
+            "ending": {
+              "time": "27-30S",
+              "desc": "固定压圈稳如山，承重强"
+            }
+          }
+        },
+        {
+          "rank": 12,
+          "title": "佳帮手拖把·二次挤水胶棉拖",
+          "product": "佳帮手/JOYBOS拖把",
+          "customer": "佳帮手",
+          "chain": "直播",
+          "tag": "功能卖点 · 不缠毛发",
+          "ctr": 1.9,
+          "cvr": 7.94,
+          "cpm": 18.36,
+          "duration": "未提供",
+          "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b532qauwaab3malifizlfvbvvaejpkacs2a.f0.mp4",
+          "frames": [],
+          "golden5": {
+            "hook": {
+              "time": "0-3S",
+              "desc": "拖地时毛发缠绕难清理"
+            },
+            "pain": {
+              "time": "3-10S",
+              "desc": "普通胶棉拖缠毛发，手扯恶心"
+            },
+            "cure": {
+              "time": "10-20S",
+              "desc": "二次挤水设计，不缠毛发"
+            },
+            "demo": {
+              "time": "20-27S",
+              "desc": "演示拖地后毛发自动脱落"
+            },
+            "ending": {
+              "time": "27-30S",
+              "desc": "清洁轻松又省力"
             }
           }
         }
@@ -973,6 +804,32 @@ window.CREATIVE_DATA = {
             "姐妹们，替你们试过了，这旋转拖把干湿一体，做家务不费劲儿",
             "老婆买的拖把太牛了！超强吸水，清洁干净不费力！"
           ]
+        }
+      ],
+      "scripts": [
+        "免手洗，脏水一按就走",
+        "用过的洗脸巾千万别急着扔，夹布拖把二次利用，轻松打扫还不脏手",
+        "长柄清洁刷，轻松清洁缝隙和凹槽，不脏手，拍一发五！",
+        "洗澡不舒服的看过来！这款增压花洒，300孔出水，洗澡超级爽！",
+        "细密过滤棉，拦截铁锈、泥沙、虫卵、水管杂质，出水更洁净！",
+        "再也不怕零碎小垃圾没地方扔，这款粘贴垃圾袋，想粘哪就粘哪"
+      ],
+      "keyPoints": [
+        {
+          "title": "钩子/强对比",
+          "desc": "开场3秒用视觉冲击展示清洁前后对比（如脏污地面 vs 一擦即净），或用痛点场景（如拖地弯腰、缝隙积灰）快速抓眼球。"
+        },
+        {
+          "title": "节点/季节痛点",
+          "desc": "绑定回南天、梅雨季、换季除螨等节点，放大潮湿、发霉、过敏等痛点。"
+        },
+        {
+          "title": "福利/紧迫",
+          "desc": "价格锚点常用「拍一发多」「限时特价」「厂家直供」，制造紧迫感。"
+        },
+        {
+          "title": "明星/IP",
+          "desc": "宝家洁使用杨幂代言，提升信任；其他品牌多用「源头厂家」「德国工艺」等背书。"
         }
       ]
     },
