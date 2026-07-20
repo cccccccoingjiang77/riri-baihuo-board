@@ -91,6 +91,7 @@
         <div class="hint">支持 .xlsx / .xls（分客户/分链路/分创意的消耗与指标表）</div>
         <div class="file-name" id="fileName"></div>
       </div>
+      <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
       <div style="text-align:right;margin-top:6px;font-size:12px">
         <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/site/assets/清洁工具-原始数据报表样本.xlsx" target="_blank" style="color:var(--gold);text-decoration:none">📥 下载：原始数据报表样本.xlsx</a>
       </div>
@@ -202,7 +203,7 @@ function toggleCustomTrack(select) {
 fileZone.onclick = () => fileInput.click();
 ["dragover","dragenter"].forEach(e=>fileZone.addEventListener(e,ev=>{ev.preventDefault();fileZone.classList.add("drag")}));
 ["dragleave","drop"].forEach(e=>fileZone.addEventListener(e,ev=>{ev.preventDefault();fileZone.classList.remove("drag")}));
-fileZone.addEventListener("drop", ev=>{ if(ev.dataTransfer.files[0]) handleFile(ev.dataTransfer.files[0]); });
+fileZone.addEventListener("drop", ev=>{ ev.preventDefault(); if(ev.dataTransfer.files[0]) handleFile(ev.dataTransfer.files[0]); });
 fileInput.onchange = () => { if(fileInput.files[0]) handleFile(fileInput.files[0]); };
 
 function handleFile(f){
