@@ -1,26 +1,123 @@
 // POST /api/upload
-// body: { token, trackName, notes, filename, fileBase64 }
-// 流程：解析 Excel → 调 AI 产出 track JSON → 直接合并上线（跳过审批）
+// body: { token, trackName, notes, filename, fileBase64, compression? }
+// 流程：解析 Excel / CSV → 调 AI 产出 track JSON → 直接合并上线（跳过审批）
 import * as XLSX from "xlsx";
+import { gunzipSync } from "node:zlib";
 import {
   ENV, ghGetFile, ghPutFile, callAI, extractJson, setCors, readJsonBody, checkToken,
   parseCreative, dumpCreative, mergeTrack,
 } from "./_lib.js";
 import { SYSTEM_PROMPT, buildUserPrompt } from "./_prompt.js";
 
-// 把 Excel 所有 sheet 转成紧凑的文本（喂给 AI）
+// 把 Excel / CSV 全量扫描后压缩成分析摘要（避免只截取文件开头）
+const FIELD_ALIASES = {
+  customer: ["客户简称", "客户名称"],
+  chain: ["商品消费链路", "消费链路"],
+  dpaName: ["DPA商品名称", "dpa商品名称"],
+  spuId: ["SPUid(及名称)", "SPUID(及名称)", "spuid"],
+  spuName: ["SPUid(及名称)(翻译后)", "SPUID(及名称)(翻译后)", "SPU名称"],
+  copy: ["创意文案", "素材文案", "口播文案", "字幕"],
+  materialUrl: ["素材URL(创意唯一)", "素材URL", "视频URL", "创意URL"],
+  duration: ["时长", "素材时长", "视频时长"],
+  spend: ["消耗(元)", "消耗", "总消耗"],
+};
+
+function pick(row, names) {
+  for (const name of names) {
+    const value = row[name];
+    if (value !== undefined && value !== null && String(value).trim()) return String(value).trim();
+  }
+  return "";
+}
+
+function num(value) {
+  const n = Number(String(value || "").replace(/[,%￥¥,]/g, ""));
+  return Number.isFinite(n) ? n : 0;
+}
+
+function clip(value, max = 220) {
+  const text = String(value || "").trim();
+  return text.length > max ? text.slice(0, max) + "…" : text;
+}
+
+function displayProductName(row) {
+  const translated = pick(row, FIELD_ALIASES.spuName);
+  const dpa = pick(row, FIELD_ALIASES.dpaName);
+  const genericNames = /^(清洁工具|生活日用|功效品|收纳|餐厨水具|家纺|其他|未知|未分类)$/;
+  if (translated && !genericNames.test(translated)) return translated;
+  return dpa || translated || "未识别商品";
+}
+
 function excelToText(buf) {
   const wb = XLSX.read(buf, { type: "buffer" });
-  const parts = [];
+  const sections = [];
   for (const sheetName of wb.SheetNames) {
     const ws = wb.Sheets[sheetName];
-    const csv = XLSX.utils.sheet_to_csv(ws, { blankrows: false });
-    if (csv.trim()) parts.push(`### Sheet: ${sheetName}\n${csv}`);
+    const rows = XLSX.utils.sheet_to_json(ws, { defval: "", raw: false });
+    if (!rows.length) continue;
+
+    const productMap = new Map();
+    for (const row of rows) {
+      const name = displayProductName(row);
+      const spuId = pick(row, FIELD_ALIASES.spuId);
+      if (name === "未识别商品" && !spuId) continue;
+      const key = spuId || name;
+      const prev = productMap.get(key) || { name, spuId, spend: 0, rows: 0 };
+      prev.spend += num(pick(row, FIELD_ALIASES.spend));
+      prev.rows += 1;
+      productMap.set(key, prev);
+    }
+
+    const overall = rows.filter(row => pick(row, FIELD_ALIASES.customer) === "整体").slice(0, 10);
+    const topProducts = [...productMap.values()].sort((a, b) => b.spend - a.spend).slice(0, 60);
+    const sortedRows = [...rows]
+      .filter(row => displayProductName(row) !== "未识别商品")
+      .sort((a, b) => num(pick(b, FIELD_ALIASES.spend)) - num(pick(a, FIELD_ALIASES.spend)));
+    const selected = [];
+    const seenProducts = new Set();
+    const seenCustomers = new Set();
+    for (const row of sortedRows) {
+      const product = displayProductName(row);
+      const customer = pick(row, FIELD_ALIASES.customer);
+      if (seenProducts.has(product) || (customer && seenCustomers.has(customer))) continue;
+      selected.push(row);
+      seenProducts.add(product);
+      if (customer) seenCustomers.add(customer);
+      if (selected.length >= 60) break;
+    }
+    const selectedSet = new Set(selected);
+    for (const row of sortedRows) {
+      if (selected.length >= 100) break;
+      if (!selectedSet.has(row)) selected.push(row);
+    }
+    const topRows = selected;
+
+    const compactRows = topRows.map(row => ({
+      客户: pick(row, FIELD_ALIASES.customer),
+      链路: pick(row, FIELD_ALIASES.chain),
+      商品名称: clip(displayProductName(row), 80),
+      SPUid: pick(row, FIELD_ALIASES.spuId),
+      DPA商品名称: clip(pick(row, FIELD_ALIASES.dpaName), 120),
+      创意文案: clip(pick(row, FIELD_ALIASES.copy), 260),
+      素材URL: pick(row, FIELD_ALIASES.materialUrl),
+      时长: pick(row, FIELD_ALIASES.duration),
+      消耗: pick(row, FIELD_ALIASES.spend),
+      CTR: row["ctr(%)"] || row.CTR || "",
+      CVR: row["浅层cvr(%)"] || row.CVR || "",
+      CPM: row["竞价CPM(元)"] || row.CPM || "",
+      三秒快滑率: row["3s快滑率(%)"] || "",
+    }));
+
+    sections.push([
+      `### Sheet: ${sheetName}`,
+      `全量扫描行数: ${rows.length}；商品聚合数: ${productMap.size}`,
+      `字段: ${Object.keys(rows[0]).join(" | ")}`,
+      `客户简称=整体的指标行（赛道均值优先采用）:\n${JSON.stringify(overall)}`,
+      `按全量数据聚合的高消耗商品（名称优先SPU翻译名，其次DPA商品名）:\n${JSON.stringify(topProducts)}`,
+      `高消耗代表素材与文案（从全部行排序抽取）:\n${JSON.stringify(compactRows)}`,
+    ].join("\n"));
   }
-  let text = parts.join("\n\n");
-  // 控制长度，避免超 token（保留前 ~12000 字符，通常足够算均值+挑Top）
-  if (text.length > 12000) text = text.slice(0, 12000) + "\n...(数据过长已截断)";
-  return text;
+  return sections.join("\n\n");
 }
 
 export default async function handler(req, res) {
@@ -30,7 +127,7 @@ export default async function handler(req, res) {
 
   try {
     const body = await readJsonBody(req);
-    const { token, trackName, notes, filename, fileBase64 } = body;
+    const { token, trackName, notes, filename, fileBase64, compression } = body;
 
     if (!checkToken(token, ENV.UPLOAD_TOKEN))
       return res.status(401).json({ error: "上传口令错误" });
@@ -39,8 +136,9 @@ export default async function handler(req, res) {
     if (!fileBase64)
       return res.status(400).json({ error: "缺少 Excel 文件" });
 
-    // 1) 解析 Excel
-    const buf = Buffer.from(fileBase64, "base64");
+    // 1) 解析 Excel / CSV（大文件由浏览器先 gzip，降低 Vercel 请求体体积）
+    const encoded = Buffer.from(fileBase64, "base64");
+    const buf = compression === "gzip" ? gunzipSync(encoded) : encoded;
     const tableText = excelToText(buf);
     if (!tableText.trim())
       return res.status(400).json({ error: "Excel 内容为空或无法解析" });

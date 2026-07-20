@@ -85,13 +85,16 @@
         <input type="text" id="trackNameCustom" placeholder="请输入全新赛道名称，如：生活日用-一次性用品">
       </div>
 
-      <label>原始数据 Excel <span style="color:var(--gold)">*</span></label>
+      <label>原始数据 Excel / CSV <span style="color:var(--gold)">*</span></label>
       <div class="file-zone" id="fileZone">
-        <div class="big">📄 点击选择 或 拖拽 Excel 到这里</div>
-        <div class="hint">支持 .xlsx / .xls（分客户/分链路/分创意的消耗与指标表）</div>
+        <div class="big">📄 点击选择 或 拖拽文件到这里</div>
+        <div class="hint">支持 .xlsx / .xls / .csv；系统将全量扫描文案、指标与商品数据，生成质量对齐清洁工具标杆</div>
         <div class="file-name" id="fileName"></div>
       </div>
-      <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none">
+      <div style="margin-top:8px;font-size:12px;color:var(--sub);line-height:1.6">
+        商品名称按 <b style="color:var(--txt)">SPUid(及名称)(翻译后)</b> 与 <b style="color:var(--txt)">DPA商品名称</b> 识别；页面只展示商品本体名称，不展示纯数字 SPUid、客户名或营销长标题。
+      </div>
       <div style="text-align:right;margin-top:6px;font-size:12px">
         <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/site/assets/清洁工具-原始数据报表样本.xlsx" target="_blank" style="color:var(--gold);text-decoration:none">📥 下载：原始数据报表样本.xlsx</a>
       </div>
@@ -150,7 +153,7 @@
 <script>
 // 后端 API 与本页同域部署，直接用相对路径
 const API = "";
-let fileBase64 = null, fileName = "";
+let fileBase64 = null, fileName = "", fileCompression = "";
 let activeTab = "creative";
 
 const fileZone = document.getElementById("fileZone");
@@ -206,18 +209,40 @@ fileZone.onclick = () => fileInput.click();
 fileZone.addEventListener("drop", ev=>{ ev.preventDefault(); if(ev.dataTransfer.files[0]) handleFile(ev.dataTransfer.files[0]); });
 fileInput.onchange = () => { if(fileInput.files[0]) handleFile(fileInput.files[0]); };
 
-function handleFile(f){
-  if(f.size > 3 * 1024 * 1024){
-    show("err", "❌ 文件过大（" + (f.size/1024/1024).toFixed(1) + "MB），Vercel 限制请求体 4.5MB。请精简 Excel 行数/列数后重试，或删除多余 Sheet。");
+async function handleFile(f){
+  if(f.size > 12 * 1024 * 1024){
+    show("err", "❌ 文件过大（" + (f.size/1024/1024).toFixed(1) + "MB），请控制在 12MB 以内。");
     fileBase64 = null;
     document.getElementById("fileName").textContent = "";
     return;
   }
   fileName = f.name;
-  document.getElementById("fileName").textContent = "已选择：" + f.name + "（" + (f.size/1024).toFixed(0) + "KB）";
-  const reader = new FileReader();
-  reader.onload = () => { fileBase64 = reader.result.split(",")[1]; };
-  reader.readAsDataURL(f);
+  document.getElementById("fileName").textContent = "正在压缩：" + f.name;
+  try {
+    const source = new Uint8Array(await f.arrayBuffer());
+    let payload = source;
+    fileCompression = "";
+    if(typeof CompressionStream !== "undefined"){
+      const stream = new Blob([source]).stream().pipeThrough(new CompressionStream("gzip"));
+      payload = new Uint8Array(await new Response(stream).arrayBuffer());
+      fileCompression = "gzip";
+    }
+    if(payload.length > 3 * 1024 * 1024){
+      throw new Error("压缩后仍有 " + (payload.length/1024/1024).toFixed(1) + "MB，超过在线上传限制，请精简无关列或 Sheet");
+    }
+    let binary = "";
+    const chunkSize = 0x8000;
+    for(let i=0;i<payload.length;i+=chunkSize){
+      binary += String.fromCharCode(...payload.subarray(i, i + chunkSize));
+    }
+    fileBase64 = btoa(binary);
+    document.getElementById("fileName").textContent = "已选择：" + f.name + "（原始 " + (f.size/1024).toFixed(0) + "KB，上传 " + (payload.length/1024).toFixed(0) + "KB）";
+  } catch(e) {
+    fileBase64 = null;
+    fileCompression = "";
+    document.getElementById("fileName").textContent = "";
+    show("err", "❌ " + (e.message || e));
+  }
 }
 
 function show(type, text){ msg.className = "msg show " + type; msg.textContent = text; }
@@ -243,7 +268,7 @@ btn.onclick = async () => {
   try{
     const r = await fetch(API + "/api/upload", {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ token, trackName, notes, filename:fileName, fileBase64 })
+      body: JSON.stringify({ token, trackName, notes, filename:fileName, fileBase64, compression:fileCompression })
     });
     // 容错：Vercel 可能返回纯文本错误（如 413 Request Entity Too Large）
     const rawText = await r.text();

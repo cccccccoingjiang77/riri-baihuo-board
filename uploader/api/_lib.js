@@ -84,8 +84,25 @@ export async function ghListDir(path) {
 // creative.js 解析 / 合并（Node 版，逻辑对齐 merge_into_creative.py）
 // ============================================================
 
-// skill 负责的字段（只覆盖这些；topMaterials 等网页侧字段保留）
+// skill 负责的字段（基础分析字段；topMaterials 单独做保护性合并）
 export const OWNED_FIELDS = ["metrics", "sellingWords", "painWords", "sellingContext", "scripts", "keyPoints"];
+
+function mergeTopMaterials(existing = [], incoming = []) {
+  if (!incoming.length) return existing;
+  return incoming.map((item, index) => {
+    const old = existing.find(x =>
+      (item.product && x.product === item.product) ||
+      (item.title && x.title === item.title)
+    ) || existing[index];
+    return {
+      ...(old || {}),
+      ...item,
+      rank: index + 1,
+      videoUrl: item.videoUrl || old?.videoUrl || "",
+      frames: old?.frames?.length ? old.frames : (item.frames || []),
+    };
+  });
+}
 
 // 从 creative.js 文本解析出 CREATIVE_DATA 对象
 export function parseCreative(text) {
@@ -123,6 +140,9 @@ export function mergeTrack(data, track) {
   for (const t of data.tracks) {
     if (t.name === name) {
       Object.assign(t, payload);
+      if (Array.isArray(track.topMaterials) && track.topMaterials.length) {
+        t.topMaterials = mergeTopMaterials(t.topMaterials, track.topMaterials);
+      }
       if (track.owner) t.owner = track.owner;
       return { action: "update", name };
     }
@@ -131,6 +151,9 @@ export function mergeTrack(data, track) {
   if (track.key) nt.key = track.key;
   if (track.owner) nt.owner = track.owner;
   Object.assign(nt, payload);
+  if (Array.isArray(track.topMaterials) && track.topMaterials.length) {
+    nt.topMaterials = mergeTopMaterials([], track.topMaterials);
+  }
   data.tracks.push(nt);
   return { action: "add", name };
 }
