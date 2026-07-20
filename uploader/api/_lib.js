@@ -58,6 +58,20 @@ export async function ghPutFile(path, content, message, sha) {
   return await r.json();
 }
 
+// ---------- GitHub：写入二进制 Base64 文件 ----------
+export async function ghPutBase64File(path, base64Content, message, sha) {
+  const url = `${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/contents/${encodeURIComponent(path).replace(/%2F/g, "/")}`;
+  const body = {
+    message,
+    content: base64Content,
+    branch: ENV.GH_BRANCH,
+  };
+  if (sha) body.sha = sha;
+  const r = await fetch(url, { method: "PUT", headers: ghHeaders(), body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(`GitHub 图片写入失败 ${path}: ${r.status} ${await r.text()}`);
+  return await r.json();
+}
+
 // ---------- GitHub：删除文件 ----------
 export async function ghDeleteFile(path, message, sha) {
   const url = `${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/contents/${encodeURIComponent(path).replace(/%2F/g, "/")}`;
@@ -89,19 +103,12 @@ export const OWNED_FIELDS = ["metrics", "sellingWords", "painWords", "sellingCon
 
 function mergeTopMaterials(existing = [], incoming = []) {
   if (!incoming.length) return existing;
-  return incoming.map((item, index) => {
-    const old = existing.find(x =>
-      (item.product && x.product === item.product) ||
-      (item.title && x.title === item.title)
-    ) || existing[index];
-    return {
-      ...(old || {}),
-      ...item,
-      rank: index + 1,
-      videoUrl: item.videoUrl || old?.videoUrl || "",
-      frames: old?.frames?.length ? old.frames : (item.frames || []),
-    };
-  });
+  return incoming.map((item, index) => ({
+    ...item,
+    rank: index + 1,
+    videoUrl: item.videoUrl || "",
+    frames: Array.isArray(item.frames) ? item.frames : [],
+  }));
 }
 
 // 从 creative.js 文本解析出 CREATIVE_DATA 对象
@@ -121,13 +128,13 @@ export function parseCreative(text) {
 export function dumpCreative(data) {
   return [
     "/* 卖点 & 创意分析数据层（Creative Board） */",
-    "/* 由在线上传+审核后端自动写入；topMaterials 等网页侧字段自动保留 */",
+    "/* 由在线上传后端自动写入；关键帧按每次上传的素材URL异步重建 */",
     "window.CREATIVE_DATA = " + JSON.stringify(data, null, 2) + ";",
     "",
   ].join("\n");
 }
 
-// 把一个 track 合并进 data.tracks（按 name 覆盖 OWNED_FIELDS，保留其余）
+// 把一个 track 合并进 data.tracks；基础模块覆盖，Top素材按本次上传整体替换
 export function mergeTrack(data, track) {
   const name = (track.name || "").trim();
   if (!name) throw new Error("track 缺少 name（赛道名）");

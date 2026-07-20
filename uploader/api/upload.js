@@ -162,7 +162,18 @@ export default async function handler(req, res) {
       cur.sha
     );
 
-    return res.status(200).json({ ok: true, id: null, track, message: `✅ 已${action === "update" ? "更新" : "新增"}赛道「${name}」创意分析并直接上线，看板几十秒后刷新` });
+    const materials = Array.isArray(track.topMaterials) ? track.topMaterials : [];
+    const framesQueued = materials.some(item => item.videoUrl && item.videoUrl !== "空");
+    const frameMessage = framesQueued
+      ? "；页面正在按本次素材URL重新截图并替换关键帧，请保持页面打开几分钟"
+      : "；未识别到有效素材URL，关键帧暂不生成";
+    return res.status(200).json({
+      ok: true,
+      id: null,
+      track,
+      framesQueued,
+      message: `✅ 已${action === "update" ? "更新" : "新增"}赛道「${name}」创意分析并直接上线${frameMessage}`,
+    });
   } catch (e) {
     return res.status(500).json({ error: String(e.message || e) });
   }

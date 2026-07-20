@@ -93,7 +93,7 @@
       </div>
       <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none">
       <div style="margin-top:8px;font-size:12px;color:var(--sub);line-height:1.6">
-        商品名称按 <b style="color:var(--txt)">SPUid(及名称)(翻译后)</b> 与 <b style="color:var(--txt)">DPA商品名称</b> 识别；页面只展示商品本体名称，不展示纯数字 SPUid、客户名或营销长标题。
+        商品名称按 <b style="color:var(--txt)">SPUid(及名称)(翻译后)</b> 与 <b style="color:var(--txt)">DPA商品名称</b> 识别；页面只展示商品本体名称，不展示纯数字 SPUid、客户名或营销长标题。每次上传后，关键帧都会按本次文件中的素材 URL 重新截图并替换，通常几分钟内完成。
       </div>
       <div style="text-align:right;margin-top:6px;font-size:12px">
         <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/site/assets/清洁工具-原始数据报表样本.xlsx" target="_blank" style="color:var(--gold);text-decoration:none">📥 下载：原始数据报表样本.xlsx</a>
@@ -247,6 +247,75 @@ async function handleFile(f){
 
 function show(type, text){ msg.className = "msg show " + type; msg.textContent = text; }
 
+function waitEvent(target, event, timeout = 30000){
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => { cleanup(); reject(new Error("视频读取超时")); }, timeout);
+    const onDone = () => { cleanup(); resolve(); };
+    const onError = () => { cleanup(); reject(new Error("视频加载失败或不支持跨域截图")); };
+    const cleanup = () => {
+      clearTimeout(timer);
+      target.removeEventListener(event, onDone);
+      target.removeEventListener("error", onError);
+    };
+    target.addEventListener(event, onDone, { once:true });
+    target.addEventListener("error", onError, { once:true });
+  });
+}
+
+async function captureVideoFrames(sourceUrl){
+  const video = document.createElement("video");
+  video.crossOrigin = "anonymous";
+  video.muted = true;
+  video.preload = "auto";
+  video.src = sourceUrl.replace(/^http:\/\//i, "https://");
+  video.load();
+  await waitEvent(video, "loadedmetadata", 45000);
+  if(!Number.isFinite(video.duration) || video.duration <= 0) throw new Error("无法读取视频时长");
+
+  const times = [0.06,0.24,0.43,0.62,0.82].map(r => Math.max(.3, Math.min(video.duration-.1, video.duration*r)));
+  const frames = [];
+  const canvas = document.createElement("canvas");
+  for(const seconds of times){
+    video.currentTime = seconds;
+    await waitEvent(video, "seeked", 30000);
+    const width = Math.min(360, video.videoWidth || 360);
+    canvas.width = width;
+    canvas.height = Math.max(2, Math.round(width * (video.videoHeight || 640) / (video.videoWidth || 360)));
+    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+    frames.push({ src:canvas.toDataURL("image/jpeg", .72), time:(Math.round(seconds*10)/10)+"s" });
+  }
+  const duration = video.duration;
+  video.removeAttribute("src");
+  video.load();
+  return { frames, duration };
+}
+
+async function refreshUploadedFrames(token, track){
+  const materials = (track.topMaterials || []).filter(x => x.videoUrl && x.videoUrl !== "空");
+  let success = 0, failed = 0;
+  for(let i=0;i<materials.length;i++){
+    const material = materials[i];
+    show("load", `分析已上线，正在按本次视频URL生成关键帧 ${i+1}/${materials.length}：${material.product || material.title || "素材"}`);
+    try{
+      const captured = await captureVideoFrames(material.videoUrl);
+      const response = await fetch(API + "/api/update-frames", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          token, trackName:track.name, rank:material.rank,
+          videoUrl:material.videoUrl, duration:captured.duration, frames:captured.frames
+        })
+      });
+      const result = await response.json();
+      if(!response.ok || result.error) throw new Error(result.error || "关键帧写入失败");
+      success++;
+    }catch(error){
+      failed++;
+      console.error("关键帧生成失败", material, error);
+    }
+  }
+  show(failed ? "err" : "ok", `关键帧刷新完成：成功 ${success} 条，失败 ${failed} 条。截图均来自本次上传文件中的素材URL。`);
+}
+
 btn.onclick = async () => {
   const token = document.getElementById("token").value.trim();
   
@@ -280,6 +349,7 @@ btn.onclick = async () => {
     if(!r.ok || j.error) throw new Error(j.error || "提交失败");
     show("ok","✅ " + (j.message||"已直接上线"));
     renderPreview(j.track);
+    if(j.framesQueued) await refreshUploadedFrames(token, j.track);
   }catch(e){
     show("err","❌ " + e.message);
   }finally{ btn.disabled = false; }
