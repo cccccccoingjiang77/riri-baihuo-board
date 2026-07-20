@@ -1,5 +1,5 @@
 // POST /api/upload-selection
-// body: { token, trackName, notes, filename, fileBase64 }
+// 支持两种请求：application/octet-stream 二进制直传，或旧版 JSON Base64
 // 流程：解析 Excel 选品表 -> 自适应表头抓取数据 -> 补齐图直链 -> 直接合并上线（跳过审批）
 import * as XLSX from "xlsx";
 import {
@@ -87,18 +87,36 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "只支持 POST" });
 
   try {
-    const body = await readJsonBody(req);
-    const { token, trackName, notes, filename, fileBase64 } = body;
+    const isBinary = String(req.headers["content-type"] || "").includes("application/octet-stream");
+    let token, trackName, notes, filename, buf;
+    if (isBinary) {
+      token = String(req.headers["x-token"] || "");
+      trackName = decodeURIComponent(String(req.headers["x-track-name"] || ""));
+      filename = decodeURIComponent(String(req.headers["x-file-name"] || "selection.xlsx"));
+      notes = "";
+      if (Buffer.isBuffer(req.body)) {
+        buf = req.body;
+      } else if (typeof req.body === "string") {
+        buf = Buffer.from(req.body, "binary");
+      } else {
+        const chunks = [];
+        for await (const chunk of req) chunks.push(Buffer.from(chunk));
+        buf = Buffer.concat(chunks);
+      }
+    } else {
+      const body = await readJsonBody(req);
+      ({ token, trackName, notes, filename } = body);
+      buf = body.fileBase64 ? Buffer.from(body.fileBase64, "base64") : null;
+    }
 
     if (!checkToken(token, ENV.UPLOAD_TOKEN))
       return res.status(401).json({ error: "上传口令错误" });
     if (!trackName || !trackName.trim())
       return res.status(400).json({ error: "请选择赛道名" });
-    if (!fileBase64)
+    if (!buf?.length)
       return res.status(400).json({ error: "缺少 Excel 文件" });
 
     // 1) 解析 Excel Sheets
-    const buf = Buffer.from(fileBase64, "base64");
     const wb = XLSX.read(buf, { type: "buffer" });
 
     let cidItems = [];

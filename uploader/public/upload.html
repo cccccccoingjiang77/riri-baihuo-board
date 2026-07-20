@@ -356,7 +356,7 @@ btn.onclick = async () => {
 };
 
 // ==================== Tab 2: 选品文件处理交互 ====================
-let fileBase64Sel = null, fileNameSel = "";
+let selectionFile = null, fileNameSel = "";
 const fileZoneSel = document.getElementById("fileZoneSel");
 const submitBtnSel = document.getElementById("submitBtnSel");
 
@@ -372,17 +372,15 @@ fileZoneSel.onclick = () => {
 fileZoneSel.addEventListener("drop", ev=>{ ev.preventDefault(); if(ev.dataTransfer.files[0]) handleFileSel(ev.dataTransfer.files[0]); });
 
 function handleFileSel(f){
-  if(f.size > 3 * 1024 * 1024){
-    show("err", "❌ 文件过大（" + (f.size/1024/1024).toFixed(1) + "MB），Vercel 限制请求体 4.5MB。请精简 Excel 行数/列数后重试。");
-    fileBase64Sel = null;
+  if(f.size > 4.2 * 1024 * 1024){
+    show("err", "❌ 文件大小为 " + (f.size/1024/1024).toFixed(1) + "MB，已接近 Vercel 4.5MB 请求上限。请压缩到 4.2MB 以下后重试。");
+    selectionFile = null;
     document.getElementById("fileNameSel").textContent = "";
     return;
   }
+  selectionFile = f;
   fileNameSel = f.name;
-  document.getElementById("fileNameSel").textContent = "已选择：" + f.name + "（" + (f.size/1024).toFixed(0) + "KB）";
-  const reader = new FileReader();
-  reader.onload = () => { fileBase64Sel = reader.result.split(",")[1]; };
-  reader.readAsDataURL(f);
+  document.getElementById("fileNameSel").textContent = "已选择：" + f.name + "（" + (f.size/1024/1024).toFixed(1) + "MB，将以原始二进制上传，不会产生 Base64 膨胀）";
 }
 
 // 提交选品数据
@@ -391,7 +389,7 @@ submitBtnSel.onclick = async () => {
   const trackName = document.getElementById("trackNameSelectSel").value;
   const notes = document.getElementById("notesSel").value.trim();
 
-  if(!fileBase64Sel) return show("err","请选择选品 Excel 文件");
+  if(!selectionFile) return show("err","请选择选品 Excel 文件");
 
   submitBtnSel.disabled = true;
   preview.className = "preview";
@@ -399,8 +397,14 @@ submitBtnSel.onclick = async () => {
 
   try {
     const r = await fetch(API + "/api/upload-selection", {
-      method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ token, trackName, notes, filename:fileNameSel, fileBase64: fileBase64Sel })
+      method:"POST",
+      headers:{
+        "Content-Type":"application/octet-stream",
+        "X-Token":token,
+        "X-Track-Name":encodeURIComponent(trackName),
+        "X-File-Name":encodeURIComponent(fileNameSel)
+      },
+      body:selectionFile
     });
     const rawText = await r.text();
     let j;
