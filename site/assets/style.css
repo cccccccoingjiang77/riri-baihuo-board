@@ -131,9 +131,9 @@ a{color:inherit;text-decoration:none}
 .pcard{background:var(--card2);border:1px solid var(--line);border-radius:var(--radius-sm);
   overflow:hidden;transition:.15s;display:flex;flex-direction:column}
 .pcard:hover{border-color:var(--gold2);transform:translateY(-2px)}
-.pcard .img{aspect-ratio:1;background:var(--bg2);display:grid;place-items:center;
+.pcard .img{height:168px;background:var(--bg2);display:grid;place-items:center;
   color:var(--txt3);font-size:12px;position:relative;overflow:hidden}
-.pcard .img img{width:100%;height:100%;object-fit:cover}
+.pcard .img img{width:100%;height:100%;object-fit:contain;padding:8px}
 .pcard .img .ph{opacity:.5}
 .pcard .roi-badge{position:absolute;top:8px;left:8px;font-size:11px;font-weight:700;
   background:rgba(245,181,68,.92);color:#1a1204;padding:3px 8px;border-radius:12px}
@@ -144,6 +144,10 @@ a{color:inherit;text-decoration:none}
 .pcard .kpi{font-size:11px;color:var(--txt2);background:rgba(255,255,255,.04);
   border:1px solid var(--line);padding:3px 7px;border-radius:8px}
 .pcard .kpi b{color:var(--gold)}
+.pcard .core-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.pcard .core-kpis .kpi{display:flex;justify-content:space-between;gap:5px}
+.pcard .spend{font-size:11px;color:var(--txt3);margin-top:9px}
+.pcard .spend b{font-size:13px;color:var(--green);margin-left:4px}
 .pcard .price{font-size:17px;font-weight:800;color:var(--gold);margin-top:10px}
 .pcard .price small{font-size:11px;color:var(--txt3);font-weight:400}
 .pcard .mat{font-size:11px;color:var(--txt3);margin-top:6px}
@@ -414,6 +418,9 @@ button.btn-sm{font-family:inherit;background:transparent}
   box-shadow:0 0 0 4px rgba(245,181,68,.25)}
 .tl-item.now .tl-nm{color:var(--gold)}
 .tl-item.now::before{background:linear-gradient(90deg,var(--gold),var(--line2))}
+.tl-item.selected{background:rgba(245,181,68,.08);border-radius:10px;padding-left:10px}
+.tl-item.selected .tl-nm{color:var(--gold)}
+.tl-item.selected .tl-dot{background:var(--gold);border-color:var(--gold)}
 
 /* 当前周期重点展开卡 */
 .focus-card{background:linear-gradient(160deg,var(--card),var(--bg2));
@@ -427,18 +434,26 @@ button.btn-sm{font-family:inherit;background:transparent}
 .fc-win{font-size:12px;color:var(--txt3);margin-left:auto}
 .fc-hook{font-size:13px;color:var(--txt2);margin-top:12px;line-height:1.6}
 .fc-cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;font-size:12px;color:var(--txt3);align-items:center}
-.fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-@media(max-width:980px){.fx-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:640px){.fx-grid{grid-template-columns:repeat(2,1fr)}}
+.fx-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+@media(max-width:1100px){.fx-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:800px){.fx-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.fx-grid{grid-template-columns:repeat(2,1fr)}}
 .fx-item{background:var(--card2);border:1px solid var(--line);border-radius:var(--radius-sm);
   overflow:hidden;transition:.15s}
 .fx-item:hover{border-color:var(--gold2);transform:translateY(-2px)}
-.fx-img{aspect-ratio:1;background:var(--bg2);display:grid;place-items:center;overflow:hidden}
-.fx-img img{width:100%;height:100%;object-fit:cover}
+.fx-img{height:118px;background:var(--bg2);display:grid;place-items:center;overflow:hidden;position:relative}
+.fx-img img{width:100%;height:100%;object-fit:contain;padding:6px}
+.fx-rank{position:absolute;left:6px;top:6px;font-size:9px;font-weight:800;color:#1a1204;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));padding:3px 6px;border-radius:8px}
 .fx-img .ph{font-size:11px;color:var(--txt3)}
-.fx-nm{font-size:12.5px;font-weight:600;padding:10px 10px 2px;line-height:1.4}
-.fx-sub{font-size:11px;color:var(--txt3);padding:0 10px 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.fx-hot{color:var(--red);font-weight:700}
+.fx-nm{font-size:12.5px;font-weight:600;padding:9px 9px 2px;line-height:1.4;min-height:46px}
+.fx-sub{font-size:10.5px;color:var(--txt3);padding:0 9px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:0 9px 10px}
+.fx-metrics span{display:flex;justify-content:space-between;gap:4px;font-size:9.5px;color:var(--txt3);
+  background:rgba(255,255,255,.035);border:1px solid var(--line);padding:4px 5px;border-radius:6px}
+.fx-metrics b{font-size:10px;color:var(--gold)}
+.fx-metrics .wide{grid-column:1/-1}
+.fx-metrics .wide b{color:var(--green)}
 
 /* 全部节点卡片：当前高亮 + 点击闪烁 */
 .cal-card.now{border-color:var(--gold2);box-shadow:0 0 0 1px rgba(245,181,68,.2)}

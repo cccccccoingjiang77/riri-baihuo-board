@@ -55,7 +55,8 @@ function parseSheetToItems(sheet) {
       industry: val("开户行业") || "",
       image: val("商品图") || "",
       leaf: val("具体品类") || val("商品类目") || "",
-      price: num(val("单价")) || num(val("建议客单")) || num(val("参考单价")) || 0,
+      price: num(val("客单价")) || num(val("单价")) || num(val("建议客单")) || num(val("参考单价")) || 0,
+      spend: num(val("消耗(元)")) || num(val("总消耗")) || num(val("消耗")) || 0,
       roi: num(val("ROI")) || 0,
       ctr: num(val("点击率")) || num(val("CTR")) || 0,
       cvr: num(val("转化率")) || num(val("CVR")) || 0,
@@ -157,10 +158,11 @@ export default async function handler(req, res) {
       const counts = {};
       for (const x of arr) {
         counts[x.name] = (counts[x.name] || 0) + 1;
-        if (!best[x.name] || x.roi > best[x.name].roi) best[x.name] = { ...x };
+        const current = best[x.name];
+        if (!current || (x.spend || 0) > (current.spend || 0) || ((x.spend || 0) === (current.spend || 0) && x.roi > current.roi)) best[x.name] = { ...x };
       }
       return Object.values(best).map(x => ({ ...x, dupCount: counts[x.name] }))
-        .sort((a, b) => b.roi - a.roi);
+        .sort((a, b) => (b.spend || 0) - (a.spend || 0) || (b.roi || 0) - (a.roi || 0));
     };
 
     // 新版选品归属由上传者明确选择，不再依赖 Sheet 名猜测或自动平分
@@ -178,7 +180,7 @@ export default async function handler(req, res) {
         cur.sha
       );
       const payload = selectionModule === "cycle"
-        ? { nonClosed: [], quanyutong: [], adq: [], cycle: deduped.slice(0, 40) }
+        ? { nonClosed: [], quanyutong: [], adq: [], cycle: deduped.slice(0, 25) }
         : {
             nonClosed: selectionTarget === "nonClosed" ? deduped.slice(0, 40) : [],
             quanyutong: selectionTarget === "quanyutong" ? deduped.slice(0, 40) : [],

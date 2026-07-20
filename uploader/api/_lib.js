@@ -290,9 +290,11 @@ export function dumpSelection(data) {
 
 // 联网画图：pollinations 免费生图直链
 export function genSelectionImage(name, leaf) {
-  const kw = `${name} ${leaf || ""}`.trim();
-  const prompt = `${kw}, 电商产品主图, 纯白背景, 商品居中, 高清写实, 无文字`;
-  const seed = Math.abs(hashString(kw)) % 100000;
+  const category = String(leaf || "").trim();
+  const product = category || String(name || "").replace(/[A-Za-z0-9®™·]/g, " ").trim();
+  const kw = `${product} 商品本体`.trim();
+  const prompt = `${kw}, 只展示${product}产品本体, 不展示品牌logo和文字, 电商产品主图, 纯白背景, 商品居中, 高清写实`;
+  const seed = Math.abs(hashString(`${name} ${category}`.trim())) % 100000;
   return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=500&height=500&nologo=true&seed=${seed}`;
 }
 
@@ -347,10 +349,12 @@ export function mergeSelection(data, trackName, newItems) {
 
 export function mergeSelectionByTarget(data, module, target, label, items) {
   const incoming = [...(items || [])];
-  const mergeItems = (existing) => {
+  const mergeItems = (existing, limit = 40) => {
     const byName = new Map((existing || []).map(x => [x.name, x]));
     incoming.forEach(x => byName.set(x.name, { ...(byName.get(x.name) || {}), ...x }));
-    return [...byName.values()].sort((a, b) => (b.roi || 0) - (a.roi || 0)).slice(0, 40);
+    return [...byName.values()]
+      .sort((a, b) => (b.spend || 0) - (a.spend || 0) || (b.roi || 0) - (a.roi || 0))
+      .slice(0, limit);
   };
   const cycleTargets = new Set([
     "xiaohan_dahan", "spring_festival", "lichun_yushui", "kaixue_kaigong",
@@ -363,7 +367,7 @@ export function mergeSelectionByTarget(data, module, target, label, items) {
   if (module === "cycle") {
     if (!cycleTargets.has(target)) throw new Error("未知的热点周期或节气节点");
     data.cycles = data.cycles || {};
-    const list = mergeItems(data.cycles[target]?.items);
+    const list = mergeItems(data.cycles[target]?.items, 25);
     data.cycles[target] = { label, items: list };
     return { module, target, label, count: incoming.length, total: list.length };
   }
