@@ -214,13 +214,12 @@ function materialBlock(mt){
   const g=mt.golden5;
   const seg=(cls,label,d)=>`<div class="seg ${cls}"><div class="sh"><span class="seg-label">${label}</span><span class="tm">${d.time}</span></div><div class="sd">${d.desc}</div></div>`;
   const chainTag = mt.chain ? `<span class="chain-tag" data-chain="${mt.chain}">【${mt.chain}】</span>` : '';
-  const custTag = mt.customer ? `<span class="cust-tag">${mt.customer}</span>` : '';
   return `<div class="mat-card">
     <div class="mat-head">
       <div class="rk">#${mt.rank}</div>
       <div class="info">
         <div class="tt">${mt.title}</div>
-        <div class="st">${mt.product} ${custTag?'· '+custTag:''} ${chainTag}</div>
+        <div class="st">${mt.product} ${chainTag}</div>
       </div>
       <div class="tagp">${mt.tag||'产品展示'}</div>
     </div>

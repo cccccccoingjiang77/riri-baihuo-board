@@ -1,9 +1,20 @@
 // POST /api/update-frames
 // body: { token, trackName, rank, videoUrl, duration, frames: [{src, time}] }
+import { createHash } from "node:crypto";
 import {
-  ENV, ghGetFile, ghPutFile, parseCreative, dumpCreative,
+  ENV, ghGetFile, ghCommitFiles, parseCreative, dumpCreative,
   setCors, readJsonBody, checkToken,
 } from "./_lib.js";
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function frameFolder(trackName, rank, videoUrl) {
+  const trackHash = createHash("sha1").update(trackName).digest("hex").slice(0, 8);
+  const videoHash = createHash("sha1").update(videoUrl).digest("hex").slice(0, 10);
+  return `site/assets/frames/upload-${trackHash}-${String(rank).padStart(2, "0")}-${videoHash}`;
+}
 
 export default async function handler(req, res) {
   setCors(res);
@@ -20,24 +31,40 @@ export default async function handler(req, res) {
     if (frames.some(frame => !String(frame.src || "").startsWith("data:image/jpeg;base64,")))
       return res.status(400).json({ error: "关键帧必须是 JPEG 图片" });
 
-    const current = await ghGetFile(ENV.CREATIVE_PATH);
-    if (!current) return res.status(500).json({ error: "线上 creative.js 读取失败" });
-    const data = parseCreative(current.text);
-    const track = (data.tracks || []).find(item => item.name === trackName);
-    const material = track?.topMaterials?.find(item => Number(item.rank) === Number(rank));
-    if (!material) return res.status(409).json({ error: "素材已被新的上传替换" });
-    if (String(material.videoUrl || "") !== String(videoUrl))
-      return res.status(409).json({ error: "素材URL已更新，本次旧截图已跳过" });
+    const folder = frameFolder(trackName, rank, videoUrl);
+    const imageFiles = frames.map((frame, index) => ({
+      path: `${folder}/frame-${String(index + 1).padStart(2, "0")}.jpg`,
+      content: frame.src.split(",")[1],
+      encoding: "base64",
+      time: frame.time,
+    }));
 
-    material.frames = frames;
-    if (duration) material.duration = `约${Math.round(Number(duration))}s`;
-    await ghPutFile(
-      ENV.CREATIVE_PATH,
-      dumpCreative(data),
-      `frames: 更新「${trackName}」第${rank}条素材关键帧`,
-      current.sha
-    );
-    return res.status(200).json({ ok: true, rank });
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      const current = await ghGetFile(ENV.CREATIVE_PATH);
+      if (!current) return res.status(500).json({ error: "线上 creative.js 读取失败" });
+      const data = parseCreative(current.text);
+      const track = (data.tracks || []).find(item => item.name === trackName);
+      const material = track?.topMaterials?.find(item => Number(item.rank) === Number(rank));
+      if (!material) return res.status(409).json({ error: "素材已被新的上传替换" });
+      if (String(material.videoUrl || "") !== String(videoUrl))
+        return res.status(409).json({ error: "素材URL已更新，本次旧截图已跳过" });
+
+      material.frames = imageFiles.map(file => ({
+        src: file.path.replace(/^site\//, ""),
+        time: file.time,
+      }));
+      if (duration) material.duration = `约${Math.round(Number(duration))}s`;
+
+      const files = imageFiles.map(({ path, content, encoding }) => ({ path, content, encoding }));
+      files.push({ path: ENV.CREATIVE_PATH, content: dumpCreative(data), encoding: "utf-8" });
+      try {
+        await ghCommitFiles(files, `frames: 更新「${trackName}」第${rank}条素材关键帧`);
+        return res.status(200).json({ ok: true, rank });
+      } catch (error) {
+        if (error.code !== "GH_REF_CONFLICT" || attempt === 4) throw error;
+        await sleep(attempt * 700);
+      }
+    }
   } catch (error) {
     return res.status(500).json({ error: String(error.message || error) });
   }

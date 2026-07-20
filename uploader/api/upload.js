@@ -40,12 +40,25 @@ function clip(value, max = 220) {
   return text.length > max ? text.slice(0, max) + "…" : text;
 }
 
+function cleanProductName(value) {
+  let text = String(value || "").trim();
+  text = text.replace(/^[^·|｜]{2,40}(?:有限责任公司|股份有限公司|有限公司|信息科技|科技公司|电子商务|商贸公司|贸易公司|日用品公司|商行|旗舰店|专营店|专卖店)[·|｜\s:：-]*/g, "");
+  text = text.replace(/(?:有限责任公司|股份有限公司|有限公司|信息科技有限公司|电子商务有限公司|商贸有限公司|贸易有限公司|日用品有限公司|商行)$/g, "");
+  if (text.includes("/")) text = text.split("/").pop();
+  text = text.replace(/^[A-Za-z][A-Za-z0-9 ._-]{1,24}\s*/g, "");
+  text = text.replace(/^(?:品牌|官方|正品|新款|爆款|网红|家用|专用|多功能|高档|高端)+/g, "");
+  text = text.replace(/\s*(?:\d+(?:\.\d+)?(?:cm|mm|ml|L|g|kg|只|个|件|支|片|包|盒|套)|【.*?】|\[.*?\]).*$/gi, "");
+  return text.trim() || "未识别商品";
+}
+
 function displayProductName(row) {
   const translated = pick(row, FIELD_ALIASES.spuName);
   const dpa = pick(row, FIELD_ALIASES.dpaName);
-  const genericNames = /^(清洁工具|生活日用|功效品|收纳|餐厨水具|家纺|其他|未知|未分类)$/;
-  if (translated && !genericNames.test(translated)) return translated;
-  return dpa || translated || "未识别商品";
+  const invalidSource = /有限责任公司|股份有限公司|有限公司|信息科技|科技公司|电子商务|商贸|贸易|商行|旗舰店|专营店|专卖店/;
+  const genericName = /^(清洁工具|生活日用|功效品|收纳|餐厨水具|家纺|浴室用品|其他|未知|未分类|未识别商品)$/;
+  const translatedName = cleanProductName(translated);
+  if (translated && !invalidSource.test(translated) && !genericName.test(translatedName)) return translatedName;
+  return cleanProductName(dpa || translated);
 }
 
 function excelToText(buf) {
@@ -75,14 +88,11 @@ function excelToText(buf) {
       .sort((a, b) => num(pick(b, FIELD_ALIASES.spend)) - num(pick(a, FIELD_ALIASES.spend)));
     const selected = [];
     const seenProducts = new Set();
-    const seenCustomers = new Set();
     for (const row of sortedRows) {
       const product = displayProductName(row);
-      const customer = pick(row, FIELD_ALIASES.customer);
-      if (seenProducts.has(product) || (customer && seenCustomers.has(customer))) continue;
+      if (seenProducts.has(product)) continue;
       selected.push(row);
       seenProducts.add(product);
-      if (customer) seenCustomers.add(customer);
       if (selected.length >= 60) break;
     }
     const selectedSet = new Set(selected);
@@ -147,6 +157,25 @@ export default async function handler(req, res) {
     const aiRaw = await callAI(SYSTEM_PROMPT, buildUserPrompt(trackName.trim(), tableText, notes));
     const track = extractJson(aiRaw);
     track.name = trackName.trim(); // 强制对齐赛道名
+    if (Array.isArray(track.topMaterials)) {
+      track.topMaterials = track.topMaterials
+        .map((material, index) => {
+          const cleanedProduct = cleanProductName(material.product);
+          const product = cleanedProduct === "未识别商品"
+            ? cleanProductName(material.title)
+            : cleanedProduct;
+          const rawTitle = String(material.title || "").replace(String(material.product || ""), "").replace(/^[·|｜\s:：-]+/, "");
+          return {
+            ...material,
+            rank: index + 1,
+            product,
+            title: rawTitle ? `${product}·${rawTitle}` : product,
+            frames: [],
+          };
+        })
+        .sort((a, b) => num(b.spend) - num(a.spend))
+        .map((material, index) => ({ ...material, rank: index + 1 }));
+    }
 
     // 3) 直接合并到 creative.js 上线（跳过审批）
     const cur = await ghGetFile(ENV.CREATIVE_PATH);

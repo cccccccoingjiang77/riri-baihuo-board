@@ -72,6 +72,60 @@ export async function ghPutBase64File(path, base64Content, message, sha) {
   return await r.json();
 }
 
+// ---------- GitHub：多个文件原子提交（用于关键帧图片 + creative.js）----------
+export async function ghCommitFiles(files, message) {
+  const refUrl = `${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/git/ref/heads/${ENV.GH_BRANCH}`;
+  const updateRefUrl = `${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/git/refs/heads/${ENV.GH_BRANCH}`;
+  const refResponse = await fetch(refUrl, { headers: ghHeaders() });
+  if (!refResponse.ok) throw new Error(`GitHub 分支读取失败: ${refResponse.status} ${await refResponse.text()}`);
+  const ref = await refResponse.json();
+  const baseCommitSha = ref.object.sha;
+
+  const commitResponse = await fetch(`${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/git/commits/${baseCommitSha}`, { headers: ghHeaders() });
+  if (!commitResponse.ok) throw new Error(`GitHub commit读取失败: ${commitResponse.status}`);
+  const baseCommit = await commitResponse.json();
+
+  const treeEntries = [];
+  for (const file of files) {
+    const blobResponse = await fetch(`${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/git/blobs`, {
+      method: "POST",
+      headers: ghHeaders(),
+      body: JSON.stringify({ content: file.content, encoding: file.encoding || "utf-8" }),
+    });
+    if (!blobResponse.ok) throw new Error(`GitHub blob创建失败 ${file.path}: ${blobResponse.status} ${await blobResponse.text()}`);
+    const blob = await blobResponse.json();
+    treeEntries.push({ path: file.path, mode: "100644", type: "blob", sha: blob.sha });
+  }
+
+  const treeResponse = await fetch(`${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/git/trees`, {
+    method: "POST",
+    headers: ghHeaders(),
+    body: JSON.stringify({ base_tree: baseCommit.tree.sha, tree: treeEntries }),
+  });
+  if (!treeResponse.ok) throw new Error(`GitHub tree创建失败: ${treeResponse.status} ${await treeResponse.text()}`);
+  const tree = await treeResponse.json();
+
+  const newCommitResponse = await fetch(`${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/git/commits`, {
+    method: "POST",
+    headers: ghHeaders(),
+    body: JSON.stringify({ message, tree: tree.sha, parents: [baseCommitSha] }),
+  });
+  if (!newCommitResponse.ok) throw new Error(`GitHub commit创建失败: ${newCommitResponse.status} ${await newCommitResponse.text()}`);
+  const newCommit = await newCommitResponse.json();
+
+  const updateResponse = await fetch(updateRefUrl, {
+    method: "PATCH",
+    headers: ghHeaders(),
+    body: JSON.stringify({ sha: newCommit.sha, force: false }),
+  });
+  if (!updateResponse.ok) {
+    const error = new Error(`GitHub分支并发更新冲突: ${updateResponse.status} ${await updateResponse.text()}`);
+    error.code = "GH_REF_CONFLICT";
+    throw error;
+  }
+  return newCommit;
+}
+
 // ---------- GitHub：删除文件 ----------
 export async function ghDeleteFile(path, message, sha) {
   const url = `${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/contents/${encodeURIComponent(path).replace(/%2F/g, "/")}`;
