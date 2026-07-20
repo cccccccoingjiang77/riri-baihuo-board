@@ -52,6 +52,7 @@ function parseSheetToItems(sheet) {
 
     const item = {
       name,
+      industry: val("开户行业") || "",
       image: val("商品图") || "",
       leaf: val("具体品类") || val("商品类目") || "",
       price: num(val("单价")) || num(val("建议客单")) || num(val("参考单价")) || 0,
@@ -62,6 +63,7 @@ function parseSheetToItems(sheet) {
       link: val("链路推荐") || "",
       material: val("素材链接") || "",
       landing: val("落地页链接") || "",
+      createdAt: val("创建日期") || "",
     };
 
     // 缩短 leaf 层级展示，对齐 leaf() 函数
