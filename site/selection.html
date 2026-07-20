@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>选品看板 · 日用百货选品&创意机会一览表</title>
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=auto" id="appCss">
+<script>document.getElementById('appCss').href='assets/style.css?v='+Date.now();</script>
 </head>
 <body>
 
@@ -76,8 +77,11 @@
 
 <button id="backTop" class="back-top" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 顶部</button>
 
-<script src="data/selection.js"></script>
-<script src="data/calendar.js"></script>
+<script>
+var _v=Date.now();
+document.write('<script src="data/selection.js?v='+_v+'"><\/script>');
+document.write('<script src="data/calendar.js?v='+_v+'"><\/script>');
+</script>
 <script>
 const S = window.SELECTION_DATA, CAL = window.CALENDAR_DATA;
 document.getElementById('metaLine').innerHTML =

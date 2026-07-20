@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>卖点 &amp; 创意分析 · 日用百货选品&创意机会一览表</title>
-<link rel="stylesheet" href="assets/style.css?v=20260715">
+<link rel="stylesheet" href="assets/style.css?v=auto" id="appCss">
+<script>document.getElementById('appCss').href='assets/style.css?v='+Date.now();</script>
 </head>
 <body>
 
@@ -77,7 +78,9 @@
 
 <button id="backTop" class="back-top" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 顶部</button>
 
-<script src="data/creative.js?v=20260715"></script>
+<script>
+document.write('<script src="data/creative.js?v='+Date.now()+'"><\/script>');
+</script>
 <script>
 const C = window.CREATIVE_DATA, tracks = C.tracks;
 
