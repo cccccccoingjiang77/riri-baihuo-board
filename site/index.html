@@ -16,6 +16,19 @@
 </div></div>
 
 <div class="wrap">
+  <!-- ============ 平台限时活动 ============ -->
+  <section class="activity-section" id="activitySection" hidden>
+    <div class="activity-label"><span>限时</span><b id="activityTitle">平台限时活动</b></div>
+    <a class="activity-banner" id="activityLink" target="_blank" rel="noopener noreferrer">
+      <div class="activity-art"><img id="activityImage" alt="平台限时活动 Banner"></div>
+      <div class="activity-copy">
+        <div class="activity-kicker">PLATFORM EVENT</div>
+        <p id="activityText"></p>
+        <span class="activity-cta">查看活动详情 <b>↗</b></span>
+      </div>
+    </a>
+  </section>
+
   <div class="page-head">
     <h1 id="headTitle">日用百货 · 选品 &amp; 创意机会一览表</h1>
     <div class="sub">别再自己闷头试！这里帮你把<b style="color:var(--gold)">当下正在跑量的爆品</b>和<b style="color:var(--gold)">已验证跑量的创意套路</b>一次看全 —— 跟着抄品、抄卖点、抄脚本，选品少踩坑、起量更省心。点击下方板块即可下钻到完整榜单，挑对标、拿灵感、直接上手。</div>
@@ -73,12 +86,22 @@
 
 <script>
 var _v=Date.now();
-['selection','creative','calendar'].forEach(function(f){
+['activity','selection','creative','calendar'].forEach(function(f){
   document.write('<script src="data/'+f+'.js?v='+_v+'"><\/script>');
 });
 </script>
 <script>
 const S = window.SELECTION_DATA, C = window.CREATIVE_DATA, CAL = window.CALENDAR_DATA;
+
+/* ---------- 平台限时活动 ---------- */
+const ACTIVITY = window.ACTIVITY_DATA;
+if(ACTIVITY && ACTIVITY.enabled && ACTIVITY.image && ACTIVITY.text && ACTIVITY.link){
+  document.getElementById('activityTitle').textContent = ACTIVITY.title || '平台限时活动';
+  document.getElementById('activityImage').src = ACTIVITY.image;
+  document.getElementById('activityText').textContent = ACTIVITY.text;
+  document.getElementById('activityLink').href = ACTIVITY.link;
+  document.getElementById('activitySection').hidden = false;
+}
 
 /* ---------- 期次标题（结合选品&创意，形如 20260713期） ---------- */
 const periodTag = (S.meta.updatedAt||'').replace(/-/g,'') || '';

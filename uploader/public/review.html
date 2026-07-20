@@ -19,7 +19,9 @@
   .sub{color:var(--sub);font-size:13px;margin-bottom:18px}
   .bar{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
   input[type=password]{background:#12151b;border:1px solid var(--line);border-radius:9px;color:var(--txt);padding:10px 12px;font-size:14px;outline:none;flex:1;min-width:180px}
-  input:focus{border-color:var(--gold)}
+  input[type=text],input[type=url],textarea{width:100%;background:#12151b;border:1px solid var(--line);border-radius:9px;color:var(--txt);padding:10px 12px;font-size:13px;outline:none;font-family:inherit}
+  input:focus,textarea:focus{border-color:var(--gold)}
+  textarea{min-height:72px;resize:vertical}
   .btn{background:var(--gold);color:#1a1d24;border:0;border-radius:9px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
   .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
   .btn.green{background:var(--green);color:#0f1115}
@@ -50,11 +52,34 @@
   details{margin-top:10px}
   summary{cursor:pointer;color:var(--sub);font-size:12px}
   pre{background:#0b0d11;border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto;font-size:11px;color:var(--sub);max-height:280px}
+  .activity-admin{background:linear-gradient(140deg,#132349,#164d91);border:1px solid #3475bf;border-radius:14px;padding:18px;margin-bottom:26px}
+  .activity-admin h2{font-size:17px;margin:0 0 4px}.activity-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .field label{display:block;color:#b8c8df;font-size:11px;margin-bottom:5px}.field.full{grid-column:1/-1}
+  .activity-preview{display:flex;align-items:center;justify-content:center;min-height:130px;background:rgba(5,14,36,.45);border:1px dashed rgba(160,205,255,.4);border-radius:10px;padding:10px;margin-top:12px}
+  .activity-preview img{max-width:100%;max-height:160px;object-fit:contain}.toggle{display:flex;align-items:center;gap:8px;font-size:13px;margin-right:auto}
+  @media(max-width:650px){.activity-form{grid-template-columns:1fr}.field.full{grid-column:auto}}
 </style>
 </head>
 <body>
 <div class="topbar"><div class="in"><span class="dot">日</span><b>日百看板 · 审核区</b></div></div>
 <div class="wrap">
+  <section class="activity-admin">
+    <h2>平台限时活动</h2>
+    <div class="sub" style="margin-bottom:0">由主管理员配置首页活动 Banner，保存后自动推送上线。</div>
+    <div class="activity-form">
+      <div class="field"><label>区域标题</label><input type="text" id="actTitle" value="平台限时活动"></div>
+      <div class="field"><label>Banner 图片地址（站内相对路径或 HTTPS）</label><input type="text" id="actImage"></div>
+      <div class="field full"><label>活动文案</label><textarea id="actText"></textarea></div>
+      <div class="field full"><label>活动跳转链接</label><input type="url" id="actLink"></div>
+    </div>
+    <div class="activity-preview"><img id="actPreview" alt="活动 Banner 预览"></div>
+    <div class="actions">
+      <label class="toggle"><input type="checkbox" id="actEnabled" checked> 首页展示该活动</label>
+      <button class="btn ghost" id="loadActivityBtn">读取当前配置</button>
+      <button class="btn green" id="saveActivityBtn">保存并发布</button>
+    </div>
+  </section>
+
   <h1>待审核数据</h1>
   <div class="sub">审核同事上传后 AI 产出的赛道分析，通过即自动合并进线上看板（保留 Top 素材等原有内容），驳回则丢弃。</div>
 
@@ -80,6 +105,60 @@ function getToken(){ return document.getElementById("token").value.trim(); }
 
 document.getElementById("loadBtn").onclick = load;
 document.getElementById("refreshBtn").onclick = load;
+document.getElementById("loadActivityBtn").onclick = loadActivity;
+document.getElementById("saveActivityBtn").onclick = saveActivity;
+document.getElementById("actImage").addEventListener("input", updateActivityPreview);
+
+function updateActivityPreview(){
+  const image = document.getElementById("actImage").value.trim();
+  const preview = document.getElementById("actPreview");
+  preview.src = image.startsWith("http") ? image : "https://cccccccoingjiang77.github.io/riri-baihuo-board/site/" + image.replace(/^\.\//,"");
+}
+
+function fillActivity(activity){
+  if(!activity) return;
+  document.getElementById("actTitle").value = activity.title || "平台限时活动";
+  document.getElementById("actImage").value = activity.image || "";
+  document.getElementById("actText").value = activity.text || "";
+  document.getElementById("actLink").value = activity.link || "";
+  document.getElementById("actEnabled").checked = activity.enabled !== false;
+  updateActivityPreview();
+}
+
+async function loadActivity(){
+  const token = getToken();
+  if(!token) return show("err","请输入审核口令");
+  show("load","正在读取活动配置…");
+  try{
+    const r = await fetch(API + "/api/activity?token=" + encodeURIComponent(token));
+    const j = await r.json();
+    if(!r.ok || j.error) throw new Error(j.error || "读取失败");
+    fillActivity(j.activity); show("ok","当前活动配置已加载");
+  }catch(e){ show("err","❌ "+e.message); }
+}
+
+async function saveActivity(){
+  const token = getToken();
+  if(!token) return show("err","请输入审核口令");
+  const activity = {
+    enabled: document.getElementById("actEnabled").checked,
+    title: document.getElementById("actTitle").value.trim(),
+    image: document.getElementById("actImage").value.trim(),
+    text: document.getElementById("actText").value.trim(),
+    link: document.getElementById("actLink").value.trim(),
+  };
+  if(!activity.image || !activity.text || !activity.link) return show("err","请完整填写图片、文案和跳转链接");
+  if(!confirm("确认保存并发布本次平台活动？")) return;
+  const btn = document.getElementById("saveActivityBtn"); btn.disabled = true;
+  show("load","正在保存并推送首页活动…");
+  try{
+    const r = await fetch(API + "/api/activity",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token,activity})});
+    const j = await r.json();
+    if(!r.ok || j.error) throw new Error(j.error || "保存失败");
+    fillActivity(j.activity); show("ok","✅ "+j.message);
+  }catch(e){ show("err","❌ "+e.message); }
+  finally{ btn.disabled = false; }
+}
 
 async function load(){
   const token = getToken();
