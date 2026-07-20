@@ -287,11 +287,22 @@ a{color:inherit;text-decoration:none}
 .node-card .cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 
 /* 创意分赛道 mini 卡 */
-.track-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
-@media(max-width:860px){.track-mini{grid-template-columns:1fr}}
+.track-group{margin-top:18px}
+.track-group:first-child{margin-top:4px}
+.track-group-title{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:14px;font-weight:800;color:var(--txt)}
+.track-group-title::before{content:"";width:4px;height:16px;border-radius:3px;background:linear-gradient(var(--gold),var(--gold2))}
+.track-group-title em{font-style:normal;font-size:11px;font-weight:500;color:var(--txt3);background:var(--card2);padding:2px 8px;border-radius:10px}
+.track-mini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:4px}
+.track-group:nth-child(n+2) .track-mini{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:980px){.track-mini,.track-group:nth-child(n+2) .track-mini{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.track-mini,.track-group:nth-child(n+2) .track-mini{grid-template-columns:1fr}}
 .track-mini-card{background:var(--card2);border:1px solid var(--line);border-radius:var(--radius-sm);
   padding:16px;transition:.15s;display:block}
 .track-mini-card:hover{border-color:var(--gold2);transform:translateY(-2px)}
+.track-mini-card.pending{cursor:default;border-style:dashed;opacity:.72}
+.track-mini-card.pending:hover{border-color:var(--line);transform:none}
+.track-mini-card .tm-pending{min-height:64px;display:flex;align-items:center;justify-content:center;
+  color:var(--txt3);font-size:12.5px;background:rgba(255,255,255,.025);border-radius:8px;margin-bottom:14px}
 .track-mini-card .tm-h{font-size:15px;font-weight:800;margin-bottom:12px}
 .track-mini-card .tm-driver{font-size:12.5px;color:var(--txt2);line-height:1.5;
   margin:-4px 0 12px;padding:7px 10px;background:rgba(245,181,68,.08);

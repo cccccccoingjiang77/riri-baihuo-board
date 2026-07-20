@@ -22,6 +22,17 @@ const FIELD_ALIASES = {
   spend: ["消耗(元)", "消耗", "总消耗"],
 };
 
+const TRACK_KEYS = {
+  "生活日用-功效品": "daily-effect",
+  "生活日用-清洁工具": "clean",
+  "生活日用-收纳用品": "daily-storage",
+  "生活日用-其他": "daily-other",
+  "餐厨水具-厨具": "kitchen-cookware",
+  "餐厨水具-餐具水具": "kitchen-tableware",
+  "家居家纺-家纺": "home-textile",
+  "家居家纺-家居工艺品": "home-crafts",
+};
+
 function pick(row, names) {
   for (const name of names) {
     const value = row[name];
@@ -157,6 +168,7 @@ export default async function handler(req, res) {
     const aiRaw = await callAI(SYSTEM_PROMPT, buildUserPrompt(trackName.trim(), tableText, notes));
     const track = extractJson(aiRaw);
     track.name = trackName.trim(); // 强制对齐赛道名
+    if (TRACK_KEYS[track.name]) track.key = TRACK_KEYS[track.name];
     if (Array.isArray(track.topMaterials)) {
       track.topMaterials = track.topMaterials
         .map((material, index) => {

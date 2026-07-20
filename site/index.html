@@ -60,7 +60,7 @@
 
     <!-- 分赛道卖点 + 基础数据 -->
     <div class="mini-title">🏷 分赛道主要卖点词 &amp; 基础数据</div>
-    <div class="track-mini" id="creTracks"></div>
+    <div id="creTracks"></div>
   </section>
 </div>
 
@@ -170,33 +170,69 @@ document.getElementById('selNodes').innerHTML = pickNodes().map(n=>`
 
 /* ================= 创意豆腐块 ================= */
 const tracks = C.tracks;
-const totalCre = tracks.reduce((a,b)=>a+b.metrics.creativeCount,0);
-const avgCtr = (tracks.reduce((a,b)=>a+b.metrics.ctr,0)/tracks.length).toFixed(1);
-const avgP3 = (tracks.reduce((a,b)=>a+b.metrics.play3s,0)/tracks.length).toFixed(0);
-const avgCvr = (tracks.reduce((a,b)=>a+b.metrics.cvr,0)/tracks.length).toFixed(1);
+const CREATIVE_GROUPS = [
+  { name:'生活日用', tracks:[
+    {name:'生活日用-功效品', key:'daily-effect', aliases:['生活日用-功效品']},
+    {name:'生活日用-清洁工具', key:'clean', aliases:['生活日用-清洁工具']},
+    {name:'生活日用-收纳用品', key:'daily-storage', aliases:['生活日用-收纳用品','生活日用-收纳']},
+    {name:'生活日用-其他', key:'daily-other', aliases:['生活日用-其他']}
+  ]},
+  { name:'餐厨水具', tracks:[
+    {name:'餐厨水具-厨具', key:'kitchen-cookware', aliases:['餐厨水具-厨具','餐厨水具']},
+    {name:'餐厨水具-餐具水具', key:'kitchen-tableware', aliases:['餐厨水具-餐具水具']}
+  ]},
+  { name:'家居家纺', tracks:[
+    {name:'家居家纺-家纺', key:'home-textile', aliases:['家居家纺-家纺','家纺']},
+    {name:'家居家纺-家居工艺品', key:'home-crafts', aliases:['家居家纺-家居工艺品']}
+  ]}
+];
+const configuredTracks = CREATIVE_GROUPS.flatMap(group=>group.tracks.map(config=>({
+  config,
+  data: tracks.find(track=>track.key===config.key || config.aliases.includes(track.name))
+})));
+const activeTracks = configuredTracks.map(item=>item.data).filter(Boolean);
+const totalCre = activeTracks.reduce((a,b)=>a+(b.metrics?.creativeCount||0),0);
+const avgMetric = field => activeTracks.length
+  ? activeTracks.reduce((sum,track)=>sum+(track.metrics?.[field]||0),0)/activeTracks.length
+  : 0;
+const avgCtr = avgMetric('ctr').toFixed(1);
+const avgP3 = avgMetric('play3s').toFixed(0);
+const avgCvr = avgMetric('cvr').toFixed(1);
 document.getElementById('creKv').innerHTML =
   box(totalCre,'创意素材条数')+
   box(avgCtr+'%','平均点击率')+
   box(avgP3+'%','平均3s完播')+
   box(avgCvr+'%','平均CVR');
 
-document.getElementById('creTracks').innerHTML = tracks.map(t=>{
-  const words = t.sellingWords.slice(0,5).map((w,i)=>
-    `<span class="sw sw${i}">${w.word}</span>`).join('');
-  const ctx = (t.sellingContext&&t.sellingContext[0])
-    ? `<div class="tm-driver">🎯 当期动因：<b>${t.sellingContext[0].driver}</b></div>` : '';
-  const m=t.metrics;
-  return `<a class="track-mini-card" href="creative.html?track=${t.key}" onclick="event.stopPropagation()">
-    <div class="tm-h">${t.name}</div>
-    ${ctx}
-    <div class="tm-words">${words}</div>
-    <div class="tm-metrics">
-      <span>创意 <b>${m.creativeCount}</b></span>
-      <span>CTR <b>${m.ctr}%</b></span>
-      <span>3s <b>${m.play3s}%</b></span>
-      <span>CVR <b>${m.cvr}%</b></span>
-    </div>
-  </a>`;
+document.getElementById('creTracks').innerHTML = CREATIVE_GROUPS.map(group=>{
+  const cards = group.tracks.map(config=>{
+    const t = tracks.find(track=>track.key===config.key || config.aliases.includes(track.name));
+    if(!t) return `<div class="track-mini-card pending">
+      <div class="tm-h">${config.name}</div>
+      <div class="tm-pending">待上传该赛道数据</div>
+      <div class="tm-metrics"><span>状态 <b>待更新</b></span></div>
+    </div>`;
+    const words = (t.sellingWords||[]).slice(0,5).map((w,i)=>
+      `<span class="sw sw${i}">${w.word}</span>`).join('');
+    const ctx = (t.sellingContext&&t.sellingContext[0])
+      ? `<div class="tm-driver">🎯 当期动因：<b>${t.sellingContext[0].driver}</b></div>` : '';
+    const m=t.metrics||{};
+    return `<a class="track-mini-card" href="creative.html?track=${config.key}" onclick="event.stopPropagation()">
+      <div class="tm-h">${config.name}</div>
+      ${ctx}
+      <div class="tm-words">${words}</div>
+      <div class="tm-metrics">
+        <span>创意 <b>${m.creativeCount||0}</b></span>
+        <span>CTR <b>${m.ctr||0}%</b></span>
+        <span>3s <b>${m.play3s||0}%</b></span>
+        <span>CVR <b>${m.cvr||0}%</b></span>
+      </div>
+    </a>`;
+  }).join('');
+  return `<div class="track-group">
+    <div class="track-group-title"><span>${group.name}</span><em>${group.tracks.length} 个赛道</em></div>
+    <div class="track-mini">${cards}</div>
+  </div>`;
 }).join('');
 </script>
 </body>

@@ -8,8 +8,8 @@ window.CREATIVE_DATA = {
   },
   "tracks": [
     {
-      "key": "hf",
-      "name": "家纺",
+      "key": "home-textile",
+      "name": "家居家纺-家纺",
       "owner": "待分配",
       "metrics": {
         "creativeCount": 128,
@@ -1086,7 +1086,7 @@ window.CREATIVE_DATA = {
       ]
     },
     {
-      "key": "func",
+      "key": "daily-effect",
       "name": "生活日用-功效品",
       "owner": "待分配",
       "metrics": {
@@ -1266,8 +1266,8 @@ window.CREATIVE_DATA = {
       ]
     },
     {
-      "key": "store",
-      "name": "生活日用-收纳",
+      "key": "daily-storage",
+      "name": "生活日用-收纳用品",
       "owner": "待分配",
       "metrics": {
         "creativeCount": 112,
@@ -1448,8 +1448,8 @@ window.CREATIVE_DATA = {
       ]
     },
     {
-      "key": "kitchen",
-      "name": "餐厨水具",
+      "key": "kitchen-cookware",
+      "name": "餐厨水具-厨具",
       "owner": "待分配",
       "metrics": {
         "creativeCount": 134,

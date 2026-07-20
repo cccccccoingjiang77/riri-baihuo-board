@@ -24,7 +24,7 @@
 
   <!-- ===== 二层：分赛道概览卡片 ===== -->
   <div id="overview">
-    <div class="grid-cards" id="trackGrid" style="grid-template-columns:repeat(3,1fr)"></div>
+    <div class="grid-cards" id="trackGrid"></div>
   </div>
 
   <!-- ===== 三层：赛道详情 ===== -->
@@ -78,6 +78,24 @@ document.write('<script src="data/creative.js?v='+Date.now()+'"><\/script>');
 </script>
 <script>
 const C = window.CREATIVE_DATA, tracks = C.tracks;
+const TRACK_CONFIGS = [
+  {name:'生活日用-功效品',key:'daily-effect',aliases:['生活日用-功效品'],legacyKeys:['func']},
+  {name:'生活日用-清洁工具',key:'clean',aliases:['生活日用-清洁工具'],legacyKeys:['clean']},
+  {name:'生活日用-收纳用品',key:'daily-storage',aliases:['生活日用-收纳用品','生活日用-收纳'],legacyKeys:['store']},
+  {name:'生活日用-其他',key:'daily-other',aliases:['生活日用-其他'],legacyKeys:[]},
+  {name:'餐厨水具-厨具',key:'kitchen-cookware',aliases:['餐厨水具-厨具','餐厨水具'],legacyKeys:['kitchen']},
+  {name:'餐厨水具-餐具水具',key:'kitchen-tableware',aliases:['餐厨水具-餐具水具'],legacyKeys:[]},
+  {name:'家居家纺-家纺',key:'home-textile',aliases:['家居家纺-家纺','家纺'],legacyKeys:['hf']},
+  {name:'家居家纺-家居工艺品',key:'home-crafts',aliases:['家居家纺-家居工艺品'],legacyKeys:[]}
+];
+function findTrack(config){
+  return tracks.find(track=>track.key===config.key || config.legacyKeys.includes(track.key) || config.aliases.includes(track.name));
+}
+function resolveTrack(key){
+  const config = TRACK_CONFIGS.find(item=>item.key===key || item.legacyKeys.includes(key));
+  const track = config ? findTrack(config) : tracks.find(item=>item.key===key);
+  return track ? {track, config:config||{name:track.name,key:track.key}} : null;
+}
 
 /* 图片兜底：加载失败重试一次，再显示明确占位 */
 function imgFallback(el){
@@ -89,26 +107,32 @@ function imgFallback(el){
 }
 
 /* ===== 二层：赛道概览卡片 ===== */
-function trackCard(t){
-  const words = t.sellingWords.slice(0,6).map(w=>`<span class="chip">${w.word}</span>`).join('');
-  const m = t.metrics;
+function trackCard(config){
+  const t = findTrack(config);
+  if(!t) return `<div class="tofu track-placeholder">
+    <h2 style="font-size:18px">${config.name}</h2>
+    <div class="track-empty">待上传该赛道数据</div>
+    <div class="enter muted">状态：待更新</div>
+  </div>`;
+  const words = (t.sellingWords||[]).slice(0,6).map(w=>`<span class="chip">${w.word}</span>`).join('');
+  const m = t.metrics||{};
   const ctx = (t.sellingContext&&t.sellingContext[0])
     ? `<div class="tc-driver">🎯 当期动因：<b>${t.sellingContext[0].driver}</b></div>` : '';
-  return `<div class="tofu" style="cursor:pointer" onclick="showDetail('${t.key}')">
-    <h2 style="font-size:18px">${t.name}</h2>
+  return `<div class="tofu" style="cursor:pointer" onclick="showDetail('${config.key}')">
+    <h2 style="font-size:18px">${config.name}</h2>
     ${ctx}
     <div class="desc" style="min-height:auto">主要卖点：</div>
     <div class="chips">${words}</div>
     <div class="kv" style="grid-template-columns:repeat(4,1fr);margin-top:16px">
-      <div class="box"><div class="n" style="font-size:18px">${m.creativeCount}</div><div class="l">创意条数</div></div>
-      <div class="box"><div class="n" style="font-size:18px">${m.ctr}%</div><div class="l">点击率</div></div>
-      <div class="box"><div class="n" style="font-size:18px">${m.play3s}%</div><div class="l">3s完播</div></div>
-      <div class="box"><div class="n" style="font-size:18px">${m.cvr}%</div><div class="l">CVR</div></div>
+      <div class="box"><div class="n" style="font-size:18px">${m.creativeCount||0}</div><div class="l">创意条数</div></div>
+      <div class="box"><div class="n" style="font-size:18px">${m.ctr||0}%</div><div class="l">点击率</div></div>
+      <div class="box"><div class="n" style="font-size:18px">${m.play3s||0}%</div><div class="l">3s完播</div></div>
+      <div class="box"><div class="n" style="font-size:18px">${m.cvr||0}%</div><div class="l">CVR</div></div>
     </div>
     <div class="enter">查看赛道详情 →</div>
   </div>`;
 }
-document.getElementById('trackGrid').innerHTML = tracks.map(trackCard).join('');
+document.getElementById('trackGrid').innerHTML = TRACK_CONFIGS.map(trackCard).join('');
 
 /* ===== 三层：赛道详情 ===== */
 function metricBox(n,l,cls){return `<div class="metric"><div class="n ${cls}">${n}</div><div class="l">${l}</div></div>`}
@@ -243,13 +267,15 @@ function materialBlock(mt){
 }
 
 function showDetail(key){
-  const t = tracks.find(x=>x.key===key);
+  const resolved = resolveTrack(key);
+  if(!resolved) return showOverview();
+  const {track:t,config} = resolved;
   document.getElementById('overview').style.display='none';
   document.getElementById('detail').style.display='';
-  document.getElementById('dTitle').textContent = t.name + ' · 卖点 & 创意详情';
+  document.getElementById('dTitle').textContent = config.name + ' · 卖点 & 创意详情';
   // 赛道快速切换
-  document.getElementById('trackSwitch').innerHTML = tracks.map(x=>
-    `<div class="tab ${x.key===key?'on':''}" onclick="showDetail('${x.key}')">${x.name}</div>`).join('');
+  document.getElementById('trackSwitch').innerHTML = TRACK_CONFIGS.filter(findTrack).map(item=>
+    `<div class="tab ${item.key===config.key?'on':''}" onclick="showDetail('${item.key}')">${item.name}</div>`).join('');
   // 指标
   const m=t.metrics;
   document.getElementById('dMetrics').innerHTML =
@@ -277,7 +303,7 @@ function showOverview(){
 /* 支持从外层 OnePage 带 ?track=key 直接下钻到对应赛道 */
 (function(){
   const key = new URLSearchParams(location.search).get('track');
-  if(key && tracks.some(t=>t.key===key)){ showDetail(key); }
+  if(key && resolveTrack(key)){ showDetail(key); }
 })();
 
 /* 回到顶部按钮 */

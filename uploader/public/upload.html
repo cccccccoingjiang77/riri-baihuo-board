@@ -74,11 +74,20 @@
 
       <label>赛道名 <span style="color:var(--gold)">*</span></label>
       <select id="trackNameSelect" onchange="toggleCustomTrack(this)" style="margin-bottom:8px">
-        <option value="生活日用-清洁工具">生活日用-清洁工具 (已有)</option>
-        <option value="家纺">家纺 (已有)</option>
-        <option value="生活日用-功效品">生活日用-功效品 (已有)</option>
-        <option value="生活日用-收纳">生活日用-收纳 (已有)</option>
-        <option value="餐厨水具">餐厨水具 (已有)</option>
+        <optgroup label="生活日用">
+          <option value="生活日用-功效品">生活日用-功效品</option>
+          <option value="生活日用-清洁工具">生活日用-清洁工具</option>
+          <option value="生活日用-收纳用品">生活日用-收纳用品</option>
+          <option value="生活日用-其他">生活日用-其他</option>
+        </optgroup>
+        <optgroup label="餐厨水具">
+          <option value="餐厨水具-厨具">餐厨水具-厨具</option>
+          <option value="餐厨水具-餐具水具">餐厨水具-餐具水具</option>
+        </optgroup>
+        <optgroup label="家居家纺">
+          <option value="家居家纺-家纺">家居家纺-家纺</option>
+          <option value="家居家纺-家居工艺品">家居家纺-家居工艺品</option>
+        </optgroup>
         <option value="__custom__">➕ 其他（手动填写新赛道）</option>
       </select>
       <div id="customTrackWrap" style="display:none;margin-bottom:8px">
@@ -117,11 +126,20 @@
 
       <label>赛道名 <span style="color:var(--gold)">*</span></label>
       <select id="trackNameSelectSel" style="margin-bottom:8px">
-        <option value="生活日用-清洁工具">生活日用-清洁工具 (已有)</option>
-        <option value="家纺">家纺 (已有)</option>
-        <option value="生活日用-功效品">生活日用-功效品 (已有)</option>
-        <option value="生活日用-收纳">生活日用-收纳 (已有)</option>
-        <option value="餐厨水具">餐厨水具 (已有)</option>
+        <optgroup label="生活日用">
+          <option value="生活日用-功效品">生活日用-功效品</option>
+          <option value="生活日用-清洁工具">生活日用-清洁工具</option>
+          <option value="生活日用-收纳用品">生活日用-收纳用品</option>
+          <option value="生活日用-其他">生活日用-其他</option>
+        </optgroup>
+        <optgroup label="餐厨水具">
+          <option value="餐厨水具-厨具">餐厨水具-厨具</option>
+          <option value="餐厨水具-餐具水具">餐厨水具-餐具水具</option>
+        </optgroup>
+        <optgroup label="家居家纺">
+          <option value="家居家纺-家纺">家居家纺-家纺</option>
+          <option value="家居家纺-家居工艺品">家居家纺-家居工艺品</option>
+        </optgroup>
       </select>
 
       <label>选品汇总 Excel <span style="color:var(--gold)">*</span></label>
