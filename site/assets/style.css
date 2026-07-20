@@ -419,3 +419,34 @@ button.btn-sm{font-family:inherit;background:transparent}
 /* 二层概览卡 · 当期动因行 */
 .tc-driver{font-size:12.5px;color:var(--txt2);margin:8px 0 4px;line-height:1.5}
 .tc-driver b{color:var(--gold);font-weight:700}
+
+/* =========================================================
+   跑量公式（合并跑量关键点+爆款话术）
+   ========================================================= */
+.formula-list{display:flex;flex-direction:column;gap:14px}
+.formula-block{background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:var(--radius-sm);padding:16px 18px}
+.fb-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.fb-idx{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;
+  font-weight:800;font-size:13px;background:rgba(75,139,245,.14);color:var(--blue)}
+.fb-title{font-weight:700;font-size:15px;color:var(--txt)}
+.fb-strategy{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:12px}
+.fb-formulas{background:rgba(245,181,68,.06);border:1px solid rgba(245,181,68,.2);
+  border-radius:8px;padding:12px 14px}
+.fb-label{font-size:11px;color:var(--gold);font-weight:700;margin-bottom:8px}
+.formula-item{font-size:13.5px;color:var(--txt);padding:6px 0;line-height:1.5;
+  border-bottom:1px dashed rgba(245,181,68,.15)}
+.formula-item:last-child{border-bottom:none}
+.formula-item::before{content:'› ';color:var(--gold);font-weight:700}
+
+/* =========================================================
+   链路筛选器
+   ========================================================= */
+.chain-filter{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;
+  padding:10px 14px;background:var(--card2);border:1px solid var(--line);border-radius:var(--radius-sm)}
+.cf-label{font-size:12px;color:var(--txt3);font-weight:700;margin-right:4px}
+.cf-item{font-size:12.5px;color:var(--txt2);background:var(--card);border:1px solid var(--line);
+  padding:5px 14px;border-radius:16px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:4px}
+.cf-item:hover{color:var(--txt);border-color:var(--line2)}
+.cf-item.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1204;
+  font-weight:700;border-color:transparent}

@@ -50,25 +50,20 @@
 
     <!-- 2.5 卖点动因 / 背景支撑 -->
     <div class="card" id="dContextCard">
-      <div class="h"><span class="bar"></span>卖点动因 · 需求背景<span class="hint">卖点为何成立：时令/换季/场景/情绪等动因 → 真实需求 → 可用支撑词</span></div>
+      <div class="h"><span class="bar"></span>卖点动因 · 需求背景<span class="hint">动因是实际问题和困难 → 产生需求 → 跑量公式放大痛点、得出有效文案</span></div>
       <div class="ctx-list" id="dContext"></div>
     </div>
 
-    <!-- 3-1 常见话术 -->
-    <div class="card">
-      <div class="h"><span class="bar"></span>常见爆款话术<span class="hint">基于素材创意抽象聚类（≥2条素材出现）</span></div>
-      <div class="script-grid" id="dScripts"></div>
+    <!-- 3 跑量公式（动因之后，合并跑量关键点+爆款话术） -->
+    <div class="card" id="dFormulaCard">
+      <div class="h"><span class="bar"></span>跑量公式 · 素材文案策略<span class="hint">基于跑量关键点 + 爆款话术合并，每个公式含策略方向 + 可用文案模板</span></div>
+      <div class="formula-list" id="dFormulas"></div>
     </div>
 
-    <!-- 3-2 跑量关键点 -->
-    <div class="card">
-      <div class="h"><span class="bar"></span>跑量关键点<span class="hint">钩子对比 · 节点痛点 · 福利紧迫 · 明星IP</span></div>
-      <div class="kp-list" id="dKeyPoints"></div>
-    </div>
-
-    <!-- 3-3 Top素材拆解 -->
+    <!-- 4 Top素材拆解 -->
     <div class="card">
       <div class="h"><span class="bar"></span>Top 素材拆解<span class="hint">关键帧轮播 + 黄金五段式：钩子-痛点-解药-演示-收尾</span></div>
+      <div class="chain-filter" id="dChainFilter"></div>
       <div id="dMaterials"></div>
     </div>
   </div>
@@ -143,6 +138,64 @@ function renderContext(t){
     </div>`).join('');
 }
 
+/* 跑量公式：策略方向 + 文案模板 */
+function renderFormulas(t){
+  const card = document.getElementById('dFormulaCard');
+  const list = t.runFormulas || [];
+  if(!list.length){ card.style.display='none'; return; }
+  card.style.display='';
+  document.getElementById('dFormulas').innerHTML = list.map((f,i)=>{
+    const formulas = (f.formulas||[]).map(s=>`<div class="formula-item">${s}</div>`).join('');
+    return `<div class="formula-block">
+      <div class="fb-head">
+        <span class="fb-idx">${['a','b','c','d'][i]||i+1}</span>
+        <span class="fb-title">${f.title}</span>
+      </div>
+      <div class="fb-strategy">${f.strategy}</div>
+      ${formulas ? `<div class="fb-formulas"><div class="fb-label">📝 文案公式</div>${formulas}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+/* 链路筛选器 + Top素材渲染 */
+let _currentTrack = null;
+let _chainFilter = 'all';
+
+function renderChainFilter(t){
+  _currentTrack = t;
+  _chainFilter = 'all';
+  // 收集所有链路类型
+  const chains = [...new Set(t.topMaterials.map(m=>m.chain).filter(Boolean))];
+  const filter = document.getElementById('dChainFilter');
+  if(chains.length <= 1){
+    filter.style.display = 'none';
+  } else {
+    filter.style.display = '';
+    filter.innerHTML = `<span class="cf-label">链路筛选：</span>` +
+      `<span class="cf-item on" onclick="filterChain('all')">全部 (${t.topMaterials.length})</span>` +
+      chains.map(c=>{
+        const cnt = t.topMaterials.filter(m=>m.chain===c).length;
+        return `<span class="cf-item" onclick="filterChain('${c}')">${c} (${cnt})</span>`;
+      }).join('');
+  }
+  renderMaterials(t, 'all');
+}
+
+function filterChain(chain){
+  _chainFilter = chain;
+  // 更新筛选器高亮
+  document.querySelectorAll('#dChainFilter .cf-item').forEach(el=>{
+    const txt = el.textContent.trim().split(' ')[0];
+    el.classList.toggle('on', txt===chain || (chain==='all' && txt==='全部'));
+  });
+  renderMaterials(_currentTrack, chain);
+}
+
+function renderMaterials(t, chain){
+  const list = chain==='all' ? t.topMaterials : t.topMaterials.filter(m=>m.chain===chain);
+  document.getElementById('dMaterials').innerHTML = list.map(materialBlock).join('');
+}
+
 function materialBlock(mt){
   const frames = (mt.frames&&mt.frames.length)
     ? mt.frames.map((f,i)=>`<div class="frame txt-frame"><span class="no">${i+1}</span><span class="frame-desc">${f}</span></div>`).join('')
@@ -199,13 +252,10 @@ function showDetail(key){
   document.getElementById('dCloud').innerHTML = renderCloud(t.sellingWords);
   // 卖点动因 / 背景支撑
   renderContext(t);
-  // 话术
-  document.getElementById('dScripts').innerHTML = t.scripts.map(s=>`<div class="script">${s}</div>`).join('');
-  // 跑量关键点
-  document.getElementById('dKeyPoints').innerHTML = t.keyPoints.map((k,i)=>
-    `<div class="kp"><div class="idx">${['a','b','c','d'][i]||i+1}</div><div><div class="t">${k.title}</div><div class="d">${k.desc}</div></div></div>`).join('');
-  // Top素材
-  document.getElementById('dMaterials').innerHTML = t.topMaterials.map(materialBlock).join('');
+  // 跑量公式（合并跑量关键点+爆款话术）
+  renderFormulas(t);
+  // Top素材 + 链路筛选
+  renderChainFilter(t);
   window.scrollTo(0,0);
 }
 function showOverview(){
