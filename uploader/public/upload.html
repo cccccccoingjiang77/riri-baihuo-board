@@ -61,29 +61,68 @@
   <div class="sub">传一份赛道的投放数据 Excel，AI 会自动产出「卖点 &amp; 创意分析」，提交后进入审核区，管理员通过后自动上线到看板。</div>
 
   <div class="card">
-    <label>上传口令</label>
-    <input type="password" id="token" placeholder="向管理员索取上传口令">
-
-    <label>赛道名 <span style="color:var(--gold)">*</span></label>
-    <input type="text" id="trackName" placeholder="如：生活日用-清洁工具 / 家纺 / 餐厨水具">
-
-    <label>原始数据 Excel <span style="color:var(--gold)">*</span></label>
-    <div class="file-zone" id="fileZone">
-      <div class="big">📄 点击选择 或 拖拽 Excel 到这里</div>
-      <div class="hint">支持 .xlsx / .xls（分客户/分链路/分创意的消耗与指标表）</div>
-      <div class="file-name" id="fileName"></div>
+    <label>选择上传类型</label>
+    <div style="display:flex;gap:10px;margin-bottom:14px">
+      <button id="tabCreative" class="btn" style="margin-top:0;flex:1" onclick="switchTab('creative')">🎬 卖点 & 创意看板 (AI分析)</button>
+      <button id="tabSelection" class="btn ghost" style="margin-top:0;flex:1;border:1px solid var(--line);color:var(--txt);background:transparent" onclick="switchTab('selection')">🛒 行业商品选品 (数值同步)</button>
     </div>
-    <div style="text-align:right;margin-top:6px;font-size:12px">
-      <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/site/assets/清洁工具-原始数据报表样本.xlsx" target="_blank" style="color:var(--gold);text-decoration:none">📥 下载：原始数据报表样本.xlsx</a>
+
+    <!-- ============ Tab 1: 卖点创意 ============ -->
+    <div id="panelCreative">
+      <label>上传口令</label>
+      <input type="password" id="token" placeholder="向管理员索取上传口令">
+
+      <label>赛道名 <span style="color:var(--gold)">*</span></label>
+      <select id="trackNameSelect" onchange="toggleCustomTrack(this)" style="margin-bottom:8px">
+        <option value="生活日用-清洁工具">生活日用-清洁工具 (已有)</option>
+        <option value="家纺">家纺 (已有)</option>
+        <option value="生活日用-功效品">生活日用-功效品 (已有)</option>
+        <option value="生活日用-收纳">生活日用-收纳 (已有)</option>
+        <option value="餐厨水具">餐厨水具 (已有)</option>
+        <option value="__custom__">➕ 其他（手动填写新赛道）</option>
+      </select>
+      <div id="customTrackWrap" style="display:none;margin-bottom:8px">
+        <input type="text" id="trackNameCustom" placeholder="请输入全新赛道名称，如：生活日用-一次性用品">
+      </div>
+
+      <label>原始数据 Excel <span style="color:var(--gold)">*</span></label>
+      <div class="file-zone" id="fileZone">
+        <div class="big">📄 点击选择 或 拖拽 Excel 到这里</div>
+        <div class="hint">支持 .xlsx / .xls（分客户/分链路/分创意的消耗与指标表）</div>
+        <div class="file-name" id="fileName"></div>
+      </div>
+      <div style="text-align:right;margin-top:6px;font-size:12px">
+        <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/site/assets/清洁工具-原始数据报表样本.xlsx" target="_blank" style="color:var(--gold);text-decoration:none">📥 下载：原始数据报表样本.xlsx</a>
+      </div>
+
+      <label>补充说明 / 赛道理解（选填）</label>
+      <textarea id="notes" placeholder="如：本期主推场景、季节动因、Top素材口播要点、明星达人背书等，能帮 AI 产出更准"></textarea>
+
+      <button class="btn" id="submitBtn">提交并生成分析</button>
+      <div class="steps">流程：<b>①传Excel</b> → <b>②AI产出</b> → <b>③进审核区</b> → <b>④管理员通过→上线</b></div>
     </div>
-    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
 
-    <label>补充说明 / 赛道理解（选填）</label>
-    <textarea id="notes" placeholder="如：本期主推场景、季节动因、Top素材口播要点、明星达人背书等，能帮 AI 产出更准"></textarea>
+    <!-- ============ Tab 2: 商品选品 ============ -->
+    <div id="panelSelection" style="display:none">
+      <div style="background:#12151b;border:1px dashed var(--line);border-radius:10px;padding:16px;font-size:13px;color:var(--sub)">
+        <h3 style="margin:0 0 10px;color:var(--gold);font-size:14px">🛒 商品选品看板使用说明</h3>
+        <p style="margin:4px 0">商品选品看板（分 CID 非闭环和小店直播闭环）属于<b>数值客观榜单</b>。它不需要 AI 进行主观归纳，而是通过 Excel 中的 <b>ROI、商品名称、在跑条数</b>等指标进行聚合和排序，并在网页上自动配图展示。</p>
+        
+        <p style="margin:12px 0 6px;color:var(--txt);font-weight:bold">📋 所需 Excel 报表列名规范：</p>
+        <ul style="margin:0;padding-left:18px;line-height:1.7">
+          <li>表格中必须包含两个 Sheet 名字：<b style="color:var(--txt)">"7.13京东CID爆品专区"</b> (非闭环) 和 <b style="color:var(--txt)">"周榜小店直播爆品"</b> (闭环)。</li>
+          <li>必填核心列名：<b style="color:var(--txt)">商品名称</b>、<b style="color:var(--txt)">参考单价/建议客单</b>、<b style="color:var(--txt)">ROI</b>、<b style="color:var(--txt)">点击率%</b>、<b style="color:var(--txt)">转化率%</b>、<b style="color:var(--txt)">推荐版位</b>、<b style="color:var(--txt)">素材链接</b>。</li>
+          <li><i>(可选)</i> <b>商品图</b>列：留空时，系统会自动联网根据商品名称画出高质电商图，无需人工配图。</li>
+        </ul>
 
-    <button class="btn" id="submitBtn">提交并生成分析</button>
-
-    <div class="steps">流程：<b>①传Excel</b> → <b>②AI产出</b> → <b>③进审核区</b> → <b>④管理员通过→上线</b></div>
+        <div style="margin-top:16px;border-top:1px solid var(--line);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+          <span>完整规范与样例下载：</span>
+          <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/创意卖点填报模板.xlsx" target="_blank" style="color:var(--gold);font-weight:bold;text-decoration:none">📥 下载：选品台.xlsx 模板</a>
+        </div>
+      </div>
+      
+      <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:20px">💡 如需自动化「选品看板上传导入」，请联系管理员开启选品通道。</p>
+    </div>
 
     <div class="msg" id="msg"></div>
     <div class="preview" id="preview"></div>
@@ -98,12 +137,54 @@
 // 后端 API 与本页同域部署，直接用相对路径
 const API = "";
 let fileBase64 = null, fileName = "";
+let activeTab = "creative";
 
 const fileZone = document.getElementById("fileZone");
 const fileInput = document.getElementById("fileInput");
 const msg = document.getElementById("msg");
 const preview = document.getElementById("preview");
 const btn = document.getElementById("submitBtn");
+
+// Tab 切换逻辑
+function switchTab(tab) {
+  activeTab = tab;
+  const btnCre = document.getElementById("tabCreative");
+  const btnSel = document.getElementById("tabSelection");
+  const pnlCre = document.getElementById("panelCreative");
+  const pnlSel = document.getElementById("panelSelection");
+
+  if (tab === "creative") {
+    btnCre.className = "btn";
+    btnCre.style.background = "var(--gold)";
+    btnCre.style.color = "#1a1d24";
+    btnSel.className = "btn ghost";
+    btnSel.style.background = "transparent";
+    btnSel.style.color = "var(--txt)";
+    pnlCre.style.display = "block";
+    pnlSel.style.display = "none";
+  } else {
+    btnSel.className = "btn";
+    btnSel.style.background = "var(--gold)";
+    btnSel.style.color = "#1a1d24";
+    btnCre.className = "btn ghost";
+    btnCre.style.background = "transparent";
+    btnCre.style.color = "var(--txt)";
+    pnlCre.style.display = "none";
+    pnlSel.style.display = "block";
+    preview.className = "preview"; // 隐藏AI预览
+    msg.className = "msg"; // 隐藏消息
+  }
+}
+
+// 赛道下拉选择控制
+function toggleCustomTrack(select) {
+  const customWrap = document.getElementById("customTrackWrap");
+  if (select.value === "__custom__") {
+    customWrap.style.display = "block";
+  } else {
+    customWrap.style.display = "none";
+  }
+}
 
 fileZone.onclick = () => fileInput.click();
 ["dragover","dragenter"].forEach(e=>fileZone.addEventListener(e,ev=>{ev.preventDefault();fileZone.classList.add("drag")}));
@@ -123,9 +204,16 @@ function show(type, text){ msg.className = "msg show " + type; msg.textContent =
 
 btn.onclick = async () => {
   const token = document.getElementById("token").value.trim();
-  const trackName = document.getElementById("trackName").value.trim();
+  
+  // 智能获取赛道名：若是自定义选框则取文本输入，否则取下拉菜单
+  const selectVal = document.getElementById("trackNameSelect").value;
+  let trackName = selectVal;
+  if (selectVal === "__custom__") {
+    trackName = document.getElementById("trackNameCustom").value.trim();
+  }
+  
   const notes = document.getElementById("notes").value.trim();
-  if(!trackName) return show("err","请填写赛道名");
+  if(!trackName) return show("err","请选择或填写赛道名");
   if(!fileBase64) return show("err","请选择 Excel 文件");
 
   btn.disabled = true;
