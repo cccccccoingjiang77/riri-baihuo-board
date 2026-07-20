@@ -4,7 +4,7 @@
 import * as XLSX from "xlsx";
 import {
   ENV, ghGetFile, ghPutFile, genSelectionImage, setCors, readJsonBody, checkToken,
-  SELECTION_PATH, parseSelection, dumpSelection, mergeSelection,
+  SELECTION_PATH, parseSelection, dumpSelection, mergeSelection, mergeSelectionByTarget,
 } from "./_lib.js";
 
 // 自适应行高解析 Sheet，找到含有"商品名称"的行作为表头，提取对应列数据
@@ -65,6 +65,7 @@ function parseSheetToItems(sheet) {
       landing: val("落地页链接") || "",
       createdAt: val("创建日期") || "",
     };
+    item.category2 = item.industry || item.leaf.split(/[>\-–]/)[0].trim() || "其他";
 
     // 缩短 leaf 层级展示，对齐 leaf() 函数
     if (item.leaf) {
@@ -91,9 +92,13 @@ export default async function handler(req, res) {
   try {
     const isBinary = String(req.headers["content-type"] || "").includes("application/octet-stream");
     let token, trackName, notes, filename, buf;
+    let selectionModule, selectionTarget, selectionLabel;
     if (isBinary) {
       token = String(req.headers["x-token"] || "");
-      trackName = decodeURIComponent(String(req.headers["x-track-name"] || ""));
+      selectionModule = decodeURIComponent(String(req.headers["x-selection-module"] || ""));
+      selectionTarget = decodeURIComponent(String(req.headers["x-selection-target"] || ""));
+      selectionLabel = decodeURIComponent(String(req.headers["x-selection-label"] || ""));
+      trackName = selectionLabel || decodeURIComponent(String(req.headers["x-track-name"] || ""));
       filename = decodeURIComponent(String(req.headers["x-file-name"] || "selection.xlsx"));
       notes = "";
       if (Buffer.isBuffer(req.body)) {
@@ -107,14 +112,15 @@ export default async function handler(req, res) {
       }
     } else {
       const body = await readJsonBody(req);
-      ({ token, trackName, notes, filename } = body);
+      ({ token, trackName, notes, filename, selectionModule, selectionTarget, selectionLabel } = body);
       buf = body.fileBase64 ? Buffer.from(body.fileBase64, "base64") : null;
     }
+    trackName = trackName || selectionLabel;
 
     if (!checkToken(token, ENV.UPLOAD_TOKEN))
       return res.status(401).json({ error: "上传口令错误" });
     if (!trackName || !trackName.trim())
-      return res.status(400).json({ error: "请选择赛道名" });
+      return res.status(400).json({ error: "请选择选品归属" });
     if (!buf?.length)
       return res.status(400).json({ error: "缺少 Excel 文件" });
 
@@ -123,11 +129,13 @@ export default async function handler(req, res) {
 
     let cidItems = [];
     let liveItems = [];
+    let allItems = [];
 
     for (const sheetName of wb.SheetNames) {
       const ws = wb.Sheets[sheetName];
       const items = parseSheetToItems(ws);
       if (!items.length) continue;
+      allItems = allItems.concat(items);
 
       const lowerName = sheetName.toLowerCase();
       if (lowerName.includes("cid") || lowerName.includes("非闭环")) {
@@ -140,6 +148,54 @@ export default async function handler(req, res) {
       }
     }
 
+    if (!allItems.length) {
+      return res.status(400).json({ error: "未在 Excel 里识别到符合标准的商品选品行，请确认包含必填的'商品名称'列。" });
+    }
+
+    const dedup = (arr) => {
+      const best = {};
+      const counts = {};
+      for (const x of arr) {
+        counts[x.name] = (counts[x.name] || 0) + 1;
+        if (!best[x.name] || x.roi > best[x.name].roi) best[x.name] = { ...x };
+      }
+      return Object.values(best).map(x => ({ ...x, dupCount: counts[x.name] }))
+        .sort((a, b) => b.roi - a.roi);
+    };
+
+    // 新版选品归属由上传者明确选择，不再依赖 Sheet 名猜测或自动平分
+    if (selectionModule && selectionTarget) {
+      const deduped = dedup(allItems);
+      const cur = await ghGetFile(SELECTION_PATH);
+      if (!cur) return res.status(500).json({ error: "线上 selection.js 读取失败" });
+      const data = parseSelection(cur.text);
+      const result = mergeSelectionByTarget(data, selectionModule, selectionTarget, selectionLabel || trackName, deduped);
+      data.meta = data.meta || {};
+      data.meta.updatedAt = new Date().toISOString().slice(0, 10);
+      await ghPutFile(
+        SELECTION_PATH, dumpSelection(data),
+        `data: 更新选品「${selectionLabel || trackName}」`,
+        cur.sha
+      );
+      const payload = selectionModule === "cycle"
+        ? { nonClosed: [], quanyutong: [], adq: [], cycle: deduped.slice(0, 40) }
+        : {
+            nonClosed: selectionTarget === "nonClosed" ? deduped.slice(0, 40) : [],
+            quanyutong: selectionTarget === "quanyutong" ? deduped.slice(0, 40) : [],
+            adq: selectionTarget === "adq" ? deduped.slice(0, 40) : [],
+          };
+      return res.status(200).json({
+        ok: true,
+        type: "selection",
+        module: selectionModule,
+        target: selectionTarget,
+        label: selectionLabel || trackName,
+        items: payload,
+        message: `已更新「${selectionLabel || trackName}」共 ${result.count} 款选品，已直接上线，看板几十秒后刷新！`,
+      });
+    }
+
+    // 兼容旧版请求：按 Sheet 名推断链路
     if (!cidItems.length && !liveItems.length) {
       return res.status(400).json({ error: "未在 Excel 里识别到符合标准的商品选品行或表头，请确认表名是否含'CID/非闭环'或'小店/直播'，且必填'商品名称'列。" });
     }
@@ -161,20 +217,6 @@ export default async function handler(req, res) {
     }
 
     // 3) 商品级去重（保留 ROI 最高的那条，并标记 dupCount 在跑创意数）
-    const dedup = (arr) => {
-      const best = {};
-      const counts = {};
-      for (const x of arr) {
-        counts[x.name] = (counts[x.name] || 0) + 1;
-        if (!best[x.name] || x.roi > best[x.name].roi) {
-          best[x.name] = { ...x };
-        }
-      }
-      return Object.values(best).map(x => {
-        x.dupCount = counts[x.name];
-        return x;
-      }).sort((a, b) => b.roi - a.roi);
-    };
 
     const payload = {
       nonClosed: dedup(cidItems).slice(0, 40), // 限制前40条，避免数据臃肿

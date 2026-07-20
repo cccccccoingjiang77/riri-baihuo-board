@@ -258,7 +258,7 @@ export function extractJson(text) {
 export function setCors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Token");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Token, X-Selection-Module, X-Selection-Target, X-Selection-Label, X-File-Name");
 }
 
 // ============================================================
@@ -343,6 +343,45 @@ export function mergeSelection(data, trackName, newItems) {
   sortByRoi(data.closed.channels.adq.items);
 
   return { nonClosedCount: newItems.nonClosed?.length || 0, closedCount: (newItems.quanyutong?.length || 0) + (newItems.adq?.length || 0) };
+}
+
+export function mergeSelectionByTarget(data, module, target, label, items) {
+  const incoming = [...(items || [])];
+  const mergeItems = (existing) => {
+    const byName = new Map((existing || []).map(x => [x.name, x]));
+    incoming.forEach(x => byName.set(x.name, { ...(byName.get(x.name) || {}), ...x }));
+    return [...byName.values()].sort((a, b) => (b.roi || 0) - (a.roi || 0)).slice(0, 40);
+  };
+  const cycleTargets = new Set([
+    "xiaohan_dahan", "spring_festival", "lichun_yushui", "kaixue_kaigong",
+    "jingzhe_chunfen", "huinantian", "qingming", "guyu_lixia", "wuyi", "muqin_jie",
+    "meiyu", "618", "xiazhi_sanfu", "xiaoshu_dashu", "liqiu_chushu", "kaixue_qiu",
+    "bailu_qiufen", "zhongqiu_guoqing", "hanlu_shuangjiang", "shuang11",
+    "lidong_xiaoxue", "shuang12", "daxue_dongzhi", "yuandan_niandi",
+  ]);
+
+  if (module === "cycle") {
+    if (!cycleTargets.has(target)) throw new Error("未知的热点周期或节气节点");
+    data.cycles = data.cycles || {};
+    const list = mergeItems(data.cycles[target]?.items);
+    data.cycles[target] = { label, items: list };
+    return { module, target, label, count: incoming.length, total: list.length };
+  }
+
+  if (module !== "link") throw new Error("未知的选品归属模块");
+  data.nonClosed = data.nonClosed || { items: [] };
+  data.closed = data.closed || { channels: {} };
+  data.closed.channels = data.closed.channels || {};
+  data.closed.channels.quanyutong = data.closed.channels.quanyutong || { items: [] };
+  data.closed.channels.adq = data.closed.channels.adq || { items: [] };
+
+  let list;
+  if (target === "nonClosed") data.nonClosed.items = list = mergeItems(data.nonClosed.items);
+  else if (target === "quanyutong") data.closed.channels.quanyutong.items = list = mergeItems(data.closed.channels.quanyutong.items);
+  else if (target === "adq") data.closed.channels.adq.items = list = mergeItems(data.closed.channels.adq.items);
+  else throw new Error("未知的分链路榜单归属");
+
+  return { module: "link", target, label, count: incoming.length, total: list.length };
 }
 
 export async function readJsonBody(req) {

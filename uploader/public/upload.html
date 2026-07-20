@@ -118,34 +118,25 @@
     <!-- ============ Tab 2: 商品选品 ============ -->
     <div id="panelSelection" style="display:none">
       <div style="background:#12151b;border:1px dashed var(--line);border-radius:10px;padding:12px;font-size:12px;color:var(--sub);margin-bottom:16px">
-        <b style="color:var(--gold)">🛒 选品看板上传规范</b>：系统将根据你上传的 Excel 自动计算高 ROI 商品，按 CID（非闭环）和小店（全域通/ADQ 闭环）重排上线。系统会自动根据商品名联网画图，无图亦可直接上传！
+        <b style="color:var(--gold)">🛒 选品看板上传规范</b>：先选择归属模块与具体榜单/节点，上传后仅更新所选的链路榜单或热点周期，不影响其他选品数据。
       </div>
 
       <label>上传口令</label>
       <input type="password" id="tokenSel" placeholder="向管理员索取上传口令">
 
-      <label>赛道名 <span style="color:var(--gold)">*</span></label>
-      <select id="trackNameSelectSel" style="margin-bottom:8px">
-        <optgroup label="生活日用">
-          <option value="生活日用-功效品">生活日用-功效品</option>
-          <option value="生活日用-清洁工具">生活日用-清洁工具</option>
-          <option value="生活日用-收纳用品">生活日用-收纳用品</option>
-          <option value="生活日用-其他">生活日用-其他</option>
-        </optgroup>
-        <optgroup label="餐厨水具">
-          <option value="餐厨水具-厨具">餐厨水具-厨具</option>
-          <option value="餐厨水具-餐具水具">餐厨水具-餐具水具</option>
-        </optgroup>
-        <optgroup label="家居家纺">
-          <option value="家居家纺-家纺">家居家纺-家纺</option>
-          <option value="家居家纺-家居工艺品">家居家纺-家居工艺品</option>
-        </optgroup>
+      <label>归属模块 <span style="color:var(--gold)">*</span></label>
+      <select id="selectionModule" onchange="updateSelectionTargets()" style="margin-bottom:8px">
+        <option value="link">分链路榜单</option>
+        <option value="cycle">热点周期 / 节气选品</option>
       </select>
+
+      <label>具体归属 <span style="color:var(--gold)">*</span></label>
+      <select id="selectionTarget" style="margin-bottom:8px"></select>
 
       <label>选品汇总 Excel <span style="color:var(--gold)">*</span></label>
       <div class="file-zone" id="fileZoneSel">
         <div class="big">📄 点击选择 或 拖拽 选品Excel 到这里</div>
-        <div class="hint">支持单 Sheet「商品选品台」或原有 CID/非闭环、小店/直播榜单；必填「商品名称」</div>
+        <div class="hint">支持单 Sheet 或多 Sheet；必填「商品名称」，归属以上方选择的链路或热点节点为准</div>
         <div class="file-name" id="fileNameSel"></div>
       </div>
       <div style="text-align:right;margin-top:6px;font-size:12px">
@@ -391,6 +382,33 @@ btn.onclick = async () => {
 };
 
 // ==================== Tab 2: 选品文件处理交互 ====================
+const selectionTargets = {
+  link: [
+    ["nonClosed", "CID / 小程序（非闭环）"],
+    ["quanyutong", "闭环 - 全域通"],
+    ["adq", "闭环 - ADQ"],
+  ],
+  cycle: [
+    ["xiaohan_dahan", "小寒 / 大寒"], ["spring_festival", "春节年货节 / 大扫除"],
+    ["lichun_yushui", "立春 / 雨水"], ["kaixue_kaigong", "开学季 / 开工季"],
+    ["jingzhe_chunfen", "惊蛰 / 春分"], ["huinantian", "回南天"],
+    ["qingming", "清明"], ["guyu_lixia", "谷雨 / 立夏"], ["wuyi", "五一大促"],
+    ["muqin_jie", "母亲节"], ["meiyu", "梅雨季"], ["618", "618 大促"],
+    ["xiazhi_sanfu", "夏至 / 三伏天"], ["xiaoshu_dashu", "小暑 / 大暑"],
+    ["liqiu_chushu", "立秋 / 处暑"], ["kaixue_qiu", "秋季开学季"],
+    ["bailu_qiufen", "白露 / 秋分"], ["zhongqiu_guoqing", "中秋 / 国庆"],
+    ["hanlu_shuangjiang", "寒露 / 霜降"], ["shuang11", "双11 大促"],
+    ["lidong_xiaoxue", "立冬 / 小雪"], ["shuang12", "双12 / 年终大促"],
+    ["daxue_dongzhi", "大雪 / 冬至"], ["yuandan_niandi", "元旦 / 年终焕新"],
+  ],
+};
+function updateSelectionTargets(){
+  const module = document.getElementById("selectionModule").value;
+  document.getElementById("selectionTarget").innerHTML = selectionTargets[module]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
+}
+updateSelectionTargets();
+
 let selectionFile = null, fileNameSel = "";
 const fileZoneSel = document.getElementById("fileZoneSel");
 const submitBtnSel = document.getElementById("submitBtnSel");
@@ -421,9 +439,13 @@ function handleFileSel(f){
 // 提交选品数据
 submitBtnSel.onclick = async () => {
   const token = document.getElementById("tokenSel").value.trim();
-  const trackName = document.getElementById("trackNameSelectSel").value;
+  const selectionModule = document.getElementById("selectionModule").value;
+  const targetSelect = document.getElementById("selectionTarget");
+  const selectionTarget = targetSelect.value;
+  const selectionLabel = targetSelect.options[targetSelect.selectedIndex]?.text || "";
   const notes = document.getElementById("notesSel").value.trim();
 
+  if(!selectionTarget) return show("err","请选择具体归属");
   if(!selectionFile) return show("err","请选择选品 Excel 文件");
 
   submitBtnSel.disabled = true;
@@ -436,7 +458,9 @@ submitBtnSel.onclick = async () => {
       headers:{
         "Content-Type":"application/octet-stream",
         "X-Token":token,
-        "X-Track-Name":encodeURIComponent(trackName),
+        "X-Selection-Module":encodeURIComponent(selectionModule),
+        "X-Selection-Target":encodeURIComponent(selectionTarget),
+        "X-Selection-Label":encodeURIComponent(selectionLabel),
         "X-File-Name":encodeURIComponent(fileNameSel)
       },
       body:selectionFile
@@ -449,7 +473,7 @@ submitBtnSel.onclick = async () => {
     }
     if(!r.ok || j.error) throw new Error(j.error || "选品数据解析或提交失败");
     show("ok","✅ " + (j.message || "已成功上线"));
-    renderSelectionPreview(j.items, trackName);
+    renderSelectionPreview(j.items, selectionLabel, selectionModule);
   } catch(e) {
     show("err","❌ " + e.message);
   } finally { submitBtnSel.disabled = false; }
@@ -471,11 +495,12 @@ function renderPreview(t){
   preview.className = "preview show";
 }
 
-function renderSelectionPreview(items, trackName){
+function renderSelectionPreview(items, selectionLabel, selectionModule){
   if(!items) return;
   const nonC = items.nonClosed || [];
   const qyt = items.quanyutong || [];
   const adq = items.adq || [];
+  const cycle = items.cycle || [];
   
   const renderList = (arr) => arr.slice(0, 3).map(x => `
     <div class="pv-row" style="display:flex;align-items:center;gap:8px;margin:4px 0">
@@ -484,15 +509,18 @@ function renderSelectionPreview(items, trackName){
     </div>
   `).join("") || "暂无";
 
-  preview.innerHTML = `
-    <h4>选品抓取结果预览（${trackName}）</h4>
-    <div style="margin-top:8px"><b>🛒 非闭环(CID) Top3：</b></div>
+  preview.innerHTML = selectionModule === "cycle" ? `
+    <h4>热点周期选品预览（${selectionLabel}）</h4>
+    ${renderList(cycle)}
+    <div style="margin-top:10px;color:var(--gold)">已更新对应热点/节气节点，看板几十秒后刷新即可看到。</div>` : `
+    <h4>分链路榜单预览（${selectionLabel}）</h4>
+    <div style="margin-top:8px"><b>🛒 CID / 小程序（非闭环）：</b></div>
     ${renderList(nonC)}
-    <div style="margin-top:8px"><b>🏷 闭环全域通 Top3：</b></div>
+    <div style="margin-top:8px"><b>🏷 闭环 - 全域通：</b></div>
     ${renderList(qyt)}
-    <div style="margin-top:8px"><b>💜 闭环ADQ Top3：</b></div>
+    <div style="margin-top:8px"><b>💜 闭环 - ADQ：</b></div>
     ${renderList(adq)}
-  <div style="margin-top:10px;color:var(--gold)">已自动上线，看板几十秒后刷新即可看到。</div>`;
+    <div style="margin-top:10px;color:var(--gold)">已更新所选链路榜单，看板几十秒后刷新即可看到。</div>`;
   preview.className = "preview show";
 }
 </script>

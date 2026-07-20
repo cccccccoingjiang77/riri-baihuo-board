@@ -33,7 +33,7 @@
   <div id="viewLink">
     <div class="notice">
       <b>链路口径：</b>非闭环（CID/小程序）= 京东CID爆品专区；闭环（小店直购）分「全域通」与「ADQ」两渠道。
-      <br>说明：当前选品台原始数据未逐条标注全域通/ADQ渠道，此处为按链路推荐字段做的启发式划分，实际投放渠道以运营标注为准。
+      <br>说明：上传选品时需明确选择所属链路，数据会直接归入对应榜单，不再由系统猜测或拆分。
     </div>
     <div class="tabs" id="linkTabs">
       <div class="tab on" data-l="nonClosed">非闭环 · CID/小程序</div>
@@ -247,6 +247,8 @@ document.getElementById('timeline').innerHTML = timelineOrder.map(({n,st})=>`
 function pickLeaf(x){ return x.leaf || x.category2 || ''; }
 /* 用节点 categories 关键词去选品库里匹配挂钩选品 */
 function matchItems(node){
+  const uploaded = S.cycles && S.cycles[node.id] && S.cycles[node.id].items;
+  if(Array.isArray(uploaded) && uploaded.length) return uploaded.slice(0,8);
   const kws = (node.categories||[]).flatMap(c=>{
     // "清洁工具-地面/快干" → ["清洁工具","地面","快干"]
     return c.split(/[-/()（）]/).map(s=>s.trim()).filter(s=>s.length>=2);
@@ -272,6 +274,7 @@ function focusMini(x){
 }
 function focusBlock(node, isNow){
   const items = matchItems(node);
+  const hasUploaded = !!(S.cycles && S.cycles[node.id] && S.cycles[node.id].items && S.cycles[node.id].items.length);
   const list = items.length
     ? `<div class="fx-grid">${items.map(focusMini).join('')}</div>`
     : `<div class="notice" style="margin:10px 0 0">该节点暂无直接挂钩的在库选品，可参考主推类目补充。</div>`;
@@ -284,7 +287,7 @@ function focusBlock(node, isNow){
     </div>
     <div class="fc-hook">${node.hook||''}</div>
     <div class="fc-cats">主推：${(node.categories||[]).map(c=>`<span class="chip">${c}</span>`).join('')}</div>
-    <div class="mini-title" style="margin:16px 0 10px">🛒 挂钩在库选品（按拿量热度）</div>
+    <div class="mini-title" style="margin:16px 0 10px">🛒 ${hasUploaded?'节点上传选品':'挂钩在库选品（按拿量热度）'}</div>
     ${list}
   </div>`;
 }
@@ -309,11 +312,16 @@ document.querySelectorAll('#timeline .tl-item').forEach(el=>el.onclick=()=>{
 function calCard(n){
   const cats = (n.categories||[]).map(c=>`<span class="chip">${c}</span>`).join('');
   const st = nodeState(n);
+  const uploaded = S.cycles && S.cycles[n.id] && S.cycles[n.id].items || [];
+  const uploadedText = uploaded.length
+    ? `<div class="lead" style="color:var(--gold)">已上传 ${uploaded.length} 款：${uploaded.slice(0,3).map(x=>esc(x.name)).join('、')}${uploaded.length>3?'…':''}</div>`
+    : '';
   return `<div class="cal-card ${st.inside?'now':''}" id="calc_${n.id}">
     <div class="top"><span class="nm">${st.inside?'🔥 ':''}${n.name}</span><span class="cal-type ${n.type}">${n.type}</span></div>
     <div class="win">🗓 ${n.window||n.win||''}</div>
     <div class="hook">${n.hook||''}</div>
     <div class="cats">${cats}</div>
+    ${uploadedText}
     <div class="lead">建议提前 ${n.leadTime||'—'} 天布局</div>
   </div>`;
 }
