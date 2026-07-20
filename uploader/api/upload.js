@@ -1,9 +1,10 @@
 // POST /api/upload
 // body: { token, trackName, notes, filename, fileBase64 }
-// 流程：解析 Excel → 调 AI 产出 track JSON → 存入待审核区（GitHub pending/ 目录）
+// 流程：解析 Excel → 调 AI 产出 track JSON → 直接合并上线（跳过审批）
 import * as XLSX from "xlsx";
 import {
-  ENV, ghPutFile, callAI, extractJson, setCors, readJsonBody, checkToken,
+  ENV, ghGetFile, ghPutFile, callAI, extractJson, setCors, readJsonBody, checkToken,
+  parseCreative, dumpCreative, mergeTrack,
 } from "./_lib.js";
 import { SYSTEM_PROMPT, buildUserPrompt } from "./_prompt.js";
 
@@ -49,21 +50,21 @@ export default async function handler(req, res) {
     const track = extractJson(aiRaw);
     track.name = trackName.trim(); // 强制对齐赛道名
 
-    // 3) 存入待审核区（GitHub pending/ 目录）
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    const record = {
-      id,
-      trackName: trackName.trim(),
-      notes: notes || "",
-      filename: filename || "data.xlsx",
-      submittedAt: new Date().toISOString(),
-      status: "pending",
-      track,
-    };
-    const path = `${ENV.PENDING_DIR}/${id}.json`;
-    await ghPutFile(path, JSON.stringify(record, null, 2), `pending: 新增待审核 ${trackName.trim()} (${id})`);
+    // 3) 直接合并到 creative.js 上线（跳过审批）
+    const cur = await ghGetFile(ENV.CREATIVE_PATH);
+    if (!cur) return res.status(500).json({ error: "线上 creative.js 读取失败" });
+    const data = parseCreative(cur.text);
+    const { action, name } = mergeTrack(data, track);
+    data.meta = data.meta || {};
+    data.meta.updatedAt = new Date().toISOString().slice(0, 10);
+    const newText = dumpCreative(data);
+    await ghPutFile(
+      ENV.CREATIVE_PATH, newText,
+      `data: 直传上线·${action === "update" ? "更新" : "新增"}赛道「${name}」创意分析`,
+      cur.sha
+    );
 
-    return res.status(200).json({ ok: true, id, track, message: "已提交，等待管理员审核后上线" });
+    return res.status(200).json({ ok: true, id: null, track, message: `✅ 已${action === "update" ? "更新" : "新增"}赛道「${name}」创意分析并直接上线，看板几十秒后刷新` });
   } catch (e) {
     return res.status(500).json({ error: String(e.message || e) });
   }

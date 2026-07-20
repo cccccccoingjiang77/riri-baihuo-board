@@ -1,9 +1,10 @@
 // POST /api/upload-selection
 // body: { token, trackName, notes, filename, fileBase64 }
-// 流程：解析 Excel 选品表 -> 自适应表头抓取数据 -> 补齐图直链 -> 写入 pending/ (type: "selection")
+// 流程：解析 Excel 选品表 -> 自适应表头抓取数据 -> 补齐图直链 -> 直接合并上线（跳过审批）
 import * as XLSX from "xlsx";
 import {
-  ENV, ghPutFile, genSelectionImage, setCors, readJsonBody, checkToken,
+  ENV, ghGetFile, ghPutFile, genSelectionImage, setCors, readJsonBody, checkToken,
+  SELECTION_PATH, parseSelection, dumpSelection, mergeSelection,
 } from "./_lib.js";
 
 // 自适应行高解析 Sheet，找到含有"商品名称"的行作为表头，提取对应列数据
@@ -161,29 +162,27 @@ export default async function handler(req, res) {
       adq: dedup(adqItems).slice(0, 40),
     };
 
-    // 4) 写入待审核区（type: "selection"）
-    const id = `selection-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    const record = {
-      id,
-      type: "selection",
-      trackName: trackName.trim(),
-      notes: notes || "",
-      filename: filename || "selection.xlsx",
-      submittedAt: new Date().toISOString(),
-      status: "pending",
-      items: payload,
-    };
-
-    const path = `${ENV.PENDING_DIR}/${id}.json`;
-    await ghPutFile(path, JSON.stringify(record, null, 2), `pending: 新增选品待审核 ${trackName.trim()} (${id})`);
+    // 4) 直接合并到 selection.js 上线（跳过审批）
+    const cur = await ghGetFile(SELECTION_PATH);
+    if (!cur) return res.status(500).json({ error: "线上 selection.js 读取失败" });
+    const data = parseSelection(cur.text);
+    const stats = mergeSelection(data, trackName.trim(), payload);
+    data.meta = data.meta || {};
+    data.meta.updatedAt = new Date().toISOString().slice(0, 10);
+    const newText = dumpSelection(data);
+    await ghPutFile(
+      SELECTION_PATH, newText,
+      `data: 直传上线·更新赛道「${trackName.trim()}」选品数据`,
+      cur.sha
+    );
 
     const totCount = payload.nonClosed.length + payload.quanyutong.length + payload.adq.length;
     return res.status(200).json({
       ok: true,
-      id,
+      id: null,
       type: "selection",
       items: payload,
-      message: `已提取该赛道共 ${totCount} 款推荐选品（非闭环 ${payload.nonClosed.length} 款，闭环全域通 ${payload.quanyutong.length} 款，闭环ADQ ${payload.adq.length} 款）。已提交审核，通过后上线！`,
+      message: `✅ 已提取该赛道共 ${totCount} 款推荐选品（非闭环 ${payload.nonClosed.length} 款，闭环全域通 ${payload.quanyutong.length} 款，闭环ADQ ${payload.adq.length} 款），已直接上线，看板几十秒后刷新！`,
     });
   } catch (e) {
     return res.status(500).json({ error: String(e.message || e) });
