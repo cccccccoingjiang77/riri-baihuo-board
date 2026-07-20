@@ -42,6 +42,8 @@ export default async function handler(req, res) {
     const token = req.method === "GET"
       ? (req.query?.token || req.headers["x-token"])
       : body?.token;
+    if (!ENV.ADMIN_TOKEN)
+      return res.status(503).json({ error: "管理员口令尚未配置，请先在 Vercel 设置 ADMIN_TOKEN" });
     if (!checkToken(token, ENV.ADMIN_TOKEN))
       return res.status(401).json({ error: "审核口令错误" });
 
