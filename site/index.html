@@ -151,7 +151,7 @@ function top3col(title,color,items){
       <span class="rk r${i+1}">${i+1}</span>
       <div class="t3img"><img src="${x.image}" loading="lazy" onerror="imgFallback(this)"><span class="t3ph" style="display:none">图</span></div>
       <div class="mid"><div class="nm">${x.name}</div><div class="sub2">${x.leaf||x.category2}</div></div>
-      <div class="rgt"><div class="hot">消耗 ${x.spend?'¥'+Number(x.spend).toLocaleString('zh-CN',{maximumFractionDigits:0}):'—'}</div><div class="pr">ROI ${x.roi||'—'} · ¥${x.price||'—'}</div></div>
+      <div class="rgt"><div class="pr">ROI ${x.roi||'—'} · ¥${x.price||'—'}</div></div>
     </a>`).join('');
   return `<div class="t3col"><div class="t3h" style="color:${color}">${title}</div>${rows}</div>`;
 }

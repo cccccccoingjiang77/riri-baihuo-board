@@ -94,7 +94,6 @@ function getLinkItems(key){
   return [];
 }
 function fmt(v){ return (v||v===0)? v : '—'; }
-function fmtSpend(v){ return v? '¥'+Number(v).toLocaleString('zh-CN',{maximumFractionDigits:0}) : '—'; }
 function esc(s){return (s||'').replace(/</g,'&lt;')}
 
 /* 点击复制链接（落地页/素材统一走复制，避免跳转无效） */
@@ -149,7 +148,6 @@ function productCard(x){
         <span class="kpi">CVR <b>${fmt(x.cvr)}${x.cvr?'%':''}</b></span>
         <span class="kpi">ROI <b>${fmt(x.roi)}</b></span>
       </div>
-      <div class="spend">消耗 <b>${fmtSpend(x.spend)}</b></div>
       <div class="mat">素材：${esc((x.placement||x.material)?'短视频/图文':'—')}</div>
       <div class="acts">${landBtn}${matBtn}${(!landBtn&&!matBtn)?'<span class="btn-sm">链接待补充</span>':''}</div>
     </div>
@@ -160,9 +158,10 @@ function catId(cat){ return 'cat_' + encodeURIComponent(cat).replace(/%/g,''); }
 
 function renderLink(key){
   const items = getLinkItems(key);
-  // by 二级赛道分组
+  // by 二级赛道分组；组内商品仅按消耗降序，消耗相同时按 ROI
   const groups = {};
   items.forEach(x=>{ (groups[x.category2]=groups[x.category2]||[]).push(x); });
+  Object.values(groups).forEach(arr=>arr.sort((a,b)=>(b.spend||0)-(a.spend||0) || (b.roi||0)-(a.roi||0)));
   const order = Object.entries(groups).sort((a,b)=>b[1].length-a[1].length);
 
   // ---- 二级类目导航栏 ----
@@ -265,7 +264,6 @@ function focusMini(x, index){
     <div class="fx-metrics">
       <span>客单<b>¥${fmt(x.price)}</b></span><span>CTR<b>${fmt(x.ctr)}${x.ctr?'%':''}</b></span>
       <span>CVR<b>${fmt(x.cvr)}${x.cvr?'%':''}</b></span><span>ROI<b>${fmt(x.roi)}</b></span>
-      <span class="wide">消耗<b>${fmtSpend(x.spend)}</b></span>
     </div>
   </div>`;
 }
