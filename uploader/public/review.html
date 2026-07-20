@@ -98,6 +98,59 @@ async function load(){
 function render(){
   if(!cache.length){ list.innerHTML = `<div class="empty">🎉 暂无待审核数据</div>`; return; }
   list.innerHTML = cache.map(rec=>{
+    const isSelection = rec.type === "selection";
+    
+    // ============ 如果是选品类型的记录 ============
+    if (isSelection) {
+      const items = rec.items || {};
+      const nonC = items.nonClosed || [];
+      const qyt = items.quanyutong || [];
+      const adq = items.adq || [];
+
+      const renderProductGrid = (title, arr) => {
+        const rows = arr.slice(0, 10).map(x => `
+          <div style="display:flex;align-items:center;gap:10px;background:#12151b;padding:8px;border-radius:8px;border:1px solid var(--line)">
+            <img src="${x.image}" style="width:36px;height:36px;border-radius:6px;object-fit:cover" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'36\' height=\'36\'><rect width=\'36\' height=\'36\' fill=\'%231a1d24\'/><text x=\'50%\' y=\'50%\' font-size=\'11\' fill=\'%23555\' dominant-baseline=\'middle\' text-anchor=\'middle\'>无图</text></svg>'">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:12px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)">${x.name}</div>
+              <div style="font-size:11px;color:var(--sub)">¥${x.price} · ROI: <b style="color:var(--gold)">${x.roi}</b> · 创意: 🔥${x.dupCount||1}条</div>
+            </div>
+          </div>
+        `).join("");
+        
+        return `
+          <div class="sect" style="margin-top:14px">
+            <div class="t" style="font-size:13px;font-weight:bold;color:var(--gold);margin-bottom:8px">${title} (共 ${arr.length} 款，展示前10)</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));gap:8px">
+              ${rows || `<div style="grid-column:1/-1;color:var(--sub);font-size:11px">暂无推荐爆品</div>`}
+            </div>
+          </div>
+        `;
+      };
+
+      return `<div class="item" data-id="${rec.id}">
+        <div class="item-h">
+          <div>
+            <div class="name" style="color:var(--green)">🛒 选品看板更新 · ${rec.trackName}</div>
+            <div class="meta">📄 ${rec.filename||"-"} · 提交于 ${(rec.submittedAt||"").replace("T"," ").slice(0,16)}</div>
+          </div>
+        </div>
+        ${rec.notes?`<div class="notes">📝 上传备注：${rec.notes}</div>`:""}
+        
+        ${renderProductGrid("非闭环链路 (CID)", nonC)}
+        ${renderProductGrid("闭环全域通 (QYT)", qyt)}
+        ${renderProductGrid("闭环ADQ", adq)}
+        
+        <details style="margin-top:14px"><summary>查看选品 JSON 数据</summary><pre>${escapeHtml(JSON.stringify(items,null,2))}</pre></details>
+        
+        <div class="actions">
+          <button class="btn green" onclick="approve('${rec.id}',this)">✔ 审核通过（合并上线）</button>
+          <button class="btn red" onclick="reject('${rec.id}',this)">✕ 驳回并删除</button>
+        </div>
+      </div>`;
+    }
+
+    // ============ 如果是创意卖点类型的记录 ============
     const t = rec.track||{}; const m = t.metrics||{};
     const sw = (t.sellingWords||[]).map(w=>`<span>${w.word}<b style="color:var(--gold)"> ${w.weight}</b></span>`).join("");
     const pw = (t.painWords||[]).map(w=>`<span>${w.word}</span>`).join("");
@@ -106,7 +159,7 @@ function render(){
     const kp = (t.keyPoints||[]).map(k=>`<div class="kp"><b>${k.title}：</b>${k.desc}</div>`).join("");
     return `<div class="item" data-id="${rec.id}">
       <div class="item-h">
-        <div><div class="name">${t.name||rec.trackName}</div>
+        <div><div class="name">🎬 创意卖点更新 · ${t.name||rec.trackName}</div>
         <div class="meta">📄 ${rec.filename||"-"} · 提交于 ${(rec.submittedAt||"").replace("T"," ").slice(0,16)}</div></div>
       </div>
       ${rec.notes?`<div class="notes">📝 上传备注：${rec.notes}</div>`:""}
@@ -124,8 +177,8 @@ function render(){
       <div class="sect"><div class="t">跑量关键点</div>${kp}</div>
       <details><summary>查看原始 JSON</summary><pre>${escapeHtml(JSON.stringify(t,null,2))}</pre></details>
       <div class="actions">
-        <button class="btn green" onclick="approve('${rec.id}',this)">✔ 通过并上线</button>
-        <button class="btn red" onclick="reject('${rec.id}',this)">✕ 驳回</button>
+        <button class="btn green" onclick="approve('${rec.id}',this)">✔ 审核通过（合并上线）</button>
+        <button class="btn red" onclick="reject('${rec.id}',this)">✕ 驳回并删除</button>
       </div>
     </div>`;
   }).join("");

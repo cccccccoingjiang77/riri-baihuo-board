@@ -104,24 +104,37 @@
 
     <!-- ============ Tab 2: 商品选品 ============ -->
     <div id="panelSelection" style="display:none">
-      <div style="background:#12151b;border:1px dashed var(--line);border-radius:10px;padding:16px;font-size:13px;color:var(--sub)">
-        <h3 style="margin:0 0 10px;color:var(--gold);font-size:14px">🛒 商品选品看板使用说明</h3>
-        <p style="margin:4px 0">商品选品看板（分 CID 非闭环和小店直播闭环）属于<b>数值客观榜单</b>。它不需要 AI 进行主观归纳，而是通过 Excel 中的 <b>ROI、商品名称、在跑条数</b>等指标进行聚合和排序，并在网页上自动配图展示。</p>
-        
-        <p style="margin:12px 0 6px;color:var(--txt);font-weight:bold">📋 所需 Excel 报表列名规范：</p>
-        <ul style="margin:0;padding-left:18px;line-height:1.7">
-          <li>表格中必须包含两个 Sheet 名字：<b style="color:var(--txt)">"7.13京东CID爆品专区"</b> (非闭环) 和 <b style="color:var(--txt)">"周榜小店直播爆品"</b> (闭环)。</li>
-          <li>必填核心列名：<b style="color:var(--txt)">商品名称</b>、<b style="color:var(--txt)">参考单价/建议客单</b>、<b style="color:var(--txt)">ROI</b>、<b style="color:var(--txt)">点击率%</b>、<b style="color:var(--txt)">转化率%</b>、<b style="color:var(--txt)">推荐版位</b>、<b style="color:var(--txt)">素材链接</b>。</li>
-          <li><i>(可选)</i> <b>商品图</b>列：留空时，系统会自动联网根据商品名称画出高质电商图，无需人工配图。</li>
-        </ul>
-
-        <div style="margin-top:16px;border-top:1px solid var(--line);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
-          <span>完整规范与样例下载：</span>
-          <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/创意卖点填报模板.xlsx" target="_blank" style="color:var(--gold);font-weight:bold;text-decoration:none">📥 下载：选品台.xlsx 模板</a>
-        </div>
+      <div style="background:#12151b;border:1px dashed var(--line);border-radius:10px;padding:12px;font-size:12px;color:var(--sub);margin-bottom:16px">
+        <b style="color:var(--gold)">🛒 选品看板上传规范</b>：系统将根据你上传的 Excel 自动计算高 ROI 商品，按 CID（非闭环）和小店（全域通/ADQ 闭环）重排上线。系统会自动根据商品名联网画图，无图亦可直接上传！
       </div>
-      
-      <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:20px">💡 如需自动化「选品看板上传导入」，请联系管理员开启选品通道。</p>
+
+      <label>上传口令</label>
+      <input type="password" id="tokenSel" placeholder="向管理员索取上传口令">
+
+      <label>赛道名 <span style="color:var(--gold)">*</span></label>
+      <select id="trackNameSelectSel" style="margin-bottom:8px">
+        <option value="生活日用-清洁工具">生活日用-清洁工具 (已有)</option>
+        <option value="家纺">家纺 (已有)</option>
+        <option value="生活日用-功效品">生活日用-功效品 (已有)</option>
+        <option value="生活日用-收纳">生活日用-收纳 (已有)</option>
+        <option value="餐厨水具">餐厨水具 (已有)</option>
+      </select>
+
+      <label>选品汇总 Excel <span style="color:var(--gold)">*</span></label>
+      <div class="file-zone" id="fileZoneSel">
+        <div class="big">📄 点击选择 或 拖拽 选品Excel 到这里</div>
+        <div class="hint">需含 "7.13京东CID爆品专区" 或 "周榜小店直播爆品" Sheet 名字</div>
+        <div class="file-name" id="fileNameSel"></div>
+      </div>
+      <div style="text-align:right;margin-top:6px;font-size:12px">
+        <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/创意卖点填报模板.xlsx" target="_blank" style="color:var(--gold);text-decoration:none">📥 下载：商品选品表格模板.xlsx</a>
+      </div>
+
+      <label>补充备注（选填）</label>
+      <textarea id="notesSel" placeholder="可备注本期更新重点或提交人姓名"></textarea>
+
+      <button class="btn" id="submitBtnSel">提交选品数据</button>
+      <div class="steps">流程：<b>①传选品Excel</b> → <b>②系统重排配图</b> → <b>③管理员审核</b> → <b>④上线</b></div>
     </div>
 
     <div class="msg" id="msg"></div>
@@ -234,6 +247,56 @@ btn.onclick = async () => {
   }finally{ btn.disabled = false; }
 };
 
+// ==================== Tab 2: 选品文件处理交互 ====================
+let fileBase64Sel = null, fileNameSel = "";
+const fileZoneSel = document.getElementById("fileZoneSel");
+const submitBtnSel = document.getElementById("submitBtnSel");
+
+fileZoneSel.onclick = () => {
+  const input = document.createElement("input");
+  input.type = "file"; input.accept = ".xlsx,.xls";
+  input.onchange = () => { if(input.files[0]) handleFileSel(input.files[0]); };
+  input.click();
+};
+
+["dragover","dragenter"].forEach(e=>fileZoneSel.addEventListener(e,ev=>{ev.preventDefault();fileZoneSel.classList.add("drag")}));
+["dragleave","drop"].forEach(e=>fileZoneSel.addEventListener(e,ev=>{ev.preventDefault();fileZoneSel.classList.remove("drag")}));
+fileZoneSel.addEventListener("drop", ev=>{ ev.preventDefault(); if(ev.dataTransfer.files[0]) handleFileSel(ev.dataTransfer.files[0]); });
+
+function handleFileSel(f){
+  fileNameSel = f.name;
+  document.getElementById("fileNameSel").textContent = "已选择：" + f.name;
+  const reader = new FileReader();
+  reader.onload = () => { fileBase64Sel = reader.result.split(",")[1]; };
+  reader.readAsDataURL(f);
+}
+
+// 提交选品数据
+submitBtnSel.onclick = async () => {
+  const token = document.getElementById("tokenSel").value.trim();
+  const trackName = document.getElementById("trackNameSelectSel").value;
+  const notes = document.getElementById("notesSel").value.trim();
+
+  if(!fileBase64Sel) return show("err","请选择选品 Excel 文件");
+
+  submitBtnSel.disabled = true;
+  preview.className = "preview";
+  show("load","正在上传并解析选品数据，系统正在为您匹配和配图，请稍后…");
+
+  try {
+    const r = await fetch(API + "/api/upload-selection", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ token, trackName, notes, filename:fileNameSel, fileBase64: fileBase64Sel })
+    });
+    const j = await r.json();
+    if(!r.ok || j.error) throw new Error(j.error || "选品数据解析或提交失败");
+    show("ok","✅ " + (j.message || "已成功提交审核"));
+    renderSelectionPreview(j.items, trackName);
+  } catch(e) {
+    show("err","❌ " + e.message);
+  } finally { submitBtnSel.disabled = false; }
+};
+
 function renderPreview(t){
   if(!t) return;
   const m = t.metrics||{};
@@ -247,6 +310,31 @@ function renderPreview(t){
     <div class="pv-row" style="margin-top:8px">卖点动因：</div>${ctx}
     <div class="pv-row" style="margin-top:8px">爆款话术：</div>${scripts}
     <div class="pv-row" style="margin-top:10px;color:var(--gold)">已提交审核区，管理员通过后自动上线。</div>`;
+  preview.className = "preview show";
+}
+
+function renderSelectionPreview(items, trackName){
+  if(!items) return;
+  const nonC = items.nonClosed || [];
+  const qyt = items.quanyutong || [];
+  const adq = items.adq || [];
+  
+  const renderList = (arr) => arr.slice(0, 3).map(x => `
+    <div class="pv-row" style="display:flex;align-items:center;gap:8px;margin:4px 0">
+      <img src="${x.image}" style="width:24px;height:24px;border-radius:4px;object-fit:cover">
+      <span>${x.name} (ROI: <b style="color:var(--gold)">${x.roi}</b> · 价格: ¥${x.price})</span>
+    </div>
+  `).join("") || "暂无";
+
+  preview.innerHTML = `
+    <h4>选品抓取结果预览（${trackName}）</h4>
+    <div style="margin-top:8px"><b>🛒 非闭环(CID) Top3：</b></div>
+    ${renderList(nonC)}
+    <div style="margin-top:8px"><b>🏷 闭环全域通 Top3：</b></div>
+    ${renderList(qyt)}
+    <div style="margin-top:8px"><b>💜 闭环ADQ Top3：</b></div>
+    ${renderList(adq)}
+    <div style="margin-top:10px;color:var(--gold)">已提交管理员审核（待审核区），通过后将合并替换该赛道的线上选品数据。</div>`;
   preview.className = "preview show";
 }
 </script>

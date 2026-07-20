@@ -4,6 +4,7 @@
 import {
   ENV, ghGetFile, ghPutFile, ghDeleteFile,
   parseCreative, dumpCreative, mergeTrack,
+  SELECTION_PATH, parseSelection, dumpSelection, mergeSelection,
   setCors, readJsonBody, checkToken,
 } from "./_lib.js";
 
@@ -24,30 +25,61 @@ export default async function handler(req, res) {
     const pend = await ghGetFile(pendingPath);
     if (!pend) return res.status(404).json({ error: "待审核记录不存在（可能已处理）" });
     const record = JSON.parse(pend.text);
-    // 允许管理员传入微调后的 track，否则用记录里 AI 产出的
-    const track = body.track || record.track;
-    track.name = record.trackName; // 保底对齐
 
-    // 2) 读 creative.js → 合并 → 写回
-    const cur = await ghGetFile(ENV.CREATIVE_PATH);
-    if (!cur) return res.status(500).json({ error: "线上 creative.js 读取失败" });
-    const data = parseCreative(cur.text);
-    const { action, name } = mergeTrack(data, track);
-    data.meta = data.meta || {};
-    data.meta.updatedAt = new Date().toISOString().slice(0, 10);
-    const newText = dumpCreative(data);
-    await ghPutFile(
-      ENV.CREATIVE_PATH, newText,
-      `data: 审核通过·${action === "update" ? "更新" : "新增"}赛道「${name}」(${id})`,
-      cur.sha
-    );
+    let finalMessage = "";
+
+    // 2) 分流处理：商品选品 OR 创意卖点
+    if (record.type === "selection") {
+      // 选品数据更新
+      const cur = await ghGetFile(SELECTION_PATH);
+      if (!cur) return res.status(500).json({ error: "线上 selection.js 读取失败" });
+      
+      const data = parseSelection(cur.text);
+      const items = body.items || record.items; // 支持微调或默认
+      const stats = mergeSelection(data, record.trackName, items);
+
+      data.meta = data.meta || {};
+      data.meta.updatedAt = new Date().toISOString().slice(0, 10);
+      
+      const newText = dumpSelection(data);
+      await ghPutFile(
+        SELECTION_PATH, newText,
+        `data: 审核通过·更新赛道「${record.trackName}」选品数据 (${id})`,
+        cur.sha
+      );
+
+      finalMessage = `已审核更新「${record.trackName}」选品：非闭环 ${stats.nonClosedCount} 款，闭环 ${stats.closedCount} 款，线上看板正在重新编译。`;
+
+    } else {
+      // 创意卖点更新
+      const track = body.track || record.track;
+      track.name = record.trackName; // 保底对齐
+
+      const cur = await ghGetFile(ENV.CREATIVE_PATH);
+      if (!cur) return res.status(500).json({ error: "线上 creative.js 读取失败" });
+      
+      const data = parseCreative(cur.text);
+      const { action, name } = mergeTrack(data, track);
+      
+      data.meta = data.meta || {};
+      data.meta.updatedAt = new Date().toISOString().slice(0, 10);
+      
+      const newText = dumpCreative(data);
+      await ghPutFile(
+        ENV.CREATIVE_PATH, newText,
+        `data: 审核通过·${action === "update" ? "更新" : "新增"}赛道「${name}」创意分析 (${id})`,
+        cur.sha
+      );
+
+      finalMessage = `已${action === "update" ? "更新" : "新增"}赛道「${name}」创意分析并推送上线，看板几十秒后刷新。`;
+    }
 
     // 3) 删除待审记录
     try { await ghDeleteFile(pendingPath, `pending: 已审核通过并清除 ${id}`, pend.sha); } catch {}
 
     return res.status(200).json({
-      ok: true, action, name,
-      message: `已${action === "update" ? "更新" : "新增"}赛道「${name}」并推送上线，看板几十秒后刷新。`,
+      ok: true,
+      message: finalMessage,
     });
   } catch (e) {
     return res.status(500).json({ error: String(e.message || e) });
