@@ -50,7 +50,7 @@
     <div class="chips" id="selChips" style="margin:14px 0 6px"></div>
 
     <!-- 分链路 Top3 -->
-    <div class="mini-title">🔥 各链路最热跑品 Top3（按在跑条数 = 拿量热度）</div>
+    <div class="mini-title">🔥 各链路最热跑品 Top3（按消耗排序）</div>
     <div class="top3-cols" id="selTop3"></div>
 
     <!-- 当前热门节点 -->
@@ -143,15 +143,15 @@ document.getElementById('selChips').innerHTML =
 
 function box(n,l){return `<div class="kbox"><div class="n">${n}</div><div class="l">${l}</div></div>`}
 
-/* 分链路 Top3：按在跑条数(dupCount)降序 = 拿量热度；ROI 作为辅助信息 */
+/* 分链路 Top3：按消耗降序；ROI 作为同消耗下的辅助排序 */
 function top3col(title,color,items){
-  const sorted = [...items].sort((a,b)=>(b.dupCount||0)-(a.dupCount||0) || (b.roi||0)-(a.roi||0));
+  const sorted = [...items].sort((a,b)=>(b.spend||0)-(a.spend||0) || (b.roi||0)-(a.roi||0));
   const rows = sorted.slice(0,3).map((x,i)=>`
     <a class="t3" href="selection.html" onclick="event.stopPropagation()">
       <span class="rk r${i+1}">${i+1}</span>
       <div class="t3img"><img src="${x.image}" loading="lazy" onerror="imgFallback(this)"><span class="t3ph" style="display:none">图</span></div>
       <div class="mid"><div class="nm">${x.name}</div><div class="sub2">${x.leaf||x.category2}</div></div>
-      <div class="rgt"><div class="hot">🔥 ${x.dupCount||1} 条</div><div class="pr">ROI ${x.roi||'—'} · ¥${x.price||'—'}</div></div>
+      <div class="rgt"><div class="hot">消耗 ${x.spend?'¥'+Number(x.spend).toLocaleString('zh-CN',{maximumFractionDigits:0}):'—'}</div><div class="pr">ROI ${x.roi||'—'} · ¥${x.price||'—'}</div></div>
     </a>`).join('');
   return `<div class="t3col"><div class="t3h" style="color:${color}">${title}</div>${rows}</div>`;
 }
