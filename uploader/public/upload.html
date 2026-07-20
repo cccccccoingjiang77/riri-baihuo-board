@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>日百看板 · 赛道数据上传</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#1a1d24; --line:#2a2f3a; --gold:#e8b64c;
+    --txt:#e8eaed; --sub:#9aa0aa; --green:#37c98a; --red:#e26d6d; --blue:#4b8bf5;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+  .wrap{max-width:620px;margin:0 auto;padding:24px 18px 80px}
+  .topbar{background:var(--card);border-bottom:1px solid var(--line);padding:14px 0}
+  .topbar .in{max-width:620px;margin:0 auto;padding:0 18px;display:flex;align-items:center;gap:10px}
+  .dot{background:var(--gold);color:#1a1d24;width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+  h1{font-size:20px;margin:22px 0 4px}
+  .sub{color:var(--sub);font-size:13px;margin-bottom:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:var(--sub);margin:14px 0 6px;font-weight:600}
+  label:first-child{margin-top:0}
+  input[type=text],input[type=password],select,textarea{
+    width:100%;background:#12151b;border:1px solid var(--line);border-radius:9px;
+    color:var(--txt);padding:11px 12px;font-size:14px;font-family:inherit;outline:none
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+  textarea{min-height:72px;resize:vertical}
+  .file-zone{
+    border:1.5px dashed var(--line);border-radius:11px;padding:26px 16px;text-align:center;
+    cursor:pointer;transition:.2s;background:#12151b
+  }
+  .file-zone:hover,.file-zone.drag{border-color:var(--gold);background:#171b22}
+  .file-zone .big{font-size:15px;color:var(--txt)}
+  .file-zone .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .file-name{color:var(--green);font-size:13px;margin-top:10px;word-break:break-all}
+  .btn{width:100%;background:var(--gold);color:#1a1d24;border:0;border-radius:10px;
+    padding:13px;font-size:15px;font-weight:700;cursor:pointer;margin-top:20px}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .steps{display:flex;gap:8px;font-size:12px;color:var(--sub);margin-top:14px;flex-wrap:wrap}
+  .steps b{color:var(--gold)}
+  .msg{margin-top:16px;padding:12px 14px;border-radius:10px;font-size:13px;display:none}
+  .msg.show{display:block}
+  .msg.ok{background:rgba(55,201,138,.12);border:1px solid var(--green);color:var(--green)}
+  .msg.err{background:rgba(226,109,109,.12);border:1px solid var(--red);color:var(--red)}
+  .msg.load{background:rgba(75,139,245,.12);border:1px solid var(--blue);color:var(--blue)}
+  .preview{margin-top:16px;background:#12151b;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:12px;display:none}
+  .preview.show{display:block}
+  .preview h4{margin:0 0 8px;color:var(--gold);font-size:13px}
+  .pv-row{margin:3px 0;color:var(--sub)}
+  .pv-row b{color:var(--txt)}
+  .tags span{display:inline-block;background:#1a1d24;border:1px solid var(--line);border-radius:6px;padding:2px 8px;margin:2px 3px 0 0;color:var(--txt);font-size:11px}
+  .foot{color:var(--sub);font-size:12px;text-align:center;margin-top:24px}
+  a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in"><span class="dot">日</span><b>日百看板 · 赛道数据上传</b></div></div>
+<div class="wrap">
+  <h1>上传赛道原始数据</h1>
+  <div class="sub">传一份赛道的投放数据 Excel，AI 会自动产出「卖点 &amp; 创意分析」，提交后进入审核区，管理员通过后自动上线到看板。</div>
+
+  <div class="card">
+    <label>上传口令</label>
+    <input type="password" id="token" placeholder="向管理员索取上传口令">
+
+    <label>赛道名 <span style="color:var(--gold)">*</span></label>
+    <input type="text" id="trackName" placeholder="如：生活日用-清洁工具 / 家纺 / 餐厨水具">
+
+    <label>原始数据 Excel <span style="color:var(--gold)">*</span></label>
+    <div class="file-zone" id="fileZone">
+      <div class="big">📄 点击选择 或 拖拽 Excel 到这里</div>
+      <div class="hint">支持 .xlsx / .xls（分客户/分链路/分创意的消耗与指标表）</div>
+      <div class="file-name" id="fileName"></div>
+    </div>
+    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
+
+    <label>补充说明 / 赛道理解（选填）</label>
+    <textarea id="notes" placeholder="如：本期主推场景、季节动因、Top素材口播要点、明星达人背书等，能帮 AI 产出更准"></textarea>
+
+    <button class="btn" id="submitBtn">提交并生成分析</button>
+
+    <div class="steps">流程：<b>①传Excel</b> → <b>②AI产出</b> → <b>③进审核区</b> → <b>④管理员通过→上线</b></div>
+
+    <div class="msg" id="msg"></div>
+    <div class="preview" id="preview"></div>
+  </div>
+
+  <div class="foot">
+    在线看板：<a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/" target="_blank">riri-baihuo-board</a>
+  </div>
+</div>
+
+<script>
+// 后端 API 与本页同域部署，直接用相对路径
+const API = "";
+let fileBase64 = null, fileName = "";
+
+const fileZone = document.getElementById("fileZone");
+const fileInput = document.getElementById("fileInput");
+const msg = document.getElementById("msg");
+const preview = document.getElementById("preview");
+const btn = document.getElementById("submitBtn");
+
+fileZone.onclick = () => fileInput.click();
+["dragover","dragenter"].forEach(e=>fileZone.addEventListener(e,ev=>{ev.preventDefault();fileZone.classList.add("drag")}));
+["dragleave","drop"].forEach(e=>fileZone.addEventListener(e,ev=>{ev.preventDefault();fileZone.classList.remove("drag")}));
+fileZone.addEventListener("drop", ev=>{ if(ev.dataTransfer.files[0]) handleFile(ev.dataTransfer.files[0]); });
+fileInput.onchange = () => { if(fileInput.files[0]) handleFile(fileInput.files[0]); };
+
+function handleFile(f){
+  fileName = f.name;
+  document.getElementById("fileName").textContent = "已选择：" + f.name;
+  const reader = new FileReader();
+  reader.onload = () => { fileBase64 = reader.result.split(",")[1]; };
+  reader.readAsDataURL(f);
+}
+
+function show(type, text){ msg.className = "msg show " + type; msg.textContent = text; }
+
+btn.onclick = async () => {
+  const token = document.getElementById("token").value.trim();
+  const trackName = document.getElementById("trackName").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+  if(!trackName) return show("err","请填写赛道名");
+  if(!fileBase64) return show("err","请选择 Excel 文件");
+
+  btn.disabled = true;
+  preview.className = "preview";
+  show("load","AI 正在解析数据并产出分析，请稍候（约 10-30 秒）…");
+
+  try{
+    const r = await fetch(API + "/api/upload", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ token, trackName, notes, filename:fileName, fileBase64 })
+    });
+    const j = await r.json();
+    if(!r.ok || j.error) throw new Error(j.error || "提交失败");
+    show("ok","✅ " + (j.message||"已提交审核"));
+    renderPreview(j.track);
+  }catch(e){
+    show("err","❌ " + e.message);
+  }finally{ btn.disabled = false; }
+};
+
+function renderPreview(t){
+  if(!t) return;
+  const m = t.metrics||{};
+  const sw = (t.sellingWords||[]).slice(0,10).map(w=>`<span>${w.word}</span>`).join("");
+  const ctx = (t.sellingContext||[]).map(c=>`<div class="pv-row">🎯 <b>${c.driver}</b> → ${c.need}</div>`).join("");
+  const scripts = (t.scripts||[]).slice(0,4).map(s=>`<div class="pv-row">· ${s}</div>`).join("");
+  preview.innerHTML = `
+    <h4>AI 产出预览（${t.name}）</h4>
+    <div class="pv-row">指标：创意 <b>${m.creativeCount||"-"}</b> · CTR <b>${m.ctr||"-"}%</b> · 3s完播 <b>${m.play3s||"-"}%</b> · CVR <b>${m.cvr||"-"}%</b> · CPM <b>${m.cpm||"-"}</b></div>
+    <div class="pv-row" style="margin-top:8px">卖点词：</div><div class="tags">${sw}</div>
+    <div class="pv-row" style="margin-top:8px">卖点动因：</div>${ctx}
+    <div class="pv-row" style="margin-top:8px">爆款话术：</div>${scripts}
+    <div class="pv-row" style="margin-top:10px;color:var(--gold)">已提交审核区，管理员通过后自动上线。</div>`;
+  preview.className = "preview show";
+}
+</script>
+</body>
+</html>
