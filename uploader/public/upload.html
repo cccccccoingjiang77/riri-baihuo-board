@@ -207,8 +207,14 @@ fileZone.addEventListener("drop", ev=>{ ev.preventDefault(); if(ev.dataTransfer.
 fileInput.onchange = () => { if(fileInput.files[0]) handleFile(fileInput.files[0]); };
 
 function handleFile(f){
+  if(f.size > 3 * 1024 * 1024){
+    show("err", "❌ 文件过大（" + (f.size/1024/1024).toFixed(1) + "MB），Vercel 限制请求体 4.5MB。请精简 Excel 行数/列数后重试，或删除多余 Sheet。");
+    fileBase64 = null;
+    document.getElementById("fileName").textContent = "";
+    return;
+  }
   fileName = f.name;
-  document.getElementById("fileName").textContent = "已选择：" + f.name;
+  document.getElementById("fileName").textContent = "已选择：" + f.name + "（" + (f.size/1024).toFixed(0) + "KB）";
   const reader = new FileReader();
   reader.onload = () => { fileBase64 = reader.result.split(",")[1]; };
   reader.readAsDataURL(f);
@@ -239,7 +245,13 @@ btn.onclick = async () => {
       method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ token, trackName, notes, filename:fileName, fileBase64 })
     });
-    const j = await r.json();
+    // 容错：Vercel 可能返回纯文本错误（如 413 Request Entity Too Large）
+    const rawText = await r.text();
+    let j;
+    try { j = JSON.parse(rawText); } catch(_) {
+      if(r.status === 413) throw new Error("文件过大，Vercel 拒绝接收（413）。请精简 Excel 后重试。");
+      throw new Error("服务器返回异常（HTTP " + r.status + "）：" + rawText.slice(0, 200));
+    }
     if(!r.ok || j.error) throw new Error(j.error || "提交失败");
     show("ok","✅ " + (j.message||"已提交审核"));
     renderPreview(j.track);
@@ -265,8 +277,14 @@ fileZoneSel.onclick = () => {
 fileZoneSel.addEventListener("drop", ev=>{ ev.preventDefault(); if(ev.dataTransfer.files[0]) handleFileSel(ev.dataTransfer.files[0]); });
 
 function handleFileSel(f){
+  if(f.size > 3 * 1024 * 1024){
+    show("err", "❌ 文件过大（" + (f.size/1024/1024).toFixed(1) + "MB），Vercel 限制请求体 4.5MB。请精简 Excel 行数/列数后重试。");
+    fileBase64Sel = null;
+    document.getElementById("fileNameSel").textContent = "";
+    return;
+  }
   fileNameSel = f.name;
-  document.getElementById("fileNameSel").textContent = "已选择：" + f.name;
+  document.getElementById("fileNameSel").textContent = "已选择：" + f.name + "（" + (f.size/1024).toFixed(0) + "KB）";
   const reader = new FileReader();
   reader.onload = () => { fileBase64Sel = reader.result.split(",")[1]; };
   reader.readAsDataURL(f);
@@ -289,7 +307,12 @@ submitBtnSel.onclick = async () => {
       method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ token, trackName, notes, filename:fileNameSel, fileBase64: fileBase64Sel })
     });
-    const j = await r.json();
+    const rawText = await r.text();
+    let j;
+    try { j = JSON.parse(rawText); } catch(_) {
+      if(r.status === 413) throw new Error("文件过大，Vercel 拒绝接收（413）。请精简 Excel 后重试。");
+      throw new Error("服务器返回异常（HTTP " + r.status + "）：" + rawText.slice(0, 200));
+    }
     if(!r.ok || j.error) throw new Error(j.error || "选品数据解析或提交失败");
     show("ok","✅ " + (j.message || "已成功提交审核"));
     renderSelectionPreview(j.items, trackName);
