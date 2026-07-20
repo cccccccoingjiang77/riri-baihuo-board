@@ -381,12 +381,26 @@ window.CREATIVE_DATA = {
           "duration": "约30s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 满屏堆积的洗脸巾特写，字幕「用过的洗脸巾千万别急着扔」",
-            "1-3s: 主播手拿夹布拖把入场，展示夹布结构",
-            "3-10s: 对比老式拖把手洗脏手 vs 夹布拖把一夹即用",
-            "10-20s: 洗脸巾夹入拖把头特写，扣紧动作演示",
-            "20-27s: 客厅/卧室多场景拖地实拍，干净无残留",
-            "27-30s: 拖把展示+价格福利字幕，促下单收尾"
+            {
+              "src": "assets/frames/clean-01/frame-01.jpg",
+              "time": "2.9s"
+            },
+            {
+              "src": "assets/frames/clean-01/frame-02.jpg",
+              "time": "11.5s"
+            },
+            {
+              "src": "assets/frames/clean-01/frame-03.jpg",
+              "time": "20.7s"
+            },
+            {
+              "src": "assets/frames/clean-01/frame-04.jpg",
+              "time": "29.8s"
+            },
+            {
+              "src": "assets/frames/clean-01/frame-05.jpg",
+              "time": "39.4s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -424,12 +438,26 @@ window.CREATIVE_DATA = {
           "duration": "约25s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 粉色/红色草莓香氛拖把头特写，视觉冲击",
-            "1-3s: 字幕「明星同款草莓香拖把」，明星IP露出",
-            "3-8s: 普通拖把无香味痛点 vs 草莓香氛拖完留香对比",
-            "8-15s: 欧科棉材质特写+香氛释放近景演示",
-            "15-22s: 拖地实拍+近闻香氛演示，「拖一次地香一整天」",
-            "22-25s: 明星同款画面+直播限时价字幕收尾"
+            {
+              "src": "assets/frames/clean-02/frame-01.jpg",
+              "time": "6.8s"
+            },
+            {
+              "src": "assets/frames/clean-02/frame-02.jpg",
+              "time": "27.3s"
+            },
+            {
+              "src": "assets/frames/clean-02/frame-03.jpg",
+              "time": "48.9s"
+            },
+            {
+              "src": "assets/frames/clean-02/frame-04.jpg",
+              "time": "70.5s"
+            },
+            {
+              "src": "assets/frames/clean-02/frame-05.jpg",
+              "time": "93.3s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -467,12 +495,26 @@ window.CREATIVE_DATA = {
           "duration": "约35s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 新款二次挤水胶棉拖把全景展示",
-            "1-3s: 字幕「新款二次挤水胶棉拖」，功能升级钩子",
-            "3-10s: 老式胶棉挤不干、缠满毛发画面（痛点放大）",
-            "10-20s: 二次挤水结构特写+吸水锁水实测演示",
-            "20-30s: 头发毛絮一拖即净+挤水干爽多场景实拍",
-            "30-35s: 省力话术+直播优惠价收尾"
+            {
+              "src": "assets/frames/clean-03/frame-01.jpg",
+              "time": "5.9s"
+            },
+            {
+              "src": "assets/frames/clean-03/frame-02.jpg",
+              "time": "23.5s"
+            },
+            {
+              "src": "assets/frames/clean-03/frame-03.jpg",
+              "time": "42.1s"
+            },
+            {
+              "src": "assets/frames/clean-03/frame-04.jpg",
+              "time": "60.7s"
+            },
+            {
+              "src": "assets/frames/clean-03/frame-05.jpg",
+              "time": "80.3s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -510,12 +552,26 @@ window.CREATIVE_DATA = {
           "duration": "约20s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 硅胶魔术扫把新品全景，硅胶材质视觉新颖",
-            "1-3s: 字幕「2026新款魔术扫把」，年份+新品钩子",
-            "3-8s: 浴室积水、卫生间头发难清理痛点画面",
-            "8-14s: 硅胶刮水条特写+刮水实测，一刮即干",
-            "14-18S: 浴室/卫生间/地板多场景刮水刮灰演示",
-            "18-20s: 收纳挂刷展示+CID链路跳转字幕收尾"
+            {
+              "src": "assets/frames/clean-04/frame-01.jpg",
+              "time": "3.3s"
+            },
+            {
+              "src": "assets/frames/clean-04/frame-02.jpg",
+              "time": "13.3s"
+            },
+            {
+              "src": "assets/frames/clean-04/frame-03.jpg",
+              "time": "23.9s"
+            },
+            {
+              "src": "assets/frames/clean-04/frame-04.jpg",
+              "time": "34.5s"
+            },
+            {
+              "src": "assets/frames/clean-04/frame-05.jpg",
+              "time": "45.6s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -553,12 +609,26 @@ window.CREATIVE_DATA = {
           "duration": "约18s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 魔术扫把刮地效果远景，字幕「看看刮地效果就知道」",
-            "1-3s: 主播手持扫把准备演示，实测钩子",
-            "3-7s: 地面水渍灰尘扫不净痛点，传统扫把越扫越脏",
-            "7-12s: 魔术扫把刮水+刮灰双效演示，一刮即净",
-            "12-16s: 厨房/浴室/阳台多场景干湿两用实测",
-            "16-18s: 小店链路+限时优惠字幕收尾"
+            {
+              "src": "assets/frames/clean-05/frame-01.jpg",
+              "time": "5.9s"
+            },
+            {
+              "src": "assets/frames/clean-05/frame-02.jpg",
+              "time": "23.8s"
+            },
+            {
+              "src": "assets/frames/clean-05/frame-03.jpg",
+              "time": "42.6s"
+            },
+            {
+              "src": "assets/frames/clean-05/frame-04.jpg",
+              "time": "61.4s"
+            },
+            {
+              "src": "assets/frames/clean-05/frame-05.jpg",
+              "time": "81.2s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -596,12 +666,26 @@ window.CREATIVE_DATA = {
           "duration": "约22s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 魔术扫把口碑场景，字幕「难怪都用这个」",
-            "1-3s: 从众心理钩子，暗示大家都在用",
-            "3-8s: 浴室积水滑倒隐患、地面头发难扫痛点",
-            "8-14s: 魔术扫把刮水演示，「原来这么好用」反转",
-            "14-19s: 多场景刮水刮灰轻松省力实拍",
-            "19-22s: 直播限时+口碑背书收尾"
+            {
+              "src": "assets/frames/clean-06/frame-01.jpg",
+              "time": "1.9s"
+            },
+            {
+              "src": "assets/frames/clean-06/frame-02.jpg",
+              "time": "7.5s"
+            },
+            {
+              "src": "assets/frames/clean-06/frame-03.jpg",
+              "time": "13.4s"
+            },
+            {
+              "src": "assets/frames/clean-06/frame-04.jpg",
+              "time": "19.3s"
+            },
+            {
+              "src": "assets/frames/clean-06/frame-05.jpg",
+              "time": "25.5s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -639,12 +723,26 @@ window.CREATIVE_DATA = {
           "duration": "约28s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 索邦夹布拖把品牌专区展示",
-            "1-3s: 字幕「夹布拖把选索邦」，品牌+旧物利用双钩子",
-            "3-8s: 洗脸巾浪费、普通拖把脏手痛点",
-            "8-16s: 索邦夹布拖把特写+夹布演示，品牌认知植入",
-            "16-24s: 多场景拖地实拍，夹布牢固不脏手",
-            "24-28s: 品牌专区+直播限时价收尾"
+            {
+              "src": "assets/frames/clean-07/frame-01.jpg",
+              "time": "5s"
+            },
+            {
+              "src": "assets/frames/clean-07/frame-02.jpg",
+              "time": "20s"
+            },
+            {
+              "src": "assets/frames/clean-07/frame-03.jpg",
+              "time": "35.9s"
+            },
+            {
+              "src": "assets/frames/clean-07/frame-04.jpg",
+              "time": "51.7s"
+            },
+            {
+              "src": "assets/frames/clean-07/frame-05.jpg",
+              "time": "68.4s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -682,12 +780,26 @@ window.CREATIVE_DATA = {
           "duration": "约25s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 长柄清洁刷特写，字幕「深入缝隙死角」",
-            "1-3s: 痛点直给钩子，缝隙+死角精准命中",
-            "3-8s: 窗台缝隙/边角死角/冰箱底部难清洁痛点",
-            "8-15s: 长柄刷深入缝隙演示，免弯腰除尘去油污",
-            "15-21s: 窗台/门框/键盘缝隙多场景一刷即净实测",
-            "21-25s: 小店低价+清洁不脏手收尾"
+            {
+              "src": "assets/frames/clean-08/frame-01.jpg",
+              "time": "12.5s"
+            },
+            {
+              "src": "assets/frames/clean-08/frame-02.jpg",
+              "time": "49.8s"
+            },
+            {
+              "src": "assets/frames/clean-08/frame-03.jpg",
+              "time": "89.2s"
+            },
+            {
+              "src": "assets/frames/clean-08/frame-04.jpg",
+              "time": "128.7s"
+            },
+            {
+              "src": "assets/frames/clean-08/frame-05.jpg",
+              "time": "170.2s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -725,12 +837,26 @@ window.CREATIVE_DATA = {
           "duration": "约20s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 主播手持拖把，字幕「老婆买的拖把太牛了」",
-            "1-3s: 素人种草+惊讶语气钩子",
-            "3-7s: 普通拖把吸水差、拖不干净费力痛点",
-            "7-13s: 超强吸水拖把上场，吸水实测演示",
-            "13-17s: 客厅/厨房拖地实拍，水渍一拖即干",
-            "17-20s: 直播限时+「太牛了」口碑收尾"
+            {
+              "src": "assets/frames/clean-09/frame-01.jpg",
+              "time": "5.7s"
+            },
+            {
+              "src": "assets/frames/clean-09/frame-02.jpg",
+              "time": "22.9s"
+            },
+            {
+              "src": "assets/frames/clean-09/frame-03.jpg",
+              "time": "41.1s"
+            },
+            {
+              "src": "assets/frames/clean-09/frame-04.jpg",
+              "time": "59.2s"
+            },
+            {
+              "src": "assets/frames/clean-09/frame-05.jpg",
+              "time": "78.3s"
+            }
           ],
           "golden5": {
             "hook": {
@@ -768,12 +894,26 @@ window.CREATIVE_DATA = {
           "duration": "约15s",
           "videoUrl": "",
           "frames": [
-            "0-1s: 竹节绒厨房抹布特写，字幕「厨房抹布选这款」",
-            "1-3s: 场景精准钩子，锁定厨房清洁人群",
-            "3-6s: 普通抹布掉毛、不吸水、擦不净油污痛点",
-            "6-10s: 竹节绒材质特写+吸水实测+擦油污演示",
-            "10-13s: 厨房台面/锅具/餐具多场景擦拭实拍",
-            "13-15s: 小店最低价+高转化收尾"
+            {
+              "src": "assets/frames/clean-10/frame-01.jpg",
+              "time": "4.5s"
+            },
+            {
+              "src": "assets/frames/clean-10/frame-02.jpg",
+              "time": "18.2s"
+            },
+            {
+              "src": "assets/frames/clean-10/frame-03.jpg",
+              "time": "32.6s"
+            },
+            {
+              "src": "assets/frames/clean-10/frame-04.jpg",
+              "time": "47s"
+            },
+            {
+              "src": "assets/frames/clean-10/frame-05.jpg",
+              "time": "62.1s"
+            }
           ],
           "golden5": {
             "hook": {

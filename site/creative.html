@@ -79,10 +79,13 @@ document.write('<script src="data/creative.js?v='+Date.now()+'"><\/script>');
 <script>
 const C = window.CREATIVE_DATA, tracks = C.tracks;
 
-/* 图片兜底：加载失败重试一次再隐藏 */
+/* 图片兜底：加载失败重试一次，再显示明确占位 */
 function imgFallback(el){
   if(!el.dataset.retry){ el.dataset.retry='1'; const u=el.src; el.src=''; setTimeout(()=>{el.src=u+(u.indexOf('?')>-1?'&':'?')+'r='+Date.now();},500); return; }
-  el.onerror=null; el.style.display='none';
+  el.onerror=null;
+  el.style.display='none';
+  const tip=el.parentElement&&el.parentElement.querySelector('.frame-error');
+  if(tip) tip.style.display='grid';
 }
 
 /* ===== 二层：赛道概览卡片 ===== */
@@ -198,8 +201,16 @@ function renderMaterials(t, chain){
 
 function materialBlock(mt){
   const frames = (mt.frames&&mt.frames.length)
-    ? mt.frames.map((f,i)=>`<div class="frame txt-frame"><span class="no">${i+1}</span><span class="frame-desc">${f}</span></div>`).join('')
-    : `<div class="frame empty"><span class="no">①</span>关键帧待补充</div>`;
+    ? mt.frames.map((f,i)=>{
+        const frame = typeof f==='string' ? {src:f,time:''} : f;
+        return `<div class="frame image-frame">
+          <img src="${frame.src}" alt="${mt.title} 关键帧 ${i+1}" loading="lazy" onerror="imgFallback(this)">
+          <span class="no">${i+1}</span>
+          ${frame.time?`<span class="frame-time">${frame.time}</span>`:''}
+          <span class="frame-error">图片加载失败</span>
+        </div>`;
+      }).join('')
+    : `<div class="frame empty"><span class="no">1</span>关键帧待补充</div>`;
   const g=mt.golden5;
   const seg=(cls,label,d)=>`<div class="seg ${cls}"><div class="sh"><span class="seg-label">${label}</span><span class="tm">${d.time}</span></div><div class="sd">${d.desc}</div></div>`;
   const chainTag = mt.chain ? `<span class="chain-tag" data-chain="${mt.chain}">【${mt.chain}】</span>` : '';

@@ -211,9 +211,13 @@ a{color:inherit;text-decoration:none}
 .frames-label{font-weight:700;font-size:13px;margin:12px 0 6px;color:var(--txt2)}
 .g5-label{font-weight:700;font-size:13px;margin:14px 0 6px;color:var(--txt2)}
 .frame.empty{opacity:.5}
-.frame.txt-frame{flex-direction:row;align-items:flex-start;gap:8px;padding:10px 12px;min-width:auto;flex:1;text-align:left}
-.frame.txt-frame .no{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
-.frame.txt-frame .frame-desc{font-size:13px;line-height:1.5;color:var(--txt2);flex:1}
+.frame.image-frame{overflow:hidden;background:#080a0f}
+.frame.image-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:8px}
+.frame.image-frame .no{z-index:2}
+.frame-time{position:absolute;right:6px;bottom:6px;z-index:2;font-size:10px;font-weight:700;
+  color:#fff;background:rgba(0,0,0,.65);padding:2px 7px;border-radius:8px}
+.frame-error{display:none;position:absolute;inset:0;place-items:center;color:var(--txt3);
+  background:var(--bg2);padding:12px;text-align:center}
 
 /* ---------- 提示条 ---------- */
 .notice{background:rgba(75,139,245,.08);border:1px solid rgba(75,139,245,.3);
