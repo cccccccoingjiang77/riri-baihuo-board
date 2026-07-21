@@ -67,11 +67,16 @@
 
 <script>
 var _v=Date.now();
+document.write('<script src="data/product-assets.js?v='+_v+'"><\/script>');
 document.write('<script src="data/selection.js?v='+_v+'"><\/script>');
 document.write('<script src="data/calendar.js?v='+_v+'"><\/script>');
 </script>
 <script>
 const S = window.SELECTION_DATA, CAL = window.CALENDAR_DATA;
+const PRODUCT_ASSETS = window.PRODUCT_ASSETS || {};
+const PRODUCT_IMAGES = PRODUCT_ASSETS.images || {};
+const TRACK_ORDER = PRODUCT_ASSETS.trackOrder || [];
+function productImage(x){ return PRODUCT_IMAGES[x.name] || x.image || ''; }
 document.getElementById('metaLine').innerHTML =
   `<span class="pill">榜单期次 <b>${S.meta.period}</b></span>`+
   `<span class="pill">CID总量 <b>${S.meta.cidTotal||S.nonClosed.items.length}</b></span>`+
@@ -124,19 +129,20 @@ function imgFallback(el){
   const box=el.parentNode; if(box && !box.querySelector('.ph')){ const s=document.createElement('span'); s.className='ph'; s.textContent='商品图'; box.appendChild(s); }
 }
 
-function productCard(x){
-  const img = x.image
-    ? `<img src="${x.image}" loading="lazy" onerror="imgFallback(this)">`
+function productCard(x, linkKey){
+  const imageUrl = productImage(x);
+  const img = imageUrl
+    ? `<img src="${imageUrl}" loading="lazy" onerror="imgFallback(this)">`
     : `<span class="ph">商品图待补充</span>`;
   const roi = x.roi? `<div class="roi-badge">ROI ${x.roi}</div>`:'';
-  // 落地页取 landing（真实小程序/URL），闭环链路 link 多为标签不作复制；均改为点击复制
+  // 只有非闭环 CID/小程序展示落地页按钮；闭环全域通与 ADQ 不展示链接区域
   const isUrl = v => v && v!=='-' && /^(https?:|#小程序|weixin:|\/\/)/i.test(v);
-  const landUrl = isUrl(x.landing) ? x.landing : (isUrl(x.link) ? x.link : '');
-  const matUrl  = isUrl(x.material) ? x.material : '';
+  const landUrl = linkKey==='nonClosed' ? (isUrl(x.landing) ? x.landing : (isUrl(x.link) ? x.link : '')) : '';
   const landBtn = landUrl
     ? `<button class="btn-sm pri" onclick="event.stopPropagation();copyLink(this,'${landUrl.replace(/'/g,"\\'")}','落地页')">📋 复制落地页</button>` : '';
-  // 保护客户视频创意：不对外暴露素材原片入口
-  const matBtn = '';
+  const actions = linkKey==='nonClosed'
+    ? `<div class="acts">${landBtn || '<span class="btn-sm">落地页待补充</span>'}</div>`
+    : '';
   return `<div class="pcard">
     <div class="img">${img}${roi}</div>
     <div class="body">
@@ -149,7 +155,7 @@ function productCard(x){
         <span class="kpi">ROI <b>${fmt(x.roi)}</b></span>
       </div>
       <div class="mat">素材：${esc((x.placement||x.material)?'短视频/图文':'—')}</div>
-      <div class="acts">${landBtn}${matBtn}${(!landBtn&&!matBtn)?'<span class="btn-sm">链接待补充</span>':''}</div>
+      ${actions}
     </div>
   </div>`;
 }
@@ -162,9 +168,13 @@ function renderLink(key){
   const groups = {};
   items.forEach(x=>{ (groups[x.category2]=groups[x.category2]||[]).push(x); });
   Object.values(groups).forEach(arr=>arr.sort((a,b)=>(b.spend||0)-(a.spend||0) || (b.roi||0)-(a.roi||0)));
-  const order = Object.entries(groups).sort((a,b)=>b[1].length-a[1].length);
+  const orderIndex = cat => {
+    const index = TRACK_ORDER.indexOf(cat);
+    return index < 0 ? TRACK_ORDER.length : index;
+  };
+  const order = Object.entries(groups).sort((a,b)=>orderIndex(a[0])-orderIndex(b[0]) || b[1].length-a[1].length);
 
-  // ---- 二级类目导航栏 ----
+  // ---- 二级类目导航栏（与卖点&创意看板赛道同名、同序） ----
   const nav = document.getElementById('catNav');
   nav.innerHTML = `<span class="cn-label">垂类导航：</span>` +
     order.map(([cat,arr],i)=>
@@ -177,7 +187,7 @@ function renderLink(key){
     html += `<div class="cat-block" id="${catId(cat)}">
       <div class="cat-h"><span class="bar" style="width:4px;height:15px;background:var(--gold);border-radius:2px"></span>
         ${cat} <span class="cnt">· ${arr.length} 个选品</span></div>
-      <div class="grid-cards">${arr.map(productCard).join('')}</div>
+      <div class="grid-cards">${arr.map(x=>productCard(x,key)).join('')}</div>
     </div>`;
   });
   document.getElementById('linkBody').innerHTML = html || '<div class="notice">该链路暂无选品数据。</div>';
@@ -256,7 +266,8 @@ function matchItems(node){
   return rankItems(out);
 }
 function focusMini(x, index){
-  const img = x.image? `<img src="${x.image}" loading="lazy" onerror="imgFallback(this)">` : `<span class="ph">图</span>`;
+  const imageUrl = productImage(x);
+  const img = imageUrl? `<img src="${imageUrl}" loading="lazy" onerror="imgFallback(this)">` : `<span class="ph">图</span>`;
   return `<div class="fx-item">
     <div class="fx-img">${img}<span class="fx-rank">TOP ${index+1}</span></div>
     <div class="fx-nm">${esc(x.name)}</div>
@@ -309,6 +320,26 @@ document.querySelectorAll('#timeline .tl-item').forEach(el=>el.onclick=()=>{
   const node=CAL.find(n=>n.id===el.dataset.id);
   if(node){ showCycleNode(node); const c=document.getElementById('cycleFocus'); window.scrollTo({top:c.getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'}); }
 });
+
+/* 首页定向下钻：按 URL 参数打开对应链路或节气节点 */
+(function applyRoute(){
+  const params = new URLSearchParams(location.search);
+  const view = params.get('view');
+  if(view==='cycle'){
+    document.querySelectorAll('#topTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.v==='cycle'));
+    document.getElementById('viewLink').style.display='none';
+    document.getElementById('viewCycle').style.display='';
+    const node=CAL.find(n=>n.id===params.get('node'));
+    if(node) showCycleNode(node);
+    return;
+  }
+  const link = ['nonClosed','qyt','adq'].includes(params.get('link')) ? params.get('link') : 'nonClosed';
+  document.querySelectorAll('#topTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.v==='link'));
+  document.querySelectorAll('#linkTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.l===link));
+  document.getElementById('viewLink').style.display='';
+  document.getElementById('viewCycle').style.display='none';
+  renderLink(link);
+})();
 
 /* 回到顶部按钮 */
 (function(){var b=document.getElementById('backTop');window.addEventListener('scroll',function(){b.classList.toggle('show',window.scrollY>300);});})();

@@ -282,7 +282,7 @@ export function parseSelection(text) {
 export function dumpSelection(data) {
   return [
     "/* 由在线上传+审核后端自动写入 */",
-    "/* 商品图由系统按商品名自动联网生成(pollinations)，运营只需维护商品名 */",
+    "/* 商品图优先使用运营商品图库；页面按商品名自动匹配本地静态资源 */",
     "window.SELECTION_DATA = " + JSON.stringify(data, null, 2) + ";",
     "",
   ].join("\n");

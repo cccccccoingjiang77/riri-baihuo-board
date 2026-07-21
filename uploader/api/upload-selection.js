@@ -3,12 +3,23 @@
 // 流程：解析 Excel 选品表 -> 自适应表头抓取数据 -> 补齐图直链 -> 直接合并上线（跳过审批）
 import * as XLSX from "xlsx";
 import {
-  ENV, ghGetFile, ghPutFile, genSelectionImage, setCors, readJsonBody, checkToken,
+  ENV, ghGetFile, ghPutFile, setCors, readJsonBody, checkToken,
   SELECTION_PATH, parseSelection, dumpSelection, mergeSelection, mergeSelectionByTarget,
 } from "./_lib.js";
 
+const PRODUCT_ASSETS_PATH = "site/data/product-assets.js";
+
+function parseProductAssets(text) {
+  const match = String(text || "").match(/window\.PRODUCT_ASSETS\s*=\s*(\{[\s\S]*\});/);
+  return match ? JSON.parse(match[1]) : { images: {}, tracks: {}, leafTracks: {} };
+}
+
+function normalizeAssetKey(value) {
+  return String(value || "").toLowerCase().replace(/[\s·|｜（）()【】\[\]{}，,。:：;；'"_\-/]/g, "");
+}
+
 // 自适应行高解析 Sheet，找到含有"商品名称"的行作为表头，提取对应列数据
-function parseSheetToItems(sheet) {
+function parseSheetToItems(sheet, productAssets) {
   const jsonRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   if (!jsonRows.length) return [];
 
@@ -66,18 +77,17 @@ function parseSheetToItems(sheet) {
       landing: val("落地页链接") || "",
       createdAt: val("创建日期") || "",
     };
-    item.category2 = item.industry || item.leaf.split(/[>\-–]/)[0].trim() || "其他";
-
     // 缩短 leaf 层级展示，对齐 leaf() 函数
     if (item.leaf) {
       const parts = item.leaf.split(/[>\-–]/);
       item.leaf = parts[parts.length - 1].trim();
     }
 
-    // 联网配图兜底
-    if (!item.image) {
-      item.image = genSelectionImage(item.name, item.leaf);
-    }
+    // 商品图与赛道优先复用运营维护的本地映射，不再调用联网生图
+    item.image = productAssets.images?.[item.name] || item.image || "";
+    item.category2 = productAssets.tracks?.[item.name]
+      || productAssets.leafTracks?.[normalizeAssetKey(item.leaf)]
+      || "生活日用-其他";
 
     items.push(item);
   }
@@ -125,7 +135,9 @@ export default async function handler(req, res) {
     if (!buf?.length)
       return res.status(400).json({ error: "缺少 Excel 文件" });
 
-    // 1) 解析 Excel Sheets
+    // 1) 读取运营商品图库映射并解析 Excel Sheets
+    const assetsFile = await ghGetFile(PRODUCT_ASSETS_PATH);
+    const productAssets = parseProductAssets(assetsFile?.text);
     const wb = XLSX.read(buf, { type: "buffer" });
 
     let cidItems = [];
@@ -134,7 +146,7 @@ export default async function handler(req, res) {
 
     for (const sheetName of wb.SheetNames) {
       const ws = wb.Sheets[sheetName];
-      const items = parseSheetToItems(ws);
+      const items = parseSheetToItems(ws, productAssets);
       if (!items.length) continue;
       allItems = allItems.concat(items);
 

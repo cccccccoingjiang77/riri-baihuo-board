@@ -77,7 +77,7 @@
   </section>
 </div>
 
-<div class="footer">数据源：2026年日百家居行业选品台 · benchmark 引用 home-daily-knowledge 共享知识层 · 商品图由系统按商品名自动生成</div>
+<div class="footer">数据源：2026年日百家居行业选品台 · benchmark 引用 home-daily-knowledge 共享知识层 · 商品图优先取自运营商品图库</div>
 
 <button id="backTop" class="back-top" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 顶部</button>
 <script>
@@ -86,12 +86,14 @@
 
 <script>
 var _v=Date.now();
-['activity','selection','creative','calendar'].forEach(function(f){
+['activity','product-assets','selection','creative','calendar'].forEach(function(f){
   document.write('<script src="data/'+f+'.js?v='+_v+'"><\/script>');
 });
 </script>
 <script>
 const S = window.SELECTION_DATA, C = window.CREATIVE_DATA, CAL = window.CALENDAR_DATA;
+const PRODUCT_IMAGES = (window.PRODUCT_ASSETS && window.PRODUCT_ASSETS.images) || {};
+function productImage(x){ return PRODUCT_IMAGES[x.name] || x.image || ''; }
 
 /* ---------- 平台限时活动 ---------- */
 const ACTIVITY = window.ACTIVITY_DATA;
@@ -144,21 +146,21 @@ document.getElementById('selChips').innerHTML =
 function box(n,l){return `<div class="kbox"><div class="n">${n}</div><div class="l">${l}</div></div>`}
 
 /* 分链路 Top3：按消耗降序；ROI 作为同消耗下的辅助排序 */
-function top3col(title,color,items){
+function top3col(title,color,items,linkKey){
   const sorted = [...items].sort((a,b)=>(b.spend||0)-(a.spend||0) || (b.roi||0)-(a.roi||0));
   const rows = sorted.slice(0,3).map((x,i)=>`
-    <a class="t3" href="selection.html" onclick="event.stopPropagation()">
+    <a class="t3" href="selection.html?view=link&link=${linkKey}" onclick="event.stopPropagation()">
       <span class="rk r${i+1}">${i+1}</span>
-      <div class="t3img"><img src="${x.image}" loading="lazy" onerror="imgFallback(this)"><span class="t3ph" style="display:none">图</span></div>
+      <div class="t3img"><img src="${productImage(x)}" loading="lazy" onerror="imgFallback(this)"><span class="t3ph" style="display:none">图</span></div>
       <div class="mid"><div class="nm">${x.name}</div><div class="sub2">${x.leaf||x.category2}</div></div>
       <div class="rgt"><div class="pr">ROI ${x.roi||'—'} · ¥${x.price||'—'}</div></div>
     </a>`).join('');
   return `<div class="t3col"><div class="t3h" style="color:${color}">${title}</div>${rows}</div>`;
 }
 document.getElementById('selTop3').innerHTML =
-  top3col('非闭环 · CID/小程序','#4b8bf5',nonC)+
-  top3col('闭环 · 全域通','#37c98a',qyt)+
-  top3col('闭环 · ADQ','#9b6cf0',adq);
+  top3col('非闭环 · CID/小程序','#4b8bf5',nonC,'nonClosed')+
+  top3col('闭环 · 全域通','#37c98a',qyt,'qyt')+
+  top3col('闭环 · ADQ','#9b6cf0',adq,'adq');
 
 /* 当前/临近热门节点：优先"当前正处于窗口内"的节点，其次临近 */
 function parseWin(n){
@@ -185,7 +187,7 @@ function pickNodes(){
   return scored.slice(0,3).map(s=>s.n);
 }
 document.getElementById('selNodes').innerHTML = pickNodes().map(n=>`
-  <a class="node-card" href="selection.html" onclick="event.stopPropagation()">
+  <a class="node-card" href="selection.html?view=cycle&node=${encodeURIComponent(n.id)}" onclick="event.stopPropagation()">
     <div class="nh"><span class="nm">${n.name}</span><span class="cal-type ${n.type}">${n.type}</span></div>
     <div class="win">🗓 ${n.window||n.win||''}</div>
     <div class="cats">${(n.categories||[]).slice(0,4).map(c=>`<span class="chip">${c}</span>`).join('')}</div>
