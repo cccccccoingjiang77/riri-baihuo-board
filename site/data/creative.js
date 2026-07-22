@@ -6057,9 +6057,30 @@ window.CREATIVE_DATA = {
           "ctr": 3.54,
           "cvr": 1.12,
           "cpm": 120.2,
-          "duration": "未提供",
+          "duration": "约32s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3sqaa4aaah4ahh6kl2jurvfaeb2kaadsa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-10-8919615bdb/frame-01.jpg",
+              "time": "1.9s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-10-8919615bdb/frame-02.jpg",
+              "time": "7.6s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-10-8919615bdb/frame-03.jpg",
+              "time": "13.6s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-10-8919615bdb/frame-04.jpg",
+              "time": "19.6s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-10-8919615bdb/frame-05.jpg",
+              "time": "26s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -6081,7 +6102,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「商务送礼首选」。承接小店链路，引导下单，强调「送礼有面子，自用招财」。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 11,
