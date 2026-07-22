@@ -681,9 +681,14 @@ window.CREATIVE_DATA = {
           "ctr": 0.86,
           "cvr": 1.9,
           "cpm": 35.41,
-          "duration": "未提供",
+          "duration": "图片素材",
           "videoUrl": "http://pgdt.gtimg.cn/141/20204/snscosdownload/SZ/reserved/6a27be3a000d79e62e1fc0e4c66fbc1e0000008d00004eec",
-          "frames": [],
+          "frames": [
+            {
+              "src": "https://pgdt.gtimg.cn/141/20204/snscosdownload/SZ/reserved/6a27be3a000d79e62e1fc0e4c66fbc1e0000008d00004eec",
+              "time": ""
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -705,7 +710,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『控温助眠，可机洗，送礼袋。』福利：小店新客价，限时包邮。行动指令：『点击下方链接，立即购买。』链路承接：小店下单。"
             }
-          }
+          },
+          "sourceType": "image"
         },
         {
           "rank": 11,
