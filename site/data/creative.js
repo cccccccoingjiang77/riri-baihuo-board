@@ -724,9 +724,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.91,
           "cvr": 23.34,
           "cpm": 25.19,
-          "duration": "未提供",
+          "duration": "约20s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3w4bkiaact4akyejhnzvbrnyeus3qfjca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-5d3a00c7-11-bad2f2f3aa/frame-01.jpg",
+              "time": "1.2s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-11-bad2f2f3aa/frame-02.jpg",
+              "time": "4.8s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-11-bad2f2f3aa/frame-03.jpg",
+              "time": "8.6s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-11-bad2f2f3aa/frame-04.jpg",
+              "time": "12.5s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-11-bad2f2f3aa/frame-05.jpg",
+              "time": "16.5s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -748,7 +769,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『一次性枕套，干净卫生，便携。』福利：多包组合装，限时特价。行动指令：『点击下方链接，出门必备。』链路承接：小店下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 12,
