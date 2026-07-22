@@ -579,9 +579,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.84,
           "cvr": 3.92,
           "cpm": 83.25,
-          "duration": "未提供",
+          "duration": "约62s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53eeakiaaadmajioqmpzvbuiieuqqqbjca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-5d3a00c7-08-417fdb2e34/frame-01.jpg",
+              "time": "3.7s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-08-417fdb2e34/frame-02.jpg",
+              "time": "14.9s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-08-417fdb2e34/frame-03.jpg",
+              "time": "26.6s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-08-417fdb2e34/frame-04.jpg",
+              "time": "38.4s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-08-417fdb2e34/frame-05.jpg",
+              "time": "50.7s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -603,7 +624,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『冰丝透气，四季通用，防滑耐磨。』福利：清仓价直出，拍一发多。行动指令：『点击下方链接，马上抢购。』链路承接：CID跳转商品页。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 9,
