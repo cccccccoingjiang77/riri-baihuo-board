@@ -638,9 +638,14 @@ window.CREATIVE_DATA = {
           "ctr": 26.75,
           "cvr": 3.01,
           "cpm": 1096.36,
-          "duration": "未提供",
+          "duration": "图片素材",
           "videoUrl": "http://pgdt.gtimg.cn/141/20204/snscosdownload/SZ/reserved/69673548000749b22d63ccaff119b6150000008d00004eec",
-          "frames": [],
+          "frames": [
+            {
+              "src": "https://pgdt.gtimg.cn/141/20204/snscosdownload/SZ/reserved/69673548000749b22d63ccaff119b6150000008d00004eec",
+              "time": ""
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -662,7 +667,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『透气控温，深睡整夜。』福利：直购专享价，限时赠枕套。行动指令：『点击链接，立即购买。』链路承接：直购页面。"
             }
-          }
+          },
+          "sourceType": "image"
         },
         {
           "rank": 10,
