@@ -5100,9 +5100,30 @@ window.CREATIVE_DATA = {
           "ctr": 3.49,
           "cvr": 5.16,
           "cpm": 46.77,
-          "duration": "未提供",
+          "duration": "约42s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3readeaaadyaehwz7hrvbvciegkeqamsa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-fd0f5561-07-03e1f26f56/frame-01.jpg",
+              "time": "2.5s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-07-03e1f26f56/frame-02.jpg",
+              "time": "10.1s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-07-03e1f26f56/frame-03.jpg",
+              "time": "18.1s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-07-03e1f26f56/frame-04.jpg",
+              "time": "26s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-07-03e1f26f56/frame-05.jpg",
+              "time": "34.4s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5124,7 +5145,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "复述“实用百搭，妈妈出游必备”，引导购买，链路为小店。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 8,
