@@ -5880,9 +5880,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.12,
           "cvr": 15.3,
           "cpm": 13.94,
-          "duration": "未提供",
+          "duration": "约31s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53madq2aahgaah5s7uyjur2yaebvqaodka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-07-a1ce9e3763/frame-01.jpg",
+              "time": "1.9s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-07-a1ce9e3763/frame-02.jpg",
+              "time": "7.5s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-07-a1ce9e3763/frame-03.jpg",
+              "time": "13.5s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-07-a1ce9e3763/frame-04.jpg",
+              "time": "19.5s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-07-a1ce9e3763/frame-05.jpg",
+              "time": "25.8s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5904,7 +5925,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「下单享加赠福利」。承接小店链路，引导下单，强调「数量有限，赠完即止」。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 8,
