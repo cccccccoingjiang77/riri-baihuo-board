@@ -6116,9 +6116,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.02,
           "cvr": 23.34,
           "cpm": 41.65,
-          "duration": "未提供",
+          "duration": "约143s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53uyankaaa5eaemxsqvnvbxjqe2wtabvka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-11-bcb80385df/frame-01.jpg",
+              "time": "8.6s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-11-bcb80385df/frame-02.jpg",
+              "time": "34.2s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-11-bcb80385df/frame-03.jpg",
+              "time": "61.3s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-11-bcb80385df/frame-04.jpg",
+              "time": "88.4s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-11-bcb80385df/frame-05.jpg",
+              "time": "117s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -6140,7 +6161,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「#高级感发夹」。承接小店链路，引导下单，强调「限时特价，两件包邮」。"
             }
-          }
+          },
+          "sourceType": "video"
         }
       ]
     }
