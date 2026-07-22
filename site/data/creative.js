@@ -5644,9 +5644,30 @@ window.CREATIVE_DATA = {
           "ctr": 3.14,
           "cvr": 7.97,
           "cpm": 65.63,
-          "duration": "未提供",
+          "duration": "约67s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53kuansaaa7qamlv23ifvbuvie3fkqbwka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-03-9f603b8400/frame-01.jpg",
+              "time": "4s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-03-9f603b8400/frame-02.jpg",
+              "time": "16.1s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-03-9f603b8400/frame-03.jpg",
+              "time": "28.9s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-03-9f603b8400/frame-04.jpg",
+              "time": "41.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-03-9f603b8400/frame-05.jpg",
+              "time": "55.1s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5668,7 +5689,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「今日下单，送开光加持」。承接小店链路，引导点击购买，强调「限量结缘」，制造稀缺感。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 4,
