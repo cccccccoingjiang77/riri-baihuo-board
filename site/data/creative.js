@@ -4864,9 +4864,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.31,
           "cvr": 7.04,
           "cpm": 92.33,
-          "duration": "未提供",
+          "duration": "约120s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53qycpqaaebaajax2h65vb5bqe7cdaj6ca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-fd0f5561-03-d6d6049462/frame-01.jpg",
+              "time": "7.2s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-03-d6d6049462/frame-02.jpg",
+              "time": "28.8s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-03-d6d6049462/frame-03.jpg",
+              "time": "51.6s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-03-d6d6049462/frame-04.jpg",
+              "time": "74.4s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-03-d6d6049462/frame-05.jpg",
+              "time": "98.4s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -4888,7 +4909,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "复述“防水防霉，安全环保”，引导点击购买，链路为CID，直接转化。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 4,
