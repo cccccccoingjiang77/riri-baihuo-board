@@ -12,6 +12,7 @@ export const ENV = {
   GH_BRANCH: process.env.GH_BRANCH || "main",
   CREATIVE_PATH: process.env.CREATIVE_PATH || "site/data/creative.js",
   PENDING_DIR: process.env.PENDING_DIR || "pending",     // 待审核区目录
+  FRAME_WORKFLOW: process.env.FRAME_WORKFLOW || "refresh-frames.yml",
 
   // AI（OpenAI 兼容格式：OpenAI / DeepSeek / 通义 / 混元兼容端点 均可）
   AI_BASE_URL: process.env.AI_BASE_URL || "https://api.openai.com/v1",
@@ -148,15 +149,25 @@ export async function ghListDir(path) {
   return Array.isArray(j) ? j : [];
 }
 
+// ---------- GitHub：触发后台关键帧工作流 ----------
+export async function ghDispatchFrameWorkflow(trackName) {
+  const url = `${GH_API}/repos/${ENV.GH_OWNER}/${ENV.GH_REPO}/actions/workflows/${encodeURIComponent(ENV.FRAME_WORKFLOW)}/dispatches`;
+  const r = await fetch(url, {
+    method: "POST",
+    headers: ghHeaders(),
+    body: JSON.stringify({ ref: ENV.GH_BRANCH, inputs: { track_name: trackName } }),
+  });
+  if (!r.ok) throw new Error(`关键帧后台任务触发失败: ${r.status} ${await r.text()}`);
+}
+
 // ============================================================
 // creative.js 解析 / 合并（Node 版，逻辑对齐 merge_into_creative.py）
 // ============================================================
 
-// skill 负责的字段（基础分析字段；topMaterials 单独做保护性合并）
+// 上传负责的完整赛道字段；字段即使为空也必须写入，用本次结果清除旧内容
 export const OWNED_FIELDS = ["metrics", "sellingWords", "painWords", "sellingContext", "scripts", "keyPoints"];
 
-function mergeTopMaterials(existing = [], incoming = []) {
-  if (!incoming.length) return existing;
+function replaceTopMaterials(incoming = []) {
   return incoming.map((item, index) => ({
     ...item,
     rank: index + 1,
@@ -188,35 +199,23 @@ export function dumpCreative(data) {
   ].join("\n");
 }
 
-// 把一个 track 合并进 data.tracks；基础模块覆盖，Top素材按本次上传整体替换
+// 按赛道全量替换：同名赛道先整体移除，再仅写入本次上传产物，不保留任何旧字段或旧素材
 export function mergeTrack(data, track) {
   const name = (track.name || "").trim();
   if (!name) throw new Error("track 缺少 name（赛道名）");
-  const payload = {};
-  for (const k of OWNED_FIELDS) {
-    const v = track[k];
-    if (v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0)) payload[k] = v;
-  }
   data.tracks = data.tracks || [];
-  for (const t of data.tracks) {
-    if (t.name === name) {
-      Object.assign(t, payload);
-      if (Array.isArray(track.topMaterials) && track.topMaterials.length) {
-        t.topMaterials = mergeTopMaterials(t.topMaterials, track.topMaterials);
-      }
-      if (track.owner) t.owner = track.owner;
-      return { action: "update", name };
-    }
-  }
-  const nt = { name };
-  if (track.key) nt.key = track.key;
-  if (track.owner) nt.owner = track.owner;
-  Object.assign(nt, payload);
-  if (Array.isArray(track.topMaterials) && track.topMaterials.length) {
-    nt.topMaterials = mergeTopMaterials([], track.topMaterials);
-  }
-  data.tracks.push(nt);
-  return { action: "add", name };
+  const existingIndex = data.tracks.findIndex(t => t.name === name);
+  const existing = existingIndex >= 0 ? data.tracks[existingIndex] : null;
+  const replacement = {
+    name,
+    key: track.key || existing?.key || "",
+    owner: track.owner || "",
+    ...Object.fromEntries(OWNED_FIELDS.map(field => [field, track[field] ?? (field === "metrics" ? {} : [])])),
+    topMaterials: replaceTopMaterials(Array.isArray(track.topMaterials) ? track.topMaterials : []),
+  };
+  if (existingIndex >= 0) data.tracks.splice(existingIndex, 1, replacement);
+  else data.tracks.push(replacement);
+  return { action: existingIndex >= 0 ? "update" : "add", name };
 }
 
 // ============================================================
@@ -307,55 +306,32 @@ function hashString(str) {
   return hash;
 }
 
-// 按赛道覆盖合并选品数据：
-// 1. 在 nonClosed.items、quanyutong.items、adq.items 中，过滤掉所有 category2 === trackName 的旧数据
-// 2. 将新的非闭环、全域通、ADQ 选品追加进去，按 ROI 从大到小排序，保留 Top
+// 兼容旧版整包上传：三个链路均以本次文件为准全量替换，不保留线上旧商品
 export function mergeSelection(data, trackName, newItems) {
-  const filterOld = (arr) => (arr || []).filter(x => x.category2 !== trackName);
-  
-  data.nonClosed = data.nonClosed || { items: [] };
-  data.nonClosed.items = filterOld(data.nonClosed.items);
+  const replaceItems = (items, limit = 40) => [...(items || [])]
+    .map(item => ({ ...item, category2: item.category2 || trackName }))
+    .sort((a, b) => (b.spend || 0) - (a.spend || 0) || (b.roi || 0) - (a.roi || 0))
+    .slice(0, limit);
 
-  data.closed = data.closed || { channels: { quanyutong: { items: [] }, adq: { items: [] } } };
-  data.closed.channels = data.closed.channels || { quanyutong: { items: [] }, adq: { items: [] } };
+  data.nonClosed = data.nonClosed || { items: [] };
+  data.closed = data.closed || { channels: {} };
+  data.closed.channels = data.closed.channels || {};
   data.closed.channels.quanyutong = data.closed.channels.quanyutong || { items: [] };
   data.closed.channels.adq = data.closed.channels.adq || { items: [] };
-  
-  data.closed.channels.quanyutong.items = filterOld(data.closed.channels.quanyutong.items);
-  data.closed.channels.adq.items = filterOld(data.closed.channels.adq.items);
 
-  // 追加新数据
-  for (const item of (newItems.nonClosed || [])) {
-    item.category2 = trackName;
-    data.nonClosed.items.push(item);
-  }
-  for (const item of (newItems.quanyutong || [])) {
-    item.category2 = trackName;
-    data.closed.channels.quanyutong.items.push(item);
-  }
-  for (const item of (newItems.adq || [])) {
-    item.category2 = trackName;
-    data.closed.channels.adq.items.push(item);
-  }
+  data.nonClosed.items = replaceItems(newItems.nonClosed);
+  data.closed.channels.quanyutong.items = replaceItems(newItems.quanyutong);
+  data.closed.channels.adq.items = replaceItems(newItems.adq);
 
-  // 排序
-  const sortByRoi = (arr) => arr.sort((a, b) => (b.roi || 0) - (a.roi || 0));
-  sortByRoi(data.nonClosed.items);
-  sortByRoi(data.closed.channels.quanyutong.items);
-  sortByRoi(data.closed.channels.adq.items);
-
-  return { nonClosedCount: newItems.nonClosed?.length || 0, closedCount: (newItems.quanyutong?.length || 0) + (newItems.adq?.length || 0) };
+  return { nonClosedCount: data.nonClosed.items.length, closedCount: data.closed.channels.quanyutong.items.length + data.closed.channels.adq.items.length };
 }
 
 export function mergeSelectionByTarget(data, module, target, label, items) {
   const incoming = [...(items || [])];
-  const mergeItems = (existing, limit = 40) => {
-    const byName = new Map((existing || []).map(x => [x.name, x]));
-    incoming.forEach(x => byName.set(x.name, { ...(byName.get(x.name) || {}), ...x }));
-    return [...byName.values()]
-      .sort((a, b) => (b.spend || 0) - (a.spend || 0) || (b.roi || 0) - (a.roi || 0))
-      .slice(0, limit);
-  };
+  const replaceItems = (limit = 40) => incoming
+    .map(item => ({ ...item }))
+    .sort((a, b) => (b.spend || 0) - (a.spend || 0) || (b.roi || 0) - (a.roi || 0))
+    .slice(0, limit);
   const cycleTargets = new Set([
     "xiaohan_dahan", "spring_festival", "lichun_yushui", "kaixue_kaigong",
     "jingzhe_chunfen", "huinantian", "qingming", "guyu_lixia", "wuyi", "muqin_jie",
@@ -367,7 +343,7 @@ export function mergeSelectionByTarget(data, module, target, label, items) {
   if (module === "cycle") {
     if (!cycleTargets.has(target)) throw new Error("未知的热点周期或节气节点");
     data.cycles = data.cycles || {};
-    const list = mergeItems(data.cycles[target]?.items, 25);
+    const list = replaceItems(25);
     data.cycles[target] = { label, items: list };
     return { module, target, label, count: incoming.length, total: list.length };
   }
@@ -379,10 +355,10 @@ export function mergeSelectionByTarget(data, module, target, label, items) {
   data.closed.channels.quanyutong = data.closed.channels.quanyutong || { items: [] };
   data.closed.channels.adq = data.closed.channels.adq || { items: [] };
 
-  let list;
-  if (target === "nonClosed") data.nonClosed.items = list = mergeItems(data.nonClosed.items);
-  else if (target === "quanyutong") data.closed.channels.quanyutong.items = list = mergeItems(data.closed.channels.quanyutong.items);
-  else if (target === "adq") data.closed.channels.adq.items = list = mergeItems(data.closed.channels.adq.items);
+  const list = replaceItems(40);
+  if (target === "nonClosed") data.nonClosed.items = list;
+  else if (target === "quanyutong") data.closed.channels.quanyutong.items = list;
+  else if (target === "adq") data.closed.channels.adq.items = list;
   else throw new Error("未知的分链路榜单归属");
 
   return { module: "link", target, label, count: incoming.length, total: list.length };
