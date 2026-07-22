@@ -5821,9 +5821,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.56,
           "cvr": 6.82,
           "cpm": 124.42,
-          "duration": "未提供",
+          "duration": "约44s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3qubcwaacb4ajd3a3mjvbrbiefocqek2a.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-06-e944f1a146/frame-01.jpg",
+              "time": "2.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-06-e944f1a146/frame-02.jpg",
+              "time": "10.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-06-e944f1a146/frame-03.jpg",
+              "time": "19.1s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-06-e944f1a146/frame-04.jpg",
+              "time": "27.6s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-06-e944f1a146/frame-05.jpg",
+              "time": "36.5s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5845,7 +5866,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「今天下单，送豆种」。承接直播链路，引导进入直播间，强调「现做现发，新鲜到家」。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 7,
