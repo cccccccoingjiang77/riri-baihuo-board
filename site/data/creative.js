@@ -5939,9 +5939,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.47,
           "cvr": 6.07,
           "cpm": 137.31,
-          "duration": "未提供",
+          "duration": "约15s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3v4ac2aaaqaag6sj7ejvbvlyefwxqalka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-08-bc405cea0a/frame-01.jpg",
+              "time": "0.9s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-08-bc405cea0a/frame-02.jpg",
+              "time": "3.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-08-bc405cea0a/frame-03.jpg",
+              "time": "6.6s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-08-bc405cea0a/frame-04.jpg",
+              "time": "9.5s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-08-bc405cea0a/frame-05.jpg",
+              "time": "12.6s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5963,7 +5984,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「夏天必备，清凉一夏」。承接直播链路，引导进入直播间，强调「限时折扣，买一送一」。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 9,
