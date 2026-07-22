@@ -4746,9 +4746,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.9,
           "cvr": 12.47,
           "cpm": 53.68,
-          "duration": "未提供",
+          "duration": "约132s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3ymaf4aaa6uamalkmxbvbvqyel3bqaxsa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-fd0f5561-01-5a41485bec/frame-01.jpg",
+              "time": "7.9s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-01-5a41485bec/frame-02.jpg",
+              "time": "31.7s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-01-5a41485bec/frame-03.jpg",
+              "time": "56.8s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-01-5a41485bec/frame-04.jpg",
+              "time": "81.9s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-01-5a41485bec/frame-05.jpg",
+              "time": "108.3s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -4770,7 +4791,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "复述核心卖点“百福缸，大师手工”，引导点击购买，链路为小店，直接转化。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 2,
