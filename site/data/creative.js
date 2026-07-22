@@ -5526,9 +5526,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.65,
           "cvr": 19.67,
           "cpm": 136.02,
-          "duration": "未提供",
+          "duration": "约118s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53vmatqaabn4aehh2vlbvbxkyehcvqcoca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-01-c1cbfb3468/frame-01.jpg",
+              "time": "7.1s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-01-c1cbfb3468/frame-02.jpg",
+              "time": "28.3s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-01-c1cbfb3468/frame-03.jpg",
+              "time": "50.8s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-01-c1cbfb3468/frame-04.jpg",
+              "time": "73.2s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-01-c1cbfb3468/frame-05.jpg",
+              "time": "96.8s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5550,7 +5571,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "复述「高颅顶、显脸小、不勒头」三大利益；字幕「限时特价，点击下方链接」。承接CID链路，引导直接下单，强调「今天下单还有赠品」，制造紧迫感。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 2,
