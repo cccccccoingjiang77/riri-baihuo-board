@@ -520,9 +520,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.54,
           "cvr": 6.71,
           "cpm": 152.41,
-          "duration": "未提供",
+          "duration": "约38s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3o4awaaabyqanvfi3yjurw5yemb3qcyca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-5d3a00c7-07-47db0e1cda/frame-01.jpg",
+              "time": "2.3s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-07-47db0e1cda/frame-02.jpg",
+              "time": "9.1s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-07-47db0e1cda/frame-03.jpg",
+              "time": "16.3s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-07-47db0e1cda/frame-04.jpg",
+              "time": "23.5s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-07-47db0e1cda/frame-05.jpg",
+              "time": "31.1s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -544,7 +565,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『儿童专用，护颈助眠，透气凉爽。』福利：直播间品牌补贴，限时折扣。行动指令：『点击下方小黄车，给宝宝一个安睡整夜。』链路承接：直播带货。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 8,
