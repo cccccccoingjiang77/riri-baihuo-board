@@ -5585,9 +5585,30 @@ window.CREATIVE_DATA = {
           "ctr": 5.76,
           "cvr": 0.97,
           "cpm": 9.03,
-          "duration": "未提供",
+          "duration": "约88s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3keaykaabfqagulkyfbvbwuieqviqdbka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-02-35fba80ba5/frame-01.jpg",
+              "time": "5.3s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-02-35fba80ba5/frame-02.jpg",
+              "time": "21s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-02-35fba80ba5/frame-03.jpg",
+              "time": "37.6s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-02-35fba80ba5/frame-04.jpg",
+              "time": "54.3s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-02-35fba80ba5/frame-05.jpg",
+              "time": "71.8s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5609,7 +5630,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「还不贵，快抢！」，配合倒计时「限时24小时」。承接CID链路，引导点击购物车，强调「库存不多，手慢无」。低价+紧迫驱动冲动下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 3,
