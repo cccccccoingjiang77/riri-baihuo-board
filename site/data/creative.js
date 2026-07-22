@@ -4982,9 +4982,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.05,
           "cvr": 8.69,
           "cpm": 43.64,
-          "duration": "未提供",
+          "duration": "约30s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc34yapyaaalaacce2vbrvbvzqe7ttab7ca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-fd0f5561-05-71da36c60e/frame-01.jpg",
+              "time": "1.8s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-05-71da36c60e/frame-02.jpg",
+              "time": "7.3s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-05-71da36c60e/frame-03.jpg",
+              "time": "13.1s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-05-71da36c60e/frame-04.jpg",
+              "time": "18.8s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-05-71da36c60e/frame-05.jpg",
+              "time": "24.9s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5006,7 +5027,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "复述“远离屏幕，快乐成长”，引导购买，链路为小店，直接转化。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 6,
