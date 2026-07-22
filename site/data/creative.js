@@ -4539,9 +4539,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.982983843,
           "cvr": 18.52492077,
           "cpm": 102.0162626,
-          "duration": "未提供",
+          "duration": "约135s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53jqaioaaaqyapdr2drbvbutaeq5gabb2a.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-ebf4f87f-12-f774cfc95e/frame-01.jpg",
+              "time": "8.1s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-12-f774cfc95e/frame-02.jpg",
+              "time": "32.4s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-12-f774cfc95e/frame-03.jpg",
+              "time": "58.1s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-12-f774cfc95e/frame-04.jpg",
+              "time": "83.8s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-12-f774cfc95e/frame-05.jpg",
+              "time": "110.8s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -4563,7 +4584,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：'不粘饭，一冲就干净。' 福利：'买一送一，超值。' 行动指令：'点击链接购买。' 链路承接：CID。"
             }
-          }
+          },
+          "sourceType": "video"
         }
       ]
     },
