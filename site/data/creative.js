@@ -5703,9 +5703,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.21,
           "cvr": 18.64,
           "cpm": 202.96,
-          "duration": "未提供",
+          "duration": "约61s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53daaicaaamuankdynrzvbugaeqemabaka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-04-83507ab4f9/frame-01.jpg",
+              "time": "3.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-04-83507ab4f9/frame-02.jpg",
+              "time": "14.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-04-83507ab4f9/frame-03.jpg",
+              "time": "26.3s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-04-83507ab4f9/frame-04.jpg",
+              "time": "38s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-04-83507ab4f9/frame-05.jpg",
+              "time": "50.2s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5727,7 +5748,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「静心从一支香开始」。承接CID链路，引导下单，强调「送礼自用皆宜」。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 5,
