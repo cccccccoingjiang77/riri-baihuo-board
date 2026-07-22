@@ -4480,9 +4480,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.040442858,
           "cvr": 18.38565022,
           "cpm": 249.7619321,
-          "duration": "未提供",
+          "duration": "约264s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3fyagcaaawqagnfkl6jvbulqemexaayka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-ebf4f87f-11-5690092e8d/frame-01.jpg",
+              "time": "15.8s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-11-5690092e8d/frame-02.jpg",
+              "time": "63.3s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-11-5690092e8d/frame-03.jpg",
+              "time": "113.5s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-11-5690092e8d/frame-04.jpg",
+              "time": "163.6s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-11-5690092e8d/frame-05.jpg",
+              "time": "216.4s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -4504,7 +4525,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：'保温防尘，剩菜保鲜。' 福利：'限时特惠。' 行动指令：'点击链接购买。' 链路承接：CID。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 12,
