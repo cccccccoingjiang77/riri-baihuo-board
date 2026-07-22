@@ -4362,9 +4362,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.986849628,
           "cvr": 21.42857143,
           "cpm": 160.4290704,
-          "duration": "未提供",
+          "duration": "约260s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3vyankaaa74ad6nsrdvvbvlqe2wxabvka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-ebf4f87f-09-9ea38f898e/frame-01.jpg",
+              "time": "15.6s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-09-9ea38f898e/frame-02.jpg",
+              "time": "62.5s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-09-9ea38f898e/frame-03.jpg",
+              "time": "111.9s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-09-9ea38f898e/frame-04.jpg",
+              "time": "161.4s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-09-9ea38f898e/frame-05.jpg",
+              "time": "213.5s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -4386,7 +4407,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：'可伸缩沥水，台面干爽。' 福利：'限时特价。' 行动指令：'点击链接购买。' 链路承接：小店。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 10,
