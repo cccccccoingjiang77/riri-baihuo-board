@@ -461,9 +461,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.53,
           "cvr": 6.02,
           "cpm": 161.43,
-          "duration": "未提供",
+          "duration": "约13s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3ceaj6aaasyahjd2m6vvbueiet4iqbh2a.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-5d3a00c7-06-33fdafa004/frame-01.jpg",
+              "time": "0.8s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-06-33fdafa004/frame-02.jpg",
+              "time": "3.1s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-06-33fdafa004/frame-03.jpg",
+              "time": "5.6s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-06-33fdafa004/frame-04.jpg",
+              "time": "8s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-06-33fdafa004/frame-05.jpg",
+              "time": "10.6s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -485,7 +506,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『轻奢天丝，凉滑透气，可机洗。』福利：小店新客专享价，限时包邮。行动指令：『点击下方链接，立即购买。』链路承接：小店下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 7,
