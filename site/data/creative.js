@@ -300,9 +300,14 @@ window.CREATIVE_DATA = {
           "ctr": 24.29,
           "cvr": 2.25,
           "cpm": 1015.01,
-          "duration": "未提供",
+          "duration": "图片素材",
           "videoUrl": "http://pgdt.gtimg.cn/141/20204/snscosdownload/SZ/reserved/69e602ac000cc01b0c13de2e1366bc1e0000008d00004eec",
-          "frames": [],
+          "frames": [
+            {
+              "src": "https://pgdt.gtimg.cn/141/20204/snscosdownload/SZ/reserved/69e602ac000cc01b0c13de2e1366bc1e0000008d00004eec",
+              "time": ""
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -324,7 +329,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『整夜平整，深睡无忧。』福利：直购专享价，限时包邮。行动指令：『点击链接，立即购买。』链路承接：直购页面，一键下单。"
             }
-          }
+          },
+          "sourceType": "image"
         },
         {
           "rank": 4,
