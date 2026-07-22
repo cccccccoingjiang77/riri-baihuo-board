@@ -3898,9 +3898,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.657265354,
           "cvr": 8.810205055,
           "cpm": 112.4450441,
-          "duration": "未提供",
+          "duration": "约132s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3zuaokaaae4adxzh655urvtie4xgqbzka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-ebf4f87f-01-486b5d0c1d/frame-01.jpg",
+              "time": "7.9s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-01-486b5d0c1d/frame-02.jpg",
+              "time": "31.8s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-01-486b5d0c1d/frame-03.jpg",
+              "time": "57s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-01-486b5d0c1d/frame-04.jpg",
+              "time": "82.1s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-01-486b5d0c1d/frame-05.jpg",
+              "time": "108.6s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
