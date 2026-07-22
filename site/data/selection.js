@@ -7167,7 +7167,7 @@ window.SELECTION_DATA = {
           "landing": "",
           "createdAt": "",
           "category2": "生活日用-其他",
-          "dupCount": 2
+          "dupCount": 1
         },
         {
           "name": "保温杯",
@@ -7239,6 +7239,24 @@ window.SELECTION_DATA = {
           "landing": "",
           "createdAt": "",
           "category2": "餐厨水具-厨具",
+          "dupCount": 1
+        },
+        {
+          "name": "控温被/纤维被",
+          "industry": "家居日用",
+          "image": "",
+          "leaf": "",
+          "price": 553.6,
+          "spend": 23785,
+          "roi": 3.34,
+          "ctr": 1.18,
+          "cvr": 2.97,
+          "placement": "视频号",
+          "link": "",
+          "material": "",
+          "landing": "",
+          "createdAt": "",
+          "category2": "生活日用-其他",
           "dupCount": 1
         },
         {
@@ -7512,6 +7530,24 @@ window.SELECTION_DATA = {
           "dupCount": 1
         },
         {
+          "name": "牛奶绒床褥",
+          "industry": "家居日用",
+          "image": "",
+          "leaf": "",
+          "price": 606.9,
+          "spend": 6692,
+          "roi": 4.47,
+          "ctr": 2.62,
+          "cvr": 2.59,
+          "placement": "视频号",
+          "link": "",
+          "material": "",
+          "landing": "",
+          "createdAt": "",
+          "category2": "生活日用-其他",
+          "dupCount": 1
+        },
+        {
           "name": "保温壶",
           "industry": "家居日用",
           "image": "assets/products/24707fb528edd5de.webp",
@@ -7545,42 +7581,6 @@ window.SELECTION_DATA = {
           "landing": "",
           "createdAt": "",
           "category2": "生活日用-其他",
-          "dupCount": 1
-        },
-        {
-          "name": "水槽过滤网",
-          "industry": "家居日用",
-          "image": "assets/products/6f7f68ea5fd5415f.webp",
-          "leaf": "",
-          "price": 39.9,
-          "spend": 5430,
-          "roi": 1.03,
-          "ctr": 2.42,
-          "cvr": 9.2,
-          "placement": "视频号",
-          "link": "",
-          "material": "",
-          "landing": "",
-          "createdAt": "",
-          "category2": "生活日用-清洁工具",
-          "dupCount": 1
-        },
-        {
-          "name": "压缩收纳袋",
-          "industry": "家居日用",
-          "image": "assets/products/5e9fb18834b433ba.webp",
-          "leaf": "",
-          "price": 50.4,
-          "spend": 5155,
-          "roi": 2.05,
-          "ctr": 3.18,
-          "cvr": 13.02,
-          "placement": "视频号",
-          "link": "",
-          "material": "",
-          "landing": "",
-          "createdAt": "",
-          "category2": "生活日用-收纳用品",
           "dupCount": 1
         }
       ]
