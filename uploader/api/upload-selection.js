@@ -1,13 +1,15 @@
 // POST /api/upload-selection
 // 支持两种请求：application/octet-stream 二进制直传，或旧版 JSON Base64
-// 流程：解析 Excel 选品表 -> 自适应表头抓取数据 -> 补齐图直链 -> 直接合并上线（跳过审批）
+// 流程：解析 Excel 选品表（含行内商品图）-> 自适应表头抓取数据 -> 直接全量替换所选榜单
+import { createHash } from "node:crypto";
 import * as XLSX from "xlsx";
 import {
-  ENV, ghGetFile, ghPutFile, setCors, readJsonBody, checkToken,
+  ENV, ghGetFile, ghCommitFiles, setCors, readJsonBody, checkToken,
   SELECTION_PATH, parseSelection, dumpSelection, mergeSelection, mergeSelectionByTarget,
 } from "./_lib.js";
 
 const PRODUCT_ASSETS_PATH = "site/data/product-assets.js";
+const PRODUCT_IMAGE_DIR = "site/assets/products";
 
 function parseProductAssets(text) {
   const match = String(text || "").match(/window\.PRODUCT_ASSETS\s*=\s*(\{[\s\S]*\});/);
@@ -18,8 +20,76 @@ function normalizeAssetKey(value) {
   return String(value || "").toLowerCase().replace(/[\s·|｜（）()【】\[\]{}，,。:：;；'"_\-/]/g, "");
 }
 
+function dumpProductAssets(data) {
+  return "/* 由运营商品图对照表及选品 Excel 内嵌图共同维护 */\nwindow.PRODUCT_ASSETS = " + JSON.stringify(data) + ";\n";
+}
+
+function xmlAttr(value) {
+  return String(value || "").replace(/&amp;/g, "&").replace(/&quot;/g, '"');
+}
+
+function zipEntry(cfb, path) {
+  return XLSX.CFB.find(cfb, path.replace(/^\//, "")) || XLSX.CFB.find(cfb, "/" + path.replace(/^\//, ""));
+}
+
+function zipText(cfb, path) {
+  const entry = zipEntry(cfb, path);
+  return entry?.content ? Buffer.from(entry.content).toString("utf8") : "";
+}
+
+function relationships(xml, baseDir) {
+  const result = {};
+  for (const match of String(xml).matchAll(/<Relationship\b[^>]*\bId="([^"]+)"[^>]*\bTarget="([^"]+)"[^>]*\/?\s*>/g)) {
+    const target = xmlAttr(match[2]);
+    const parts = (baseDir + "/" + target).split("/");
+    const normalized = [];
+    for (const part of parts) {
+      if (!part || part === ".") continue;
+      if (part === "..") normalized.pop(); else normalized.push(part);
+    }
+    result[match[1]] = normalized.join("/");
+  }
+  return result;
+}
+
+function extractEmbeddedImages(buf, workbook) {
+  const cfb = XLSX.CFB.read(buf, { type: "buffer" });
+  const workbookRels = relationships(zipText(cfb, "xl/_rels/workbook.xml.rels"), "xl");
+  const workbookXml = zipText(cfb, "xl/workbook.xml");
+  const sheetPaths = {};
+  for (const match of workbookXml.matchAll(/<sheet\b[^>]*\bname="([^"]+)"[^>]*\br:id="([^"]+)"[^>]*\/?\s*>/g)) {
+    sheetPaths[xmlAttr(match[1])] = workbookRels[match[2]];
+  }
+
+  const bySheet = {};
+  for (const sheetName of workbook.SheetNames) {
+    const sheetPath = sheetPaths[sheetName];
+    if (!sheetPath) continue;
+    const sheetXml = zipText(cfb, sheetPath);
+    const drawingId = sheetXml.match(/<drawing\b[^>]*\br:id="([^"]+)"/)?.[1];
+    if (!drawingId) continue;
+    const sheetFile = sheetPath.split("/").pop();
+    const sheetRels = relationships(zipText(cfb, `xl/worksheets/_rels/${sheetFile}.rels`), "xl/worksheets");
+    const drawingPath = sheetRels[drawingId];
+    if (!drawingPath) continue;
+    const drawingFile = drawingPath.split("/").pop();
+    const drawingRels = relationships(zipText(cfb, `xl/drawings/_rels/${drawingFile}.rels`), "xl/drawings");
+    const drawingXml = zipText(cfb, drawingPath);
+    const rowImages = new Map();
+    for (const anchor of drawingXml.matchAll(/<(?:xdr:)?(?:oneCellAnchor|twoCellAnchor)>[\s\S]*?<(?:xdr:)?from>[\s\S]*?<(?:xdr:)?row>(\d+)<\/(?:xdr:)?row>[\s\S]*?<(?:a:)?blip\b[^>]*\br:embed="([^"]+)"[\s\S]*?<\/(?:xdr:)?(?:oneCellAnchor|twoCellAnchor)>/g)) {
+      const mediaPath = drawingRels[anchor[2]];
+      const media = mediaPath && zipEntry(cfb, mediaPath);
+      if (media?.content && !rowImages.has(Number(anchor[1]))) {
+        rowImages.set(Number(anchor[1]), { path: mediaPath, content: Buffer.from(media.content) });
+      }
+    }
+    if (rowImages.size) bySheet[sheetName] = rowImages;
+  }
+  return bySheet;
+}
+
 // 自适应行高解析 Sheet，找到含有"商品名称"的行作为表头，提取对应列数据
-function parseSheetToItems(sheet, productAssets) {
+function parseSheetToItems(sheet, productAssets, embeddedImages = new Map(), imageFiles = []) {
   const jsonRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   if (!jsonRows.length) return [];
 
@@ -83,8 +153,23 @@ function parseSheetToItems(sheet, productAssets) {
       item.leaf = parts[parts.length - 1].trim();
     }
 
-    // 商品图与赛道优先复用运营维护的本地映射，不再调用联网生图
-    item.image = productAssets.images?.[item.name] || item.image || "";
+    // 商品图优先级：本次 Excel 对应行内嵌图 > 运营图库 > 单元格图片链接
+    const embedded = embeddedImages.get(i);
+    if (embedded) {
+      const sourceExt = embedded.path.split(".").pop().toLowerCase();
+      const ext = /^(png|jpe?g|webp|gif)$/.test(sourceExt) ? sourceExt.replace("jpeg", "jpg") : "png";
+      const filename = createHash("sha1").update(item.name).digest("hex").slice(0, 16) + "." + ext;
+      item.image = `assets/products/${filename}`;
+      productAssets.images = productAssets.images || {};
+      productAssets.images[item.name] = item.image;
+      const imagePath = `${PRODUCT_IMAGE_DIR}/${filename}`;
+      const imageFile = { path: imagePath, content: embedded.content.toString("base64"), encoding: "base64" };
+      const existingIndex = imageFiles.findIndex(file => file.path === imagePath);
+      if (existingIndex >= 0) imageFiles[existingIndex] = imageFile;
+      else imageFiles.push(imageFile);
+    } else {
+      item.image = productAssets.images?.[item.name] || item.image || "";
+    }
     item.category2 = productAssets.tracks?.[item.name]
       || productAssets.leafTracks?.[normalizeAssetKey(item.leaf)]
       || "生活日用-其他";
@@ -139,6 +224,8 @@ export default async function handler(req, res) {
     const assetsFile = await ghGetFile(PRODUCT_ASSETS_PATH);
     const productAssets = parseProductAssets(assetsFile?.text);
     const wb = XLSX.read(buf, { type: "buffer" });
+    const embeddedImages = extractEmbeddedImages(buf, wb);
+    const imageFiles = [];
 
     let cidItems = [];
     let liveItems = [];
@@ -146,7 +233,7 @@ export default async function handler(req, res) {
 
     for (const sheetName of wb.SheetNames) {
       const ws = wb.Sheets[sheetName];
-      const items = parseSheetToItems(ws, productAssets);
+      const items = parseSheetToItems(ws, productAssets, embeddedImages[sheetName], imageFiles);
       if (!items.length) continue;
       allItems = allItems.concat(items);
 
@@ -186,11 +273,12 @@ export default async function handler(req, res) {
       const result = mergeSelectionByTarget(data, selectionModule, selectionTarget, selectionLabel || trackName, deduped);
       data.meta = data.meta || {};
       data.meta.updatedAt = new Date().toISOString().slice(0, 10);
-      await ghPutFile(
-        SELECTION_PATH, dumpSelection(data),
-        `data: 更新选品「${selectionLabel || trackName}」`,
-        cur.sha
-      );
+      const files = [
+        ...imageFiles,
+        { path: PRODUCT_ASSETS_PATH, content: dumpProductAssets(productAssets), encoding: "utf-8" },
+        { path: SELECTION_PATH, content: dumpSelection(data), encoding: "utf-8" },
+      ];
+      await ghCommitFiles(files, `data: 更新选品「${selectionLabel || trackName}」并同步内嵌商品图`);
       const payload = selectionModule === "cycle"
         ? { nonClosed: [], quanyutong: [], adq: [], cycle: deduped.slice(0, 25) }
         : {
@@ -205,7 +293,8 @@ export default async function handler(req, res) {
         target: selectionTarget,
         label: selectionLabel || trackName,
         items: payload,
-        message: `已更新「${selectionLabel || trackName}」共 ${result.count} 款选品，已直接上线，看板几十秒后刷新！`,
+        embeddedImageCount: imageFiles.length,
+        message: `已更新「${selectionLabel || trackName}」共 ${result.count} 款选品${imageFiles.length ? `，同步 ${imageFiles.length} 张文档内商品图` : ""}，已直接上线，看板几十秒后刷新！`,
       });
     }
 
@@ -246,11 +335,11 @@ export default async function handler(req, res) {
     data.meta = data.meta || {};
     data.meta.updatedAt = new Date().toISOString().slice(0, 10);
     const newText = dumpSelection(data);
-    await ghPutFile(
-      SELECTION_PATH, newText,
-      `data: 直传上线·更新赛道「${trackName.trim()}」选品数据`,
-      cur.sha
-    );
+    await ghCommitFiles([
+      ...imageFiles,
+      { path: PRODUCT_ASSETS_PATH, content: dumpProductAssets(productAssets), encoding: "utf-8" },
+      { path: SELECTION_PATH, content: newText, encoding: "utf-8" },
+    ], `data: 直传上线·更新赛道「${trackName.trim()}」选品及内嵌商品图`);
 
     const totCount = payload.nonClosed.length + payload.quanyutong.length + payload.adq.length;
     return res.status(200).json({

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>日百看板 · 赛道数据上传</title>
+<title>日百行业情报台 · 赛道数据上传</title>
 <style>
   :root{
     --bg:#0f1115; --card:#1a1d24; --line:#2a2f3a; --gold:#e8b64c;
@@ -55,7 +55,7 @@
 </style>
 </head>
 <body>
-<div class="topbar"><div class="in"><span class="dot">日</span><b>日百看板 · 赛道数据上传</b></div></div>
+<div class="topbar"><div class="in"><span class="dot">日</span><b>日百行业情报台 · 赛道数据上传</b></div></div>
 <div class="wrap">
   <h1>上传赛道原始数据</h1>
 <div class="sub">传一份赛道的投放数据 Excel，AI 会自动产出「卖点 &amp; 创意分析」，提交后直接上线到看板。</div>
@@ -136,20 +136,12 @@
       <label>选品汇总 Excel <span style="color:var(--gold)">*</span></label>
       <div class="file-zone" id="fileZoneSel">
         <div class="big">📄 点击选择 或 拖拽 选品Excel 到这里</div>
-        <div class="hint">支持单 Sheet 或多 Sheet；必填「商品名称」，归属以上方选择的链路或热点节点为准</div>
+        <div class="hint">必填「商品名称」；新品图片请直接放在同一文档对应商品行的「商品图」列，系统会自动提取、上线并缓存复用</div>
         <div class="file-name" id="fileNameSel"></div>
       </div>
       <div style="text-align:right;margin-top:6px;font-size:12px">
         <a href="https://cccccccoingjiang77.github.io/riri-baihuo-board/商品选品表格模板.xlsx" target="_blank" style="color:var(--gold);text-decoration:none">📥 下载：商品选品表格模板.xlsx</a>
       </div>
-
-      <label>补充商品图（选填）</label>
-      <div class="file-zone" id="productImageZone">
-        <div class="big">🖼️ 点击选择新品商品图</div>
-        <div class="hint">支持 JPG / PNG / WebP，图片文件名请直接使用商品名称；单次最多 8 张</div>
-        <div class="file-name" id="productImageNames"></div>
-      </div>
-      <input type="file" id="productImageInput" accept="image/jpeg,image/png,image/webp" multiple style="display:none">
 
       <label>补充备注（选填）</label>
       <textarea id="notesSel" placeholder="可备注本期更新重点或提交人姓名"></textarea>
@@ -418,66 +410,8 @@ function updateSelectionTargets(){
 updateSelectionTargets();
 
 let selectionFile = null, fileNameSel = "";
-let productImageFiles = [];
 const fileZoneSel = document.getElementById("fileZoneSel");
-const productImageZone = document.getElementById("productImageZone");
-const productImageInput = document.getElementById("productImageInput");
 const submitBtnSel = document.getElementById("submitBtnSel");
-
-productImageZone.onclick = () => productImageInput.click();
-productImageInput.onchange = () => setProductImages([...productImageInput.files]);
-["dragover","dragenter"].forEach(e=>productImageZone.addEventListener(e,ev=>{ev.preventDefault();productImageZone.classList.add("drag")}));
-["dragleave","drop"].forEach(e=>productImageZone.addEventListener(e,ev=>{ev.preventDefault();productImageZone.classList.remove("drag")}));
-productImageZone.addEventListener("drop", ev=>{ ev.preventDefault(); setProductImages([...ev.dataTransfer.files]); });
-
-function setProductImages(files){
-  const valid = files.filter(file => ["image/jpeg","image/png","image/webp"].includes(file.type)).slice(0, 8);
-  productImageFiles = valid;
-  document.getElementById("productImageNames").textContent = valid.length
-    ? `已选择 ${valid.length} 张：${valid.map(file => file.name.replace(/\.[^.]+$/, "")).join("、")}`
-    : "";
-  if(files.length > 8) show("err", "单次最多补充 8 张商品图，已取前 8 张");
-}
-
-async function compressProductImage(file){
-  const bitmap = await createImageBitmap(file);
-  const maxSide = 720;
-  const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(bitmap.width * scale));
-  canvas.height = Math.max(1, Math.round(bitmap.height * scale));
-  canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-  bitmap.close();
-  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/webp", .78));
-  if(!blob) throw new Error(`商品图「${file.name}」压缩失败`);
-  const dataUrl = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error(`商品图「${file.name}」读取失败`));
-    reader.readAsDataURL(blob);
-  });
-  return { productName:file.name.replace(/\.[^.]+$/, "").trim(), imageBase64:String(dataUrl).split(",")[1] };
-}
-
-async function uploadProductImages(token){
-  if(!productImageFiles.length) return null;
-  show("load", `正在压缩 ${productImageFiles.length} 张新品商品图…`);
-  const images = [];
-  for(const file of productImageFiles) images.push(await compressProductImage(file));
-  const saved = [];
-  for(let start=0;start<images.length;start+=3){
-    const batch = images.slice(start, start + 3);
-    show("load", `正在保存新品商品图 ${start + 1}-${start + batch.length}/${images.length}…`);
-    const response = await fetch(API + "/api/upload-product-image", {
-      method:"POST", headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ token, images:batch })
-    });
-    const result = await response.json();
-    if(!response.ok || result.error) throw new Error(result.error || "商品图保存失败");
-    saved.push(...(result.saved || []));
-  }
-  return { saved, message:`已将 ${saved.length} 张商品图加入图库，本次及后续同名商品都会自动复用` };
-}
 
 fileZoneSel.onclick = () => {
   const input = document.createElement("input");
@@ -516,11 +450,9 @@ submitBtnSel.onclick = async () => {
 
   submitBtnSel.disabled = true;
   preview.className = "preview";
-  show("load","正在上传并解析选品数据，系统正在为您匹配和配图，请稍后…");
+  show("load","正在上传并解析选品数据，同时提取文档内对应商品行的图片，请稍后…");
 
   try {
-    const imageResult = await uploadProductImages(token);
-    if(imageResult) show("load", `${imageResult.message}，正在解析并发布选品数据…`);
     const r = await fetch(API + "/api/upload-selection", {
       method:"POST",
       headers:{

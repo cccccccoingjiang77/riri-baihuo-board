@@ -2,7 +2,7 @@
   "name": "riri-baihuo-uploader",
   "version": "1.0.0",
   "private": true,
-  "description": "日百看板·在线上传+AI产出+审核上线 后端（Vercel Serverless）",
+  "description": "日百行业情报台·在线上传+AI产出+审核上线 后端（Vercel Serverless）",
   "type": "module",
   "dependencies": {
     "xlsx": "0.18.5"
