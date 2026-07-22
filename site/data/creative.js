@@ -5762,9 +5762,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.22,
           "cvr": 1,
           "cpm": 150.11,
-          "duration": "未提供",
+          "duration": "约79s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3y4abcaaa6qaahb6wdjurvryechdqaeka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-cc2f634f-05-808403df5d/frame-01.jpg",
+              "time": "4.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-05-808403df5d/frame-02.jpg",
+              "time": "18.9s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-05-808403df5d/frame-03.jpg",
+              "time": "33.8s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-05-808403df5d/frame-04.jpg",
+              "time": "48.7s"
+            },
+            {
+              "src": "assets/frames/upload-cc2f634f-05-808403df5d/frame-05.jpg",
+              "time": "64.4s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5786,7 +5807,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "字幕「0基础也能成为吉他手」。承接直播链路，引导进入直播间，强调「限时优惠，送教程」。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 6,
