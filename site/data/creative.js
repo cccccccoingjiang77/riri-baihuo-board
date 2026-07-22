@@ -241,9 +241,30 @@ window.CREATIVE_DATA = {
           "ctr": 3.13,
           "cvr": 3.03,
           "cpm": 66.27,
-          "duration": "未提供",
+          "duration": "约213s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53maay4aabieahaskydnvbwyaerzqaddsa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-5d3a00c7-02-d214fa8e6a/frame-01.jpg",
+              "time": "12.8s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-02-d214fa8e6a/frame-02.jpg",
+              "time": "51s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-02-d214fa8e6a/frame-03.jpg",
+              "time": "91.4s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-02-d214fa8e6a/frame-04.jpg",
+              "time": "131.8s"
+            },
+            {
+              "src": "assets/frames/upload-5d3a00c7-02-d214fa8e6a/frame-05.jpg",
+              "time": "174.3s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -265,7 +286,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：『好看又实用，防滑耐磨。』福利：拍一发四，限时特价。行动指令：『点击下方链接，马上抢购。』链路承接：CID跳转商品页，直接下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 3,
