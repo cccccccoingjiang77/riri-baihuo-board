@@ -4421,9 +4421,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.173840134,
           "cvr": 16.25258799,
           "cpm": 181.6808272,
-          "duration": "未提供",
+          "duration": "约68s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53vmah4aaagaacetwxqfurvkyep2vqa7sa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-ebf4f87f-10-ae2dde95b2/frame-01.jpg",
+              "time": "4.1s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-10-ae2dde95b2/frame-02.jpg",
+              "time": "16.4s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-10-ae2dde95b2/frame-03.jpg",
+              "time": "29.3s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-10-ae2dde95b2/frame-04.jpg",
+              "time": "42.3s"
+            },
+            {
+              "src": "assets/frames/upload-ebf4f87f-10-ae2dde95b2/frame-05.jpg",
+              "time": "55.9s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -4445,7 +4466,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：'加厚耐用，食品级安全。' 福利：'超值装，拍一发多。' 行动指令：'赶紧下单。' 链路承接：CID。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 11,
