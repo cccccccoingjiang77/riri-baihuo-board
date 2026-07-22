@@ -5041,9 +5041,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.64,
           "cvr": 16.69,
           "cpm": 47.82,
-          "duration": "未提供",
+          "duration": "约76s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53t4cpqaaezqaiex2eebvb5hye7cpqj6ca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-fd0f5561-06-10f7006a8f/frame-01.jpg",
+              "time": "4.5s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-06-10f7006a8f/frame-02.jpg",
+              "time": "18.2s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-06-10f7006a8f/frame-03.jpg",
+              "time": "32.6s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-06-10f7006a8f/frame-04.jpg",
+              "time": "46.9s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-06-10f7006a8f/frame-05.jpg",
+              "time": "62.1s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5065,7 +5086,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "复述“一喷止漏，省事省力”，引导点击购买，链路为CID，直接转化。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 7,
