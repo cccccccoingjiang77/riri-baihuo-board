@@ -5277,9 +5277,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.76,
           "cvr": 14.04,
           "cpm": 89.99,
-          "duration": "未提供",
+          "duration": "约146s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53zyammaaasiambwsravvbvtqey3habrsa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-fd0f5561-10-fca0b15914/frame-01.jpg",
+              "time": "8.8s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-10-fca0b15914/frame-02.jpg",
+              "time": "35s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-10-fca0b15914/frame-03.jpg",
+              "time": "62.8s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-10-fca0b15914/frame-04.jpg",
+              "time": "90.5s"
+            },
+            {
+              "src": "assets/frames/upload-fd0f5561-10-fca0b15914/frame-05.jpg",
+              "time": "119.7s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -5301,7 +5322,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "复述“源头厂家，今日特价，速来抢购”，引导购买，链路为小店。"
             }
-          }
+          },
+          "sourceType": "video"
         }
       ]
     }
