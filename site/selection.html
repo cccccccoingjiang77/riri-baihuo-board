@@ -40,6 +40,9 @@
       <div class="tab" data-l="qyt">闭环 · 全域通</div>
       <div class="tab" data-l="adq">闭环 · ADQ</div>
     </div>
+    <div class="notice update-frequency" id="nonClosedFrequency">
+      <b>更新频次：3天/次</b>，高频更新近期潜力爆品，让你快速抓住下一次爆量机会
+    </div>
     <!-- 二级类目导航栏 -->
     <div class="cat-nav" id="catNav"></div>
     <div id="linkBody"></div>
@@ -101,7 +104,7 @@ function getLinkItems(key){
 function fmt(v){ return (v||v===0)? v : '—'; }
 function esc(s){return (s||'').replace(/</g,'&lt;')}
 
-/* 点击复制链接（落地页/素材统一走复制，避免跳转无效） */
+/* 落地页支持复制，素材链接直接在新标签页预览 */
 function copyLink(btn, url, label){
   if(!url || url==='-'){ return; }
   const done = ()=>{
@@ -122,6 +125,11 @@ function fallbackCopy(text, cb){
   document.body.removeChild(ta);
 }
 
+function openMaterial(encodedUrl){
+  const url = decodeURIComponent(encodedUrl || '');
+  if(url) window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 /* 商品图兜底：pollinations 偶发加载失败，先重试一次，再显示占位 */
 function imgFallback(el){
   if(!el.dataset.retry){ el.dataset.retry='1'; const u=el.src; el.src=''; setTimeout(()=>{el.src=u+(u.indexOf('?')>-1?'&':'?')+'r='+Date.now();},500); return; }
@@ -138,10 +146,15 @@ function productCard(x, linkKey){
   // 只有非闭环 CID/小程序展示落地页按钮；闭环全域通与 ADQ 不展示链接区域
   const isUrl = v => v && v!=='-' && /^(https?:|#小程序|weixin:|\/\/)/i.test(v);
   const landUrl = linkKey==='nonClosed' ? (isUrl(x.landing) ? x.landing : (isUrl(x.link) ? x.link : '')) : '';
+  const materialUrl = linkKey==='nonClosed' && isUrl(x.material) ? x.material : '';
   const landBtn = landUrl
-    ? `<button class="btn-sm pri" onclick="event.stopPropagation();copyLink(this,'${landUrl.replace(/'/g,"\\'")}','落地页')">📋 复制落地页</button>` : '';
+    ? `<button class="btn-sm pri" onclick="event.stopPropagation();copyLink(this,'${landUrl.replace(/'/g,"\\'")}','落地页')">📋 复制落地页</button>`
+    : '<span class="btn-sm disabled">落地页待补充</span>';
+  const materialBtn = materialUrl
+    ? `<button class="btn-sm material-preview" onclick="event.stopPropagation();openMaterial('${encodeURIComponent(materialUrl)}')">素材预览</button>`
+    : '<span class="btn-sm disabled">素材待补充</span>';
   const actions = linkKey==='nonClosed'
-    ? `<div class="acts">${landBtn || '<span class="btn-sm">落地页待补充</span>'}</div>`
+    ? `<div class="acts">${landBtn}${materialBtn}</div>`
     : '';
   return `<div class="pcard">
     <div class="img">${img}${roi}</div>
@@ -164,6 +177,7 @@ function catId(cat){ return 'cat_' + encodeURIComponent(cat).replace(/%/g,''); }
 
 function renderLink(key){
   const items = getLinkItems(key);
+  document.getElementById('nonClosedFrequency').style.display = key==='nonClosed' ? '' : 'none';
   // by 二级赛道分组；组内商品仅按消耗降序，消耗相同时按 ROI
   const groups = {};
   items.forEach(x=>{ (groups[x.category2]=groups[x.category2]||[]).push(x); });
