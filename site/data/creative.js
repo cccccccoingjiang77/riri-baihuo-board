@@ -2198,9 +2198,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.15012432,
           "cvr": 20.27051561,
           "cpm": 39.61722555,
-          "duration": "未提供",
+          "duration": "约31s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53gqaj2aaa24agekcnbnvbunaetu2abhka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-4a2d4671-08-5fe72bf7e3/frame-01.jpg",
+              "time": "1.8s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-08-5fe72bf7e3/frame-02.jpg",
+              "time": "7.4s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-08-5fe72bf7e3/frame-03.jpg",
+              "time": "13.2s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-08-5fe72bf7e3/frame-04.jpg",
+              "time": "19s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-08-5fe72bf7e3/frame-05.jpg",
+              "time": "25.2s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -2222,7 +2243,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：「快速吸水，柔软呵护」。福利：「限时优惠，买一送一」。行动指令：「点击下方，轻松出行」。链路承接小店下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 9,
