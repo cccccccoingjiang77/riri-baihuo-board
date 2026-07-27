@@ -2316,9 +2316,30 @@ window.CREATIVE_DATA = {
           "ctr": 3.373187929,
           "cvr": 3.070779559,
           "cpm": 21.65601503,
-          "duration": "未提供",
+          "duration": "约121s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3keadgaaaviacgoj5gfvbwuiegniqam2a.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-4a2d4671-10-8722162ca3/frame-01.jpg",
+              "time": "7.3s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-10-8722162ca3/frame-02.jpg",
+              "time": "29s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-10-8722162ca3/frame-03.jpg",
+              "time": "52s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-10-8722162ca3/frame-04.jpg",
+              "time": "75s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-10-8722162ca3/frame-05.jpg",
+              "time": "99.1s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -2340,7 +2361,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：「过膝泡脚，健康轻松享三伏」。福利：「送泡脚包，限时折扣」。行动指令：「点击直播间，了解更多」。链路承接直播下单。"
             }
-          }
+          },
+          "sourceType": "video"
         }
       ]
     },
