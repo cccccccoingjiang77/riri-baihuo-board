@@ -2,6 +2,7 @@
 // 支持两种请求：application/octet-stream 二进制直传，或旧版 JSON Base64
 // 流程：解析 Excel 选品表（含行内商品图）-> 自适应表头抓取数据 -> 直接全量替换所选榜单
 import { createHash } from "node:crypto";
+import CFB from "cfb";
 import * as XLSX from "xlsx";
 import {
   ENV, ghGetFile, ghCommitFiles, setCors, readJsonBody, checkToken,
@@ -29,7 +30,7 @@ function xmlAttr(value) {
 }
 
 function zipEntry(cfb, path) {
-  return XLSX.CFB.find(cfb, path.replace(/^\//, "")) || XLSX.CFB.find(cfb, "/" + path.replace(/^\//, ""));
+  return CFB.find(cfb, path.replace(/^\//, "")) || CFB.find(cfb, "/" + path.replace(/^\//, ""));
 }
 
 function zipText(cfb, path) {
@@ -53,7 +54,7 @@ function relationships(xml, baseDir) {
 }
 
 function extractEmbeddedImages(buf, workbook) {
-  const cfb = XLSX.CFB.read(buf, { type: "buffer" });
+  const cfb = CFB.read(buf, { type: "buffer" });
   const workbookRels = relationships(zipText(cfb, "xl/_rels/workbook.xml.rels"), "xl");
   const workbookXml = zipText(cfb, "xl/workbook.xml");
   const sheetPaths = {};
