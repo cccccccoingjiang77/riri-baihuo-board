@@ -2021,9 +2021,30 @@ window.CREATIVE_DATA = {
           "ctr": 3.671946772,
           "cvr": 5.823314921,
           "cpm": 131.5218023,
-          "duration": "未提供",
+          "duration": "约127s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3nqataaabbyag2ecvlvvbw3aegbwacmca.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-4a2d4671-05-cc3960acc6/frame-01.jpg",
+              "time": "7.6s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-05-cc3960acc6/frame-02.jpg",
+              "time": "30.6s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-05-cc3960acc6/frame-03.jpg",
+              "time": "54.8s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-05-cc3960acc6/frame-04.jpg",
+              "time": "79s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-05-cc3960acc6/frame-05.jpg",
+              "time": "104.5s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -2045,7 +2066,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：「生姜贴脚，暖足驱寒」。福利：「买二送一，限时优惠」。行动指令：「点击链接，试试古宛堂」。链路承接直播下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 6,
