@@ -2257,9 +2257,30 @@ window.CREATIVE_DATA = {
           "ctr": 1.517312223,
           "cvr": 16.35779123,
           "cpm": 209.7040876,
-          "duration": "未提供",
+          "duration": "约42s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53niabmaaa44apfakxvvvbu2qeczvaafsa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-4a2d4671-09-64062cdc9d/frame-01.jpg",
+              "time": "2.5s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-09-64062cdc9d/frame-02.jpg",
+              "time": "10.2s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-09-64062cdc9d/frame-03.jpg",
+              "time": "18.2s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-09-64062cdc9d/frame-04.jpg",
+              "time": "26.3s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-09-64062cdc9d/frame-05.jpg",
+              "time": "34.8s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -2281,7 +2302,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：「4-6小时精油热敷，小腹暖暖」。福利：「限时优惠，买三送一」。行动指令：「点击下方，体验一下」。链路承接小店下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 10,
