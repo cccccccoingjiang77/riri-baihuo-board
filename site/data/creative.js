@@ -2139,9 +2139,30 @@ window.CREATIVE_DATA = {
           "ctr": 3.880212754,
           "cvr": 6.028982865,
           "cpm": 158.4771996,
-          "duration": "未提供",
+          "duration": "约157s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0b53geaveaab6iapo4cubbvbwmiekiyqcusa.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-4a2d4671-07-309a467c90/frame-01.jpg",
+              "time": "9.4s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-07-309a467c90/frame-02.jpg",
+              "time": "37.8s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-07-309a467c90/frame-03.jpg",
+              "time": "67.6s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-07-309a467c90/frame-04.jpg",
+              "time": "97.5s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-07-309a467c90/frame-05.jpg",
+              "time": "129s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -2163,7 +2184,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：「偷偷变健康」。福利：「限时优惠」。行动指令：「点击链接，试试同款」。链路承接直播下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 8,
