@@ -422,7 +422,7 @@ btn.onclick = async () => {
     if(!r.ok || j.error) throw new Error(j.error || "提交失败");
     show("ok","✅ " + (j.message||"已直接上线"));
     renderPreview(j.track);
-    if(j.framesQueued) await refreshUploadedFrames(token, j.track);
+    if(j.framesQueued && !j.framesBackground) await refreshUploadedFrames(token, j.track);
   }catch(e){
     show("err","❌ " + e.message);
   }finally{ btn.disabled = false; }

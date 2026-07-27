@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import { gunzipSync } from "node:zlib";
 import {
   ENV, ghGetFile, ghPutFile, callAI, extractJson, setCors, readJsonBody, checkToken,
-  parseCreative, dumpCreative, mergeTrack,
+  parseCreative, dumpCreative, mergeTrack, ghDispatchFrameWorkflow,
 } from "./_lib.js";
 import { SYSTEM_PROMPT, buildUserPrompt } from "./_prompt.js";
 
@@ -75,7 +75,8 @@ function displayProductName(row) {
 function excelToText(buf) {
   const wb = XLSX.read(buf, { type: "buffer" });
   const sections = [];
-  for (const sheetName of wb.SheetNames) {
+  const sourceRows = new Map();
+  for (const [sheetIndex, sheetName] of wb.SheetNames.entries()) {
     const ws = wb.Sheets[sheetName];
     const rows = XLSX.utils.sheet_to_json(ws, { defval: "", raw: false });
     if (!rows.length) continue;
@@ -113,21 +114,27 @@ function excelToText(buf) {
     }
     const topRows = selected;
 
-    const compactRows = topRows.map(row => ({
-      客户: pick(row, FIELD_ALIASES.customer),
-      链路: pick(row, FIELD_ALIASES.chain),
-      商品名称: clip(displayProductName(row), 80),
-      SPUid: pick(row, FIELD_ALIASES.spuId),
-      DPA商品名称: clip(pick(row, FIELD_ALIASES.dpaName), 120),
-      创意文案: clip(pick(row, FIELD_ALIASES.copy), 260),
-      素材URL: pick(row, FIELD_ALIASES.materialUrl),
-      时长: pick(row, FIELD_ALIASES.duration),
-      消耗: pick(row, FIELD_ALIASES.spend),
-      CTR: row["ctr(%)"] || row.CTR || "",
-      CVR: row["浅层cvr(%)"] || row.CVR || "",
-      CPM: row["竞价CPM(元)"] || row.CPM || "",
-      三秒快滑率: row["3s快滑率(%)"] || "",
-    }));
+    const compactRows = topRows.map((row, rowIndex) => {
+      const sourceId = `S${sheetIndex + 1}R${rowIndex + 1}`;
+      const compact = {
+        sourceId,
+        客户: pick(row, FIELD_ALIASES.customer),
+        链路: pick(row, FIELD_ALIASES.chain),
+        商品名称: clip(displayProductName(row), 80),
+        SPUid: pick(row, FIELD_ALIASES.spuId),
+        DPA商品名称: clip(pick(row, FIELD_ALIASES.dpaName), 120),
+        创意文案: clip(pick(row, FIELD_ALIASES.copy), 260),
+        素材URL: pick(row, FIELD_ALIASES.materialUrl),
+        时长: pick(row, FIELD_ALIASES.duration),
+        消耗: pick(row, FIELD_ALIASES.spend),
+        CTR: row["ctr(%)"] || row.CTR || "",
+        CVR: row["浅层cvr(%)"] || row.CVR || "",
+        CPM: row["竞价CPM(元)"] || row.CPM || "",
+        三秒快滑率: row["3s快滑率(%)"] || "",
+      };
+      sourceRows.set(sourceId, compact);
+      return compact;
+    });
 
     sections.push([
       `### Sheet: ${sheetName}`,
@@ -138,7 +145,32 @@ function excelToText(buf) {
       `高消耗代表素材与文案（从全部行排序抽取）:\n${JSON.stringify(compactRows)}`,
     ].join("\n"));
   }
-  return sections.join("\n\n");
+  return { text: sections.join("\n\n"), sourceRows };
+}
+
+function hydrateMaterialFromSource(material, sourceRows) {
+  let source = sourceRows.get(String(material.sourceId || ""));
+  if (!source) {
+    const customer = String(material.customer || "").trim();
+    const product = cleanProductName(material.product || material.title);
+    source = [...sourceRows.values()].find(row =>
+      (!customer || row.客户 === customer) && cleanProductName(row.商品名称) === product
+    );
+  }
+  if (!source) return { ...material, videoUrl: "", frames: [] };
+  return {
+    ...material,
+    sourceId: source.sourceId,
+    customer: source.客户,
+    chain: source.链路,
+    spend: num(source.消耗),
+    ctr: num(source.CTR),
+    cvr: num(source.CVR),
+    cpm: num(source.CPM),
+    duration: source.时长 || material.duration || "未提供",
+    videoUrl: source.素材URL || "",
+    frames: [],
+  };
 }
 
 export default async function handler(req, res) {
@@ -160,25 +192,26 @@ export default async function handler(req, res) {
     // 1) 解析 Excel / CSV（大文件由浏览器先 gzip，降低 Vercel 请求体体积）
     const encoded = Buffer.from(fileBase64, "base64");
     const buf = compression === "gzip" ? gunzipSync(encoded) : encoded;
-    const tableText = excelToText(buf);
-    if (!tableText.trim())
+    const analysis = excelToText(buf);
+    if (!analysis.text.trim())
       return res.status(400).json({ error: "Excel 内容为空或无法解析" });
 
     // 2) 调 AI 产出 track JSON
-    const aiRaw = await callAI(SYSTEM_PROMPT, buildUserPrompt(trackName.trim(), tableText, notes));
+    const aiRaw = await callAI(SYSTEM_PROMPT, buildUserPrompt(trackName.trim(), analysis.text, notes));
     const track = extractJson(aiRaw);
     track.name = trackName.trim(); // 强制对齐赛道名
     if (TRACK_KEYS[track.name]) track.key = TRACK_KEYS[track.name];
     if (Array.isArray(track.topMaterials)) {
       track.topMaterials = track.topMaterials
         .map((material, index) => {
-          const cleanedProduct = cleanProductName(material.product);
+          const hydrated = hydrateMaterialFromSource(material, analysis.sourceRows);
+          const cleanedProduct = cleanProductName(hydrated.product);
           const product = cleanedProduct === "未识别商品"
-            ? cleanProductName(material.title)
+            ? cleanProductName(hydrated.title)
             : cleanedProduct;
-          const rawTitle = String(material.title || "").replace(String(material.product || ""), "").replace(/^[·|｜\s:：-]+/, "");
+          const rawTitle = String(hydrated.title || "").replace(String(hydrated.product || ""), "").replace(/^[·|｜\s:：-]+/, "");
           return {
-            ...material,
+            ...hydrated,
             rank: index + 1,
             product,
             title: rawTitle ? `${product}·${rawTitle}` : product,
@@ -205,14 +238,24 @@ export default async function handler(req, res) {
 
     const materials = Array.isArray(track.topMaterials) ? track.topMaterials : [];
     const framesQueued = materials.some(item => item.videoUrl && item.videoUrl !== "空");
-    const frameMessage = framesQueued
-      ? "；页面正在按本次素材URL重新截图并替换关键帧，请保持页面打开几分钟"
-      : "；未识别到有效素材URL，关键帧暂不生成";
+    let frameMessage = "；未识别到有效素材URL，关键帧暂不生成";
+    let framesBackground = false;
+    if (framesQueued) {
+      try {
+        await ghDispatchFrameWorkflow(name);
+        framesBackground = true;
+        frameMessage = "；关键帧已转入后台自动生成，上传页可以直接关闭";
+      } catch (error) {
+        console.error("关键帧后台任务触发失败", error);
+        frameMessage = "；数据已上线，但关键帧后台任务触发失败，请稍后重试上传";
+      }
+    }
     return res.status(200).json({
       ok: true,
       id: null,
       track,
       framesQueued,
+      framesBackground,
       message: `✅ 已${action === "update" ? "更新" : "新增"}赛道「${name}」创意分析并直接上线${frameMessage}`,
     });
   } catch (e) {
