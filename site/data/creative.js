@@ -2080,9 +2080,30 @@ window.CREATIVE_DATA = {
           "ctr": 2.59901293,
           "cvr": 11.09018623,
           "cpm": 245.2350906,
-          "duration": "未提供",
+          "duration": "约62s",
           "videoUrl": "http://adsmind.gdtimg.com/ads_svp_video__0bc3jyackaaaaiagmmsfofvbutqeevhaajka.f0.mp4",
-          "frames": [],
+          "frames": [
+            {
+              "src": "assets/frames/upload-4a2d4671-06-411349a608/frame-01.jpg",
+              "time": "3.7s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-06-411349a608/frame-02.jpg",
+              "time": "14.9s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-06-411349a608/frame-03.jpg",
+              "time": "26.7s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-06-411349a608/frame-04.jpg",
+              "time": "38.6s"
+            },
+            {
+              "src": "assets/frames/upload-4a2d4671-06-411349a608/frame-05.jpg",
+              "time": "51s"
+            }
+          ],
           "golden5": {
             "hook": {
               "time": "0-3S",
@@ -2104,7 +2125,8 @@ window.CREATIVE_DATA = {
               "time": "27-30S",
               "desc": "核心利益复述：「入夏养生，艾灸贴方便」。福利：「限时特价」。行动指令：「点击下方，养生开始」。链路承接直播下单。"
             }
-          }
+          },
+          "sourceType": "video"
         },
         {
           "rank": 7,
