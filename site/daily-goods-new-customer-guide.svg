@@ -59,48 +59,49 @@
   <text x="744.05" y="451" text-anchor="middle" class="cn tag" fill="#3166B8">流量协同价值</text>
   <text x="665.85" y="500" class="cn cardTitle">三驾马车：共同撬动自然流</text>
   <rect x="665.85" y="530" width="135.7" height="38" rx="13.8" fill="#EEF3FF"/>
-  <rect x="818.8" y="530" width="135.7" height="38" rx="13.8" fill="#E7F7EE"/>
-  <rect x="971.75" y="530" width="135.7" height="38" rx="13.8" fill="#FFF3E4"/>
+  <rect x="832.15" y="530" width="135.7" height="38" rx="13.8" fill="#E7F7EE"/>
+  <rect x="998.45" y="530" width="135.7" height="38" rx="13.8" fill="#FFF3E4"/>
   <text x="733.7" y="555" text-anchor="middle" class="cn tag" fill="#3166B8">私域预约</text>
-  <text x="886.65" y="555" text-anchor="middle" class="cn tag">付费引流</text>
-  <text x="1039.6" y="555" text-anchor="middle" class="cn tag" fill="#B76818">自然流量</text>
-  <text x="809.6" y="603" text-anchor="middle" class="cn small">先提升直播间内容与交易表现</text>
-  <text x="809.6" y="637" text-anchor="middle" class="cn body">再撬动更多自然流，放大规模与收益</text>
+  <text x="900" y="555" text-anchor="middle" class="cn tag">付费引流</text>
+  <text x="1066.3" y="555" text-anchor="middle" class="cn tag" fill="#B76818">自然流量</text>
+  <text x="905.6" y="603" text-anchor="middle" class="cn small">先提升直播间内容与交易表现</text>
+  <text x="905.6" y="637" text-anchor="middle" class="cn body">再撬动更多自然流，放大规模与收益</text>
 
   <text x="69" y="750" class="cn section">02 HOW｜先从什么类目切入？</text>
-  <text x="69" y="785" class="cn small">统一口径：机会动因 → 需求特征 → 代表品类</text>
   <g filter="url(#shadow)">
-    <rect x="69" y="815" width="345" height="245" rx="25.3" fill="#FFFFFF"/>
-    <rect x="448.5" y="815" width="345" height="245" rx="25.3" fill="#FFFFFF"/>
-    <rect x="828" y="815" width="345" height="245" rx="25.3" fill="#FFFFFF"/>
+    <rect x="69" y="795" width="345" height="265" rx="25.3" fill="#FFFFFF"/>
+    <rect x="448.5" y="795" width="345" height="265" rx="25.3" fill="#FFFFFF"/>
+    <rect x="828" y="795" width="345" height="265" rx="25.3" fill="#FFFFFF"/>
   </g>
-  <circle cx="124.2" cy="866" r="27" fill="#078B55"/>
-  <text x="124.2" y="875" text-anchor="middle" class="cn" font-size="20" font-weight="800" fill="#FFFFFF">1</text>
-  <text x="172.5" y="875" class="cn cardTitle">生活收纳</text>
-  <text x="96.6" y="912" class="cn small">机会动因｜空间有限、换季整理</text>
-  <text x="96.6" y="950" class="cn small">需求特征</text>
-  <text x="96.6" y="980" class="cn body">省空间 · 好整理 · 防潮</text>
-  <rect x="96.6" y="1010" width="264.5" height="38" rx="14.95" fill="#EEF7F2"/>
-  <text x="228.85" y="1035" text-anchor="middle" class="cn tag" font-size="15">压缩袋 · 收纳包 · 置物架</text>
+  <circle cx="101.2" cy="842" r="22" fill="#078B55"/>
+  <text x="101.2" y="850" text-anchor="middle" class="cn" font-size="18" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="142.6" y="850" class="cn cardTitle">生活收纳</text>
+  <text x="96.6" y="895" class="cn small">机会动因</text>
+  <text x="96.6" y="925" class="cn body">空间有限 · 换季整理</text>
+  <text x="96.6" y="968" class="cn small">需求特征</text>
+  <text x="96.6" y="998" class="cn body">省空间 · 好整理 · 防潮</text>
+  <text x="96.6" y="1033" class="cn small">代表品类</text>
+  <text x="193.2" y="1033" class="cn tag" font-size="14">压缩袋 · 收纳包 · 置物架</text>
 
-  <circle cx="503.7" cy="866" r="27" fill="#078B55"/>
-  <text x="503.7" y="875" text-anchor="middle" class="cn" font-size="20" font-weight="800" fill="#FFFFFF">2</text>
-  <text x="552" y="875" class="cn cardTitle">清洁工具</text>
-  <text x="476.1" y="912" class="cn small">机会动因｜家务刚需、痛点明确</text>
-  <text x="476.1" y="950" class="cn small">需求特征</text>
-  <text x="476.1" y="980" class="cn body">去污 · 省时 · 省力</text>
-  <rect x="476.1" y="1010" width="264.5" height="38" rx="14.95" fill="#EEF7F2"/>
-  <text x="608.35" y="1035" text-anchor="middle" class="cn tag" font-size="15">拖把 · 缝隙刷 · 增压花洒</text>
+  <circle cx="480.7" cy="842" r="22" fill="#078B55"/>
+  <text x="480.7" y="850" text-anchor="middle" class="cn" font-size="18" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="522.1" y="850" class="cn cardTitle">清洁工具</text>
+  <text x="476.1" y="895" class="cn small">机会动因</text>
+  <text x="476.1" y="925" class="cn body">家务刚需 · 痛点明确</text>
+  <text x="476.1" y="968" class="cn small">需求特征</text>
+  <text x="476.1" y="998" class="cn body">去污 · 省时 · 省力</text>
+  <text x="476.1" y="1033" class="cn small">代表品类</text>
+  <text x="572.7" y="1033" class="cn tag" font-size="14">拖把 · 缝隙刷 · 增压花洒</text>
 
-  <circle cx="883.2" cy="866" r="27" fill="#078B55"/>
-  <text x="883.2" y="875" text-anchor="middle" class="cn" font-size="20" font-weight="800" fill="#FFFFFF">3</text>
-  <text x="931.5" y="875" class="cn cardTitle">新奇特</text>
-  <text x="855.6" y="912" class="cn small">机会动因｜新鲜感驱动兴趣消费</text>
-  <text x="855.6" y="950" class="cn small">需求特征</text>
-  <text x="855.6" y="980" class="cn body">悦己 · 装饰 · 送礼 · 猎奇</text>
-  <rect x="855.6" y="1000" width="264.5" height="48" rx="14.95" fill="#EEF7F2"/>
-  <text x="987.85" y="1020" text-anchor="middle" class="cn tag" font-size="14">家居工艺品 + 生活日用其他</text>
-  <text x="987.85" y="1040" text-anchor="middle" class="cn tag" font-size="13">除收纳、清洁外均归入此类</text>
+  <circle cx="860.2" cy="842" r="22" fill="#078B55"/>
+  <text x="860.2" y="850" text-anchor="middle" class="cn" font-size="18" font-weight="800" fill="#FFFFFF">3</text>
+  <text x="901.6" y="850" class="cn cardTitle">新奇特</text>
+  <text x="855.6" y="895" class="cn small">机会动因</text>
+  <text x="855.6" y="925" class="cn body">新鲜感驱动兴趣消费</text>
+  <text x="855.6" y="968" class="cn small">需求特征</text>
+  <text x="855.6" y="998" class="cn body">悦己 · 装饰 · 送礼 · 猎奇</text>
+  <text x="855.6" y="1033" class="cn small">代表品类</text>
+  <text x="952.2" y="1033" class="cn tag" font-size="13">家居工艺品 · 其他生活日用</text>
 
   <text x="69" y="1135" class="cn section">03 HOW｜黄金三秒怎么抓住人？</text>
   <g filter="url(#shadow)">
