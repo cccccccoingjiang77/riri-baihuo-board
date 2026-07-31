@@ -33,6 +33,27 @@ a{color:inherit;text-decoration:none}
 .tag-kpi{font-size:12px;color:var(--gold);border:1px solid rgba(245,181,68,.35);
   padding:4px 10px;border-radius:20px;background:rgba(245,181,68,.08)}
 
+/* ---------- 首页快捷入口 ---------- */
+.quick-tabs{display:grid;grid-template-columns:1.35fr repeat(3,1fr);gap:12px;padding-top:24px}
+.quick-tab{min-height:70px;padding:13px 16px;border-radius:14px;border:1px solid var(--line);
+  background:linear-gradient(150deg,var(--card),var(--bg2));display:flex;align-items:center;gap:8px;
+  position:relative;overflow:hidden;transition:.18s}
+.quick-tab:hover{transform:translateY(-2px);border-color:var(--gold2);box-shadow:var(--shadow)}
+.quick-tab-kicker{position:absolute;top:9px;left:16px;color:var(--txt3);font-size:10px;letter-spacing:.5px}
+.quick-tab b{padding-top:15px;font-size:15px}
+.quick-tab i{padding-top:15px;margin-left:auto;color:var(--txt3);font-style:normal}
+.quick-tab.campaign{border-color:rgba(245,181,68,.5);
+  background:linear-gradient(135deg,rgba(245,181,68,.18),rgba(232,154,46,.06) 65%,var(--card))}
+.quick-tab.campaign::after{content:"通案";position:absolute;right:-12px;bottom:-18px;
+  color:rgba(245,181,68,.09);font-size:54px;font-weight:900;transform:rotate(-8deg)}
+.quick-tab.campaign .quick-tab-kicker,.quick-tab.campaign i{color:var(--gold)}
+@media(max-width:760px){
+  .quick-tabs{grid-template-columns:1fr 1fr;gap:9px;padding-top:16px}
+  .quick-tab{min-height:64px;padding:11px 13px}
+  .quick-tab-kicker{left:13px;top:8px}
+  .quick-tab b{font-size:14px}
+}
+
 /* ---------- 平台限时活动 ---------- */
 .activity-section{padding-top:26px}
 .activity-section[hidden]{display:none}
