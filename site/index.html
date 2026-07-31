@@ -9,11 +9,21 @@
 </head>
 <body>
 
-<div class="topbar"><div class="wrap">
-  <div class="logo"><span class="dot">日</span><span id="brandTitle">日百行业情报台</span></div>
-  <div class="spacer"></div>
-  <span class="tag-kpi" id="brandTag">选品 &amp; 创意 · 行业情报</span>
-</div></div>
+<div class="topbar">
+  <div class="wrap brand-row">
+    <div class="logo"><span class="dot">日</span><span id="brandTitle">日百行业情报台</span></div>
+    <div class="spacer"></div>
+    <span class="tag-kpi" id="brandTag">选品 &amp; 创意 · 行业情报</span>
+  </div>
+  <nav class="module-nav" aria-label="首页模块导航">
+    <div class="wrap module-nav-inner">
+      <a href="#activitySection" data-section="activitySection"><span>01</span>平台限时活动</a>
+      <a href="#playbookSection" data-section="playbookSection"><span>02</span>节点作战手册</a>
+      <a href="#selectionSection" data-section="selectionSection"><span>03</span>选品榜单</a>
+      <a href="#creativeSection" data-section="creativeSection"><span>04</span>卖点 &amp; 创意分析看板</a>
+    </div>
+  </nav>
+</div>
 
 <div class="wrap">
   <!-- ============ 重点入口 ============ -->
@@ -26,7 +36,7 @@
       <div class="activity-list" id="activityList"></div>
     </div>
 
-    <a class="feature-panel playbook-panel" href="http://1.14.180.193:8888/index.html" target="_blank" rel="noopener noreferrer">
+    <a class="feature-panel playbook-panel" id="playbookSection" href="http://1.14.180.193:8888/index.html" target="_blank" rel="noopener noreferrer">
       <div class="feature-head">
         <div><span class="feature-kicker">SEASONAL PLAYBOOK</span><h2>节点作战手册</h2></div>
         <span class="feature-arrow">↗</span>
@@ -45,7 +55,7 @@
   </div>
 
   <!-- ============ 豆腐块1：选品看板 ============ -->
-  <section class="tofu-x" onclick="if(event.target.closest('a'))return;location.href='selection.html'">
+  <section class="tofu-x" id="selectionSection" onclick="if(event.target.closest('a'))return;location.href='selection.html'">
     <div class="tofu-x-head">
       <div class="lft"><span class="ico">🛒</span>
         <div><h2>选品看板</h2>
@@ -68,7 +78,7 @@
   </section>
 
   <!-- ============ 豆腐块2：卖点创意分析 ============ -->
-  <section class="tofu-x" onclick="if(event.target.closest('a'))return;location.href='creative.html'">
+  <section class="tofu-x" id="creativeSection" onclick="if(event.target.closest('a'))return;location.href='creative.html'">
     <div class="tofu-x-head">
       <div class="lft"><span class="ico">🎬</span>
         <div><h2>卖点 &amp; 创意分析看板</h2>
@@ -90,7 +100,19 @@
 
 <button id="backTop" class="back-top" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 顶部</button>
 <script>
-(function(){var b=document.getElementById('backTop');window.addEventListener('scroll',function(){b.classList.toggle('show',window.scrollY>300);});})();
+(function(){
+  var b=document.getElementById('backTop');
+  var links=[].slice.call(document.querySelectorAll('.module-nav a'));
+  var sections=links.map(function(a){return document.getElementById(a.dataset.section);}).filter(Boolean);
+  function updateNav(){
+    b.classList.toggle('show',window.scrollY>300);
+    var current=sections[0];
+    sections.forEach(function(s){if(s.getBoundingClientRect().top<=132)current=s;});
+    links.forEach(function(a){a.classList.toggle('on',current&&a.dataset.section===current.id);});
+  }
+  window.addEventListener('scroll',updateNav,{passive:true});
+  updateNav();
+})();
 </script>
 
 <script>
