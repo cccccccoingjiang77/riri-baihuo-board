@@ -33,55 +33,42 @@ a{color:inherit;text-decoration:none}
 .tag-kpi{font-size:12px;color:var(--gold);border:1px solid rgba(245,181,68,.35);
   padding:4px 10px;border-radius:20px;background:rgba(245,181,68,.08)}
 
-/* ---------- 首页快捷入口 ---------- */
-.quick-tabs{display:grid;grid-template-columns:1.35fr repeat(3,1fr);gap:12px;padding-top:24px}
-.quick-tab{min-height:70px;padding:13px 16px;border-radius:14px;border:1px solid var(--line);
-  background:linear-gradient(150deg,var(--card),var(--bg2));display:flex;align-items:center;gap:8px;
-  position:relative;overflow:hidden;transition:.18s}
-.quick-tab:hover{transform:translateY(-2px);border-color:var(--gold2);box-shadow:var(--shadow)}
-.quick-tab-kicker{position:absolute;top:9px;left:16px;color:var(--txt3);font-size:10px;letter-spacing:.5px}
-.quick-tab b{padding-top:15px;font-size:15px}
-.quick-tab i{padding-top:15px;margin-left:auto;color:var(--txt3);font-style:normal}
-.quick-tab.campaign{border-color:rgba(245,181,68,.5);
-  background:linear-gradient(135deg,rgba(245,181,68,.18),rgba(232,154,46,.06) 65%,var(--card))}
-.quick-tab.campaign::after{content:"通案";position:absolute;right:-12px;bottom:-18px;
-  color:rgba(245,181,68,.09);font-size:54px;font-weight:900;transform:rotate(-8deg)}
-.quick-tab.campaign .quick-tab-kicker,.quick-tab.campaign i{color:var(--gold)}
-@media(max-width:760px){
-  .quick-tabs{grid-template-columns:1fr 1fr;gap:9px;padding-top:16px}
-  .quick-tab{min-height:64px;padding:11px 13px}
-  .quick-tab-kicker{left:13px;top:8px}
-  .quick-tab b{font-size:14px}
-}
-
-/* ---------- 平台限时活动 ---------- */
-.activity-section{padding-top:26px}
-.activity-section[hidden]{display:none}
-.activity-label{display:flex;align-items:center;gap:9px;margin-bottom:10px;font-size:15px}
-.activity-label span{font-size:11px;font-weight:800;letter-spacing:1px;color:#071330;
-  background:linear-gradient(135deg,#ffe477,#ffc937);padding:4px 9px;border-radius:6px}
-.activity-label b{font-size:16px}
-.activity-banner{min-height:220px;display:grid;grid-template-columns:minmax(380px,1.05fr) minmax(320px,.95fr);
-  align-items:center;position:relative;overflow:hidden;border-radius:20px;border:1px solid rgba(95,165,255,.45);
-  background:linear-gradient(120deg,#0d285e 0%,#124ba8 55%,#2379db 100%);box-shadow:0 16px 46px rgba(0,70,180,.24)}
-.activity-banner::before{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(circle at 78% 18%,rgba(255,228,99,.22),transparent 24%),
-  linear-gradient(115deg,transparent 60%,rgba(255,255,255,.08))}
-.activity-banner:hover{border-color:#73b7ff;transform:translateY(-2px);box-shadow:0 20px 52px rgba(0,86,210,.32)}
-.activity-art{height:220px;display:flex;align-items:center;justify-content:center;padding:15px 22px;position:relative;z-index:1}
-.activity-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,22,82,.36))}
-.activity-copy{padding:32px 38px 32px 22px;position:relative;z-index:1}
-.activity-kicker{font-size:11px;font-weight:800;letter-spacing:2.5px;color:#b9dcff;margin-bottom:10px}
-.activity-copy p{font-size:22px;line-height:1.55;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,26,90,.35)}
-.activity-cta{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:9px 16px;border-radius:22px;
-  background:#fff;color:#1551a8;font-size:13px;font-weight:800;box-shadow:0 6px 18px rgba(0,25,80,.2)}
-.activity-cta b{font-size:16px}
+/* ---------- 首页重点入口 ---------- */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-top:26px}
+.feature-panel{min-height:260px;border-radius:20px;border:1px solid var(--line);overflow:hidden;
+  background:linear-gradient(155deg,var(--card),var(--bg2));box-shadow:0 14px 38px rgba(0,0,0,.2)}
+.feature-panel[hidden]{display:none}
+.feature-head{height:70px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.07)}
+.feature-kicker{display:block;margin-bottom:2px;color:var(--txt3);font-size:9px;font-weight:800;letter-spacing:1.8px}
+.feature-head h2{font-size:19px;line-height:1.25}
+.feature-count{padding:4px 9px;border-radius:20px;background:rgba(75,139,245,.12);color:#78adff;font-size:11px}
+.feature-arrow{font-size:22px;color:var(--gold)}
+.activity-panel{border-color:rgba(75,139,245,.35)}
+.activity-list{height:190px;padding:12px;display:flex;flex-direction:column;gap:9px;overflow:auto}
+.activity-item{min-height:76px;padding:9px;border:1px solid rgba(255,255,255,.07);border-radius:12px;
+  display:grid;grid-template-columns:112px 1fr 22px;align-items:center;gap:12px;background:rgba(255,255,255,.025);transition:.18s}
+.activity-item:hover{border-color:#5f9cff;background:rgba(75,139,245,.08)}
+.activity-thumb{width:112px;height:58px;border-radius:8px;overflow:hidden;background:#0e3c85}
+.activity-thumb img{width:100%;height:100%;object-fit:contain}
+.activity-info{min-width:0}.activity-info span{font-size:10px;color:#78adff}.activity-info b{display:block;
+  margin-top:2px;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.activity-info p{margin-top:3px;color:var(--txt3);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.activity-item i{color:var(--txt3);font-style:normal}
+.playbook-panel{display:block;border-color:rgba(245,181,68,.42);transition:.2s}
+.playbook-panel:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 18px 45px rgba(180,85,25,.2)}
+.playbook-cover{height:136px;background:#ba4729;overflow:hidden}
+.playbook-cover img{width:100%;height:100%;object-fit:cover}
+.playbook-meta{height:54px;padding:0 20px;display:flex;align-items:center;gap:10px}
+.playbook-meta b{padding:4px 8px;border-radius:6px;background:rgba(245,181,68,.13);color:var(--gold);font-size:11px}
+.playbook-meta span{font-size:13px;color:var(--txt2)}
 @media(max-width:780px){
-  .activity-banner{grid-template-columns:1fr}
-  .activity-art{height:180px;padding:14px 20px 0}
-  .activity-copy{padding:18px 24px 26px;text-align:center}
-  .activity-copy p{font-size:18px}
-  .activity-cta{margin-top:15px}
+  .feature-grid{grid-template-columns:1fr;padding-top:16px}
+  .feature-panel{min-height:246px}
+  .activity-list{height:176px}
+  .activity-item{grid-template-columns:92px 1fr 18px}
+  .activity-thumb{width:92px}
+  .playbook-cover{height:122px}
 }
 
 /* ---------- 页面标题 ---------- */

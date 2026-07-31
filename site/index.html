@@ -16,36 +16,25 @@
 </div></div>
 
 <div class="wrap">
-  <!-- ============ 快捷入口 ============ -->
-  <nav class="quick-tabs" aria-label="行业情报快捷入口">
-    <a class="quick-tab campaign" href="http://1.14.180.193:8888/index.html" target="_blank" rel="noopener noreferrer">
-      <span class="quick-tab-kicker">整体宣传</span>
-      <b>行业营销通案</b><i>↗</i>
-    </a>
-    <a class="quick-tab" href="#activitySection">
-      <span class="quick-tab-kicker">正在进行</span>
-      <b>限时活动</b>
-    </a>
-    <a class="quick-tab" href="selection.html?view=link">
-      <span class="quick-tab-kicker">当期跑品</span>
-      <b>选品</b>
-    </a>
-    <a class="quick-tab" href="selection.html?view=cycle">
-      <span class="quick-tab-kicker">周期机会</span>
-      <b>热点节点</b>
-    </a>
-  </nav>
-
-  <!-- ============ 平台限时活动 ============ -->
-  <section class="activity-section" id="activitySection" hidden>
-    <div class="activity-label"><span>限时</span><b id="activityTitle">平台限时活动</b></div>
-    <a class="activity-banner" id="activityLink" target="_blank" rel="noopener noreferrer">
-      <div class="activity-art"><img id="activityImage" alt="平台限时活动 Banner"></div>
-      <div class="activity-copy">
-        <div class="activity-kicker">PLATFORM EVENT</div>
-        <p id="activityText"></p>
-        <span class="activity-cta">查看活动详情 <b>↗</b></span>
+  <!-- ============ 重点入口 ============ -->
+  <section class="feature-grid">
+    <div class="feature-panel activity-panel" id="activitySection" hidden>
+      <div class="feature-head">
+        <div><span class="feature-kicker">PLATFORM EVENT</span><h2>平台限时活动</h2></div>
+        <span class="feature-count" id="activityCount"></span>
       </div>
+      <div class="activity-list" id="activityList"></div>
+    </div>
+
+    <a class="feature-panel playbook-panel" href="http://1.14.180.193:8888/index.html" target="_blank" rel="noopener noreferrer">
+      <div class="feature-head">
+        <div><span class="feature-kicker">SEASONAL PLAYBOOK</span><h2>节点作战手册</h2></div>
+        <span class="feature-arrow">↗</span>
+      </div>
+      <div class="playbook-cover">
+        <img src="assets/activity/sanfu-summer-campaign.png" alt="三伏天日百夏季养生赛道">
+      </div>
+      <div class="playbook-meta"><b>本期方案</b><span>三伏天 · 夏季养生赛道</span></div>
     </a>
   </section>
 
@@ -117,11 +106,21 @@ function productImage(x){ return PRODUCT_IMAGES[x.name] || x.image || ''; }
 
 /* ---------- 平台限时活动 ---------- */
 const ACTIVITY = window.ACTIVITY_DATA;
-if(ACTIVITY && ACTIVITY.enabled && ACTIVITY.image && ACTIVITY.text && ACTIVITY.link){
-  document.getElementById('activityTitle').textContent = ACTIVITY.title || '平台限时活动';
-  document.getElementById('activityImage').src = ACTIVITY.image;
-  document.getElementById('activityText').textContent = ACTIVITY.text;
-  document.getElementById('activityLink').href = ACTIVITY.link;
+const activities = ACTIVITY && ACTIVITY.enabled
+  ? (ACTIVITY.items || (ACTIVITY.link ? [ACTIVITY] : []))
+  : [];
+if(activities.length){
+  document.getElementById('activityCount').textContent = activities.length > 1 ? activities.length+' 个活动' : '进行中';
+  document.getElementById('activityList').innerHTML = activities.map((item,i)=>`
+    <a class="activity-item" href="${item.link}" target="_blank" rel="noopener noreferrer">
+      <div class="activity-thumb"><img src="${item.image}" alt="${item.title || '平台活动'}"></div>
+      <div class="activity-info">
+        <span>${item.tag || '限时活动'}</span>
+        <b>${item.title || item.text}</b>
+        ${item.title && item.text ? `<p>${item.text}</p>` : ''}
+      </div>
+      <i>↗</i>
+    </a>`).join('');
   document.getElementById('activitySection').hidden = false;
 }
 
