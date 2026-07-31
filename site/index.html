@@ -27,7 +27,13 @@
 
 <div class="wrap">
   <!-- ============ 重点入口 ============ -->
-  <section class="feature-grid">
+  <div class="page-head home-head">
+    <h1 id="headTitle">日百行业情报台</h1>
+    <div class="sub">别再自己闷头试！这里帮你把<b style="color:var(--gold)">当下正在跑量的爆品</b>和<b style="color:var(--gold)">已验证跑量的创意套路</b>一次看全 —— 跟着抄品、抄卖点、抄脚本，选品少踩坑、起量更省心。点击下方板块即可下钻到完整榜单，挑对标、拿灵感、直接上手。</div>
+    <div class="meta" id="ovMeta"></div>
+  </div>
+
+  <section class="feature-grid compact-features">
     <div class="feature-panel activity-panel" id="activitySection" hidden>
       <div class="feature-head">
         <div><span class="feature-kicker">PLATFORM EVENT</span><h2>平台限时活动</h2></div>
@@ -41,25 +47,20 @@
         <div><span class="feature-kicker">SEASONAL PLAYBOOK</span><h2>节点作战手册</h2></div>
         <span class="feature-arrow">↗</span>
       </div>
-      <div class="playbook-cover">
-        <img src="assets/activity/sanfu-summer-campaign.png" alt="三伏天日百夏季养生赛道">
+      <div class="playbook-entry">
+        <img src="assets/activity/sanfu-playbook-icon.png" alt="日百行业三伏天夏季养生作战手册">
+        <div class="playbook-copy"><b>日百行业三伏天夏季养生作战手册</b><span>洞察周期机会，查看本期选品、内容与投放打法</span></div>
+        <span class="playbook-cta">立即查看</span>
       </div>
-      <div class="playbook-meta"><b>本期方案</b><span>三伏天 · 夏季养生赛道</span></div>
     </a>
   </section>
-
-  <div class="page-head">
-    <h1 id="headTitle">日百行业情报台</h1>
-    <div class="sub">别再自己闷头试！这里帮你把<b style="color:var(--gold)">当下正在跑量的爆品</b>和<b style="color:var(--gold)">已验证跑量的创意套路</b>一次看全 —— 跟着抄品、抄卖点、抄脚本，选品少踩坑、起量更省心。点击下方板块即可下钻到完整榜单，挑对标、拿灵感、直接上手。</div>
-    <div class="meta" id="ovMeta"></div>
-  </div>
 
   <!-- ============ 豆腐块1：选品看板 ============ -->
   <section class="tofu-x" id="selectionSection" onclick="if(event.target.closest('a'))return;location.href='selection.html'">
     <div class="tofu-x-head">
       <div class="lft"><span class="ico">🛒</span>
         <div><h2>选品看板</h2>
-          <div class="desc">分链路（闭环/非闭环）+ 热点周期节气双视角，一眼看到当期最热跑品与当前热门节点。</div>
+          <div class="desc">汇集各投放链路热销商品与节点机会，一眼查看当期跑品、核心指标和热门方向。</div>
         </div>
       </div>
       <a class="enter-btn" href="selection.html">进入完整榜单 →</a>
@@ -198,9 +199,9 @@ function top3col(title,color,items,linkKey){
   return `<div class="t3col"><div class="t3h" style="color:${color}">${title}</div>${rows}</div>`;
 }
 document.getElementById('selTop3').innerHTML =
-  top3col('非闭环 · CID/小程序','#4b8bf5',nonC,'nonClosed')+
-  top3col('闭环 · 全域通','#37c98a',qyt,'qyt')+
-  top3col('闭环 · ADQ','#9b6cf0',adq,'adq');
+top3col('CID/小程序 · 外循环','#4b8bf5',nonC,'nonClosed')+
+    top3col('小店广告 · 内循环','#37c98a',qyt,'qyt')+
+    top3col('ADQ · 内循环','#9b6cf0',adq,'adq');
 
 /* 当前/临近热门节点：优先"当前正处于窗口内"的节点，其次临近 */
 function parseWin(n){

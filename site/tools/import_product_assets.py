@@ -8,8 +8,8 @@ from openpyxl import load_workbook
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-IMAGE_XLSX = Path("/Users/congjiang/Downloads/商品图x商品名对照表.xlsx")
-CATEGORY_XLSX = Path("/Users/congjiang/Downloads/拆商品类目划分赛道明细.xlsx")
+IMAGE_XLSX = Path("/Users/congjiang/Downloads/商品图 vs 商品名称对照表.xlsx")
+CATEGORY_CSV = Path("/Users/congjiang/Downloads/赛道映射_2026-07-30_2026-07-30.csv")
 OUT_DIR = ROOT / "site/assets/products"
 OUT_JS = ROOT / "site/data/product-assets.js"
 SELECTION_JS = ROOT / "site/data/selection.js"
@@ -19,10 +19,10 @@ TRACK_NAMES = {
     ("生活日用", "清洁工具"): "生活日用-清洁工具",
     ("生活日用", "收纳用品"): "生活日用-收纳用品",
     ("生活日用", "其他"): "生活日用-其他",
-    ("家居家纺", "家居家纺"): "家居家纺-家纺",
-    ("家居家纺", "家居工艺品"): "家居家纺-家居工艺品",
     ("厨具", "厨具"): "餐厨水具-厨具",
     ("厨具", "餐具水具"): "餐厨水具-餐具水具",
+    ("家居家纺", "家居家纺"): "家居家纺-家纺",
+    ("家居家纺", "家居工艺品"): "家居家纺-家居工艺品",
 }
 
 
@@ -38,20 +38,15 @@ def norm(value):
 
 
 def load_categories():
-    sheet = load_workbook(CATEGORY_XLSX, data_only=True)["最新表"]
+    import csv
+
     path_tracks = {}
     leaf_tracks = {}
-    parent = ""
-    for row in range(2, sheet.max_row + 1):
-        parent = text(sheet.cell(row, 1).value) or parent
-        child = text(sheet.cell(row, 2).value)
-        track = TRACK_NAMES.get((parent, child))
-        categories = text(sheet.cell(row, 3).value)
-        if not track or not categories or categories.startswith("其他所有"):
-            continue
-        for category in categories.splitlines():
-            category = text(category).replace(" > ", "-")
-            if not category:
+    with CATEGORY_CSV.open(encoding="utf-8-sig", newline="") as fp:
+        for row in csv.DictReader(fp):
+            track = TRACK_NAMES.get((text(row.get("赛道")), text(row.get("子赛道"))))
+            category = text(row.get("类目")).replace(" > ", "-")
+            if not track or not category:
                 continue
             path_tracks[norm(category)] = track
             leaf = norm(category.split("-")[-1])
@@ -119,13 +114,16 @@ def main():
 
     workbook = load_workbook(IMAGE_XLSX, data_only=True)
     sheet = workbook.active
+    headers = {text(sheet.cell(1, col).value): col for col in range(1, sheet.max_column + 1)}
+    name_col = headers.get("商品名称", 2)
+    category_col = headers.get("商品类目", 6)
     rows = {}
     for row in range(2, sheet.max_row + 1):
-        name = text(sheet.cell(row, 2).value)
+        name = text(sheet.cell(row, name_col).value)
         if name and name not in rows:
             rows[name] = {
                 "row": row,
-                "category": text(sheet.cell(row, 5).value),
+                "category": text(sheet.cell(row, category_col).value),
             }
 
     matched = {}

@@ -17,7 +17,7 @@ window.SELECTION_DATA = {
       {
         "name": "多功能刀架",
         "industry": "居家日用",
-        "image": "",
+        "image": "assets/products/6b8487ebf32dc16e.webp",
         "leaf": "日用百货＞厨房用具＞厨房工具＞厨房置物架",
         "price": 59.9,
         "spend": 0,
@@ -29,7 +29,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53kmam6aaamuapjjkpuvvbuuyez5jqbt2a.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/udE3YVElFw2CG4c",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-收纳用品",
         "dupCount": 1
       },
       {
@@ -71,7 +71,7 @@ window.SELECTION_DATA = {
       {
         "name": "护腰坐垫",
         "industry": "居家日用",
-        "image": "",
+        "image": "assets/products/8cefd32b1f2e7cb1.webp",
         "leaf": "日用百货＞生活用品＞防护用品＞护膝/护腰/护肩/护颈",
         "price": 39.9,
         "spend": 0,
@@ -83,7 +83,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53puaicaaasialmnsdr5vbu7ieqf6qbaka.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/xRGdrvUaGBm7Pdi",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "家居家纺-家纺",
         "dupCount": 1
       },
       {
@@ -1939,7 +1939,7 @@ window.SELECTION_DATA = {
           {
             "name": "铝箔保鲜膜套",
             "industry": "居家日用",
-            "image": "",
+            "image": "assets/products/62823ceab390f699.webp",
             "leaf": "日用百货＞厨房用具＞厨房工具＞餐桌罩/饭菜罩",
             "price": 30.16,
             "spend": 0.23,
@@ -1951,7 +1951,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3qaat2aabwmadc5sxvzvbxaaehwaacpka.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-收纳用品",
             "dupCount": 1
           },
           {
@@ -1975,7 +1975,7 @@ window.SELECTION_DATA = {
           {
             "name": "非遗砂锅",
             "industry": "居家日用",
-            "image": "",
+            "image": "assets/products/1c0ca2a9e75b89aa.webp",
             "leaf": "日用百货＞厨房用具＞烹饪用具＞石锅/砂锅",
             "price": 91.1,
             "spend": 0.21,
@@ -1987,7 +1987,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b534yafaaaa3yaic72ihfvbvzqekdtaauca.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "餐厨水具-厨具",
             "dupCount": 1
           },
           {
@@ -2704,7 +2704,7 @@ window.SELECTION_DATA = {
         {
           "name": "保鲜盒",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E4%BF%9D%E9%B2%9C%E7%9B%92%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E4%BF%9D%E9%B2%9C%E7%9B%92%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=48762",
+          "image": "assets/products/5c625d1650b064e8.webp",
           "leaf": "保鲜盒",
           "price": 99,
           "spend": 255166.43,
@@ -2716,13 +2716,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53z4ao6aaa7eagik4mebubvtye57hqb32a.f0.mp4",
           "landing": "4601082178",
           "createdAt": "2026年7月20日",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "收纳袋/收纳包",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E6%94%B6%E7%BA%B3%E8%A2%8B%2F%E6%94%B6%E7%BA%B3%E5%8C%85%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E6%94%B6%E7%BA%B3%E8%A2%8B%2F%E6%94%B6%E7%BA%B3%E5%8C%85%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=66034",
+          "image": "assets/products/752e17f84f778480.webp",
           "leaf": "收纳袋/收纳包",
           "price": 211.57,
           "spend": 195488.26,
@@ -2734,7 +2734,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3uqbe6aacnqanf7a5z5vbrjaej6saet2a.f0.mp4",
           "landing": "4627976094",
           "createdAt": "2026年7月20日",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
@@ -2752,13 +2752,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b534mbduaaco4akjpy4ijvbryyehlrqeosa.f0.mp4",
           "landing": "4562778610",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "家居家纺-家纺",
           "dupCount": 1
         },
         {
           "name": "扫把",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E6%89%AB%E6%8A%8A%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E6%89%AB%E6%8A%8A%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=47392",
+          "image": "assets/products/fd13b87cf45a76cb.webp",
           "leaf": "扫把",
           "price": 72.21,
           "spend": 157134.5,
@@ -2770,7 +2770,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53seajeaaarqaeplbdezvbveieskiqbesa.f0.mp4",
           "landing": "4678609045",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -2788,13 +2788,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53tiadmaaajyafmxq5tnvbvgqeg2naansa.f0.mp4",
           "landing": "4665666829",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
           "name": "香座/香托/香盘/香插",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E9%A6%99%E5%BA%A7%2F%E9%A6%99%E6%89%98%2F%E9%A6%99%E7%9B%98%2F%E9%A6%99%E6%8F%92%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E9%A6%99%E5%BA%A7%2F%E9%A6%99%E6%89%98%2F%E9%A6%99%E7%9B%98%2F%E9%A6%99%E6%8F%92%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=65588",
+          "image": "assets/products/3758dddf896c2091.webp",
           "leaf": "香座/香托/香盘/香插",
           "price": 64.01,
           "spend": 140675.4,
@@ -2806,13 +2806,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53daaicaaamuankdynrzvbugaeqemabaka.f0.mp4",
           "landing": "4310802670",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "家居家纺-家居工艺品",
           "dupCount": 1
         },
         {
           "name": "雨衣",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E9%9B%A8%E8%A1%A3%2F%E9%9B%A8%E6%8A%AB%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E9%9B%A8%E8%A1%A3%2F%E9%9B%A8%E6%8A%AB%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=77678",
+          "image": "assets/products/bba39fa57b2832a8.webp",
           "leaf": "雨衣/雨披",
           "price": 69.47,
           "spend": 139369.11,
@@ -2830,7 +2830,7 @@ window.SELECTION_DATA = {
         {
           "name": "晴雨伞",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E4%BC%9E%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E4%BC%9E%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=23736",
+          "image": "assets/products/0327f0f0e99c94c7.webp",
           "leaf": "伞",
           "price": 101.06,
           "spend": 103353.67,
@@ -2860,13 +2860,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b533eajeaaaeuaj4vc3mrurvwieslmqbesa.f0.mp4",
           "landing": "2785601304",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "伞",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E4%BC%9E%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E4%BC%9E%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=85340",
+          "image": "assets/products/8df31d2b02f43958.webp",
           "leaf": "伞",
           "price": 410.22,
           "spend": 94681.81,
@@ -2896,13 +2896,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc35ybvcaadkqaap3jjfvvbt3qekhxaguka.f0.mp4",
           "landing": "4747430482",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "晾衣绳",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E6%99%BE%E8%A1%A3%E7%BB%B3%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E6%99%BE%E8%A1%A3%E7%BB%B3%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=18460",
+          "image": "assets/products/7e004d17de4248ee.webp",
           "leaf": "晾衣绳",
           "price": 32.17,
           "spend": 75340.56,
@@ -2914,13 +2914,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53hib5saadb4anvijotjvbsoqe3e5ahwka.f0.mp4",
           "landing": "4692723266",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
           "name": "不锈钢保鲜盒",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E4%BF%9D%E9%B2%9C%E7%9B%92%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E4%BF%9D%E9%B2%9C%E7%9B%92%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=54913",
+          "image": "assets/products/e4c5c14689ee1ecf.webp",
           "leaf": "保鲜盒",
           "price": 99.65,
           "spend": 70311.37,
@@ -2932,7 +2932,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3g4aiuaaazaafsayotrvbunyeri3qbcsa.f0.mp4",
           "landing": "4449944639",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
@@ -2950,13 +2950,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b534ybgsaac5iac5kq7h5vbrzqenhtae2ka.f0.mp4",
           "landing": "4374635903",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
           "name": "空调挡风板",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E7%A9%BA%E8%B0%83%E6%8C%A1%E9%A3%8E%E6%9D%BF%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E7%A9%BA%E8%B0%83%E6%8C%A1%E9%A3%8E%E6%9D%BF%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=26926",
+          "image": "assets/products/aae92492cc03c3c1.webp",
           "leaf": "空调挡风板",
           "price": 43.59,
           "spend": 65845.74,
@@ -2968,13 +2968,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53aub6waadzqapmfrsjvvbsbie5mcqh22a.f0.mp4",
           "landing": "4831997070",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "植物大师艾灸贴",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E8%89%BE%E7%81%B8%E8%B4%B4%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E8%89%BE%E7%81%B8%E8%B4%B4%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=53399",
+          "image": "assets/products/2c1aa94445af7eb3.webp",
           "leaf": "艾灸贴",
           "price": 58.42,
           "spend": 65482.69,
@@ -2986,13 +2986,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3vma6eaabtqadjkzczvvbxkye4kvqdysa.f0.mp4",
           "landing": "4751707418",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
           "name": "拖把",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E6%8B%96%E6%8A%8A%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E6%8B%96%E6%8A%8A%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=27328",
+          "image": "assets/products/39cbcffcdbd92b10.webp",
           "leaf": "拖把",
           "price": 400.98,
           "spend": 65022.91,
@@ -3004,7 +3004,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3zmbcoaacrqalr6y4sjvbrsyee7fqej2a.f0.mp4",
           "landing": "4617897888",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
@@ -3022,7 +3022,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53imabmaaa2uaccayzxzvbuqyeczbqafsa.f0.mp4",
           "landing": "4561491486",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -3040,13 +3040,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53sma5maabo4ads3y6yrvbxeye22jqdvsa.f0.mp4",
           "landing": "4838041064",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
           "name": "平板拖把",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E6%8B%96%E6%8A%8A%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E6%8B%96%E6%8A%8A%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=90892",
+          "image": "assets/products/1d948020ae76b4b1.webp",
           "leaf": "拖把",
           "price": 30.23,
           "spend": 51189.1,
@@ -3058,13 +3058,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc374b26aadm4aaj3ri7zvbt7yev77qhl2a.f0.mp4",
           "landing": "4764753860",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
           "name": "保鲜膜",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E4%BF%9D%E9%B2%9C%E8%86%9C%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E4%BF%9D%E9%B2%9C%E8%86%9C%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=19002",
+          "image": "assets/products/62823ceab390f699.webp",
           "leaf": "保鲜膜",
           "price": 40.54,
           "spend": 49020.18,
@@ -3076,13 +3076,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53dmac2aaaziafj4j32bvbugyefunqalka.f0.mp4",
           "landing": "4932611002",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "供香/线香",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E4%BE%9B%E9%A6%99%2F%E7%BA%BF%E9%A6%99%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E4%BE%9B%E9%A6%99%2F%E7%BA%BF%E9%A6%99%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=56470",
+          "image": "assets/products/7eff99dce59027de.webp",
           "leaf": "供香/线香",
           "price": 205.96,
           "spend": 48957.49,
@@ -3094,13 +3094,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3oaa3uaabxqaaemysqzvbw4aexjyadosa.f0.mp4",
           "landing": "4069132626",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "家居家纺-家居工艺品",
           "dupCount": 1
         },
         {
           "name": "足贴",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E8%B6%B3%E8%B4%B4%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E8%B6%B3%E8%B4%B4%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=62400",
+          "image": "assets/products/1ace98ec61b7e6ce.webp",
           "leaf": "足贴",
           "price": 39.79,
           "spend": 47343.08,
@@ -3112,7 +3112,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53taabgaaajyad3mkhr5vbvgaecomaae2a.f0.mp4",
           "landing": "5075801772",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
@@ -3130,13 +3130,13 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53eebycaadaqanpyzmlfvbsiieqeqqhaka.f0.mp4",
           "landing": "4798349031",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
           "name": "粘鼠板",
           "industry": "家居日用",
-          "image": "https://image.pollinations.ai/prompt/%E9%A9%B1%E9%BC%A0%2F%E7%81%AD%E9%BC%A0%E7%94%A8%E5%93%81%20%E5%95%86%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E5%8F%AA%E5%B1%95%E7%A4%BA%E9%A9%B1%E9%BC%A0%2F%E7%81%AD%E9%BC%A0%E7%94%A8%E5%93%81%E4%BA%A7%E5%93%81%E6%9C%AC%E4%BD%93%2C%20%E4%B8%8D%E5%B1%95%E7%A4%BA%E5%93%81%E7%89%8Clogo%E5%92%8C%E6%96%87%E5%AD%97%2C%20%E7%94%B5%E5%95%86%E4%BA%A7%E5%93%81%E4%B8%BB%E5%9B%BE%2C%20%E7%BA%AF%E7%99%BD%E8%83%8C%E6%99%AF%2C%20%E5%95%86%E5%93%81%E5%B1%85%E4%B8%AD%2C%20%E9%AB%98%E6%B8%85%E5%86%99%E5%AE%9E?width=500&height=500&nologo=true&seed=64611",
+          "image": "assets/products/32ee396da502b6fa.webp",
           "leaf": "驱鼠/灭鼠用品",
           "price": 32.36,
           "spend": 40367.78,
@@ -3148,7 +3148,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc34eb6oaadduap4ersjrvbtyie47qqhz2a.f0.mp4",
           "landing": "4822688015",
           "createdAt": "",
-          "category2": "家居日用",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         }
       ]
@@ -3501,7 +3501,7 @@ window.SELECTION_DATA = {
         {
           "name": "防油贴",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/873b0fbbfc2a011e.webp",
           "leaf": "其他生活用品",
           "price": 32.89,
           "spend": 930,
@@ -3513,13 +3513,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
           "name": "双层纱床笠",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/76d199775bf3fa44.webp",
           "leaf": "床单/床笠/床裙/隔脏睡袋",
           "price": 40.88,
           "spend": 830,
@@ -3555,7 +3555,7 @@ window.SELECTION_DATA = {
         {
           "name": "香薰线香",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/30e65bc3696a2a35.webp",
           "leaf": "其他生活用品",
           "price": 30.16,
           "spend": 700,
@@ -3650,7 +3650,7 @@ window.SELECTION_DATA = {
         {
           "name": "煎锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/2c0adcf1ff1c6b1c.webp",
           "leaf": "平底锅/煎锅",
           "price": 127.09,
           "spend": 54500,
@@ -3716,13 +3716,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "除尘掸",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/f96411cffb93e65d.webp",
           "leaf": "除尘掸",
           "price": 33.89,
           "spend": 20800,
@@ -3740,7 +3740,7 @@ window.SELECTION_DATA = {
         {
           "name": "鸡骨剪",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/adead374ba507f92.webp",
           "leaf": "剪刀",
           "price": 70.05,
           "spend": 19800,
@@ -3788,7 +3788,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
@@ -3866,7 +3866,7 @@ window.SELECTION_DATA = {
         {
           "name": "高压锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/868afafb70be9ae6.webp",
           "leaf": "高压锅",
           "price": 360.44,
           "spend": 11400,
@@ -3884,7 +3884,7 @@ window.SELECTION_DATA = {
         {
           "name": "炒锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/fb11d2ec3cd507ea.webp",
           "leaf": "炒锅",
           "price": 188.09,
           "spend": 10200,
@@ -3938,7 +3938,7 @@ window.SELECTION_DATA = {
         {
           "name": "微压锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/11cdcbdee395aefd.webp",
           "leaf": "高压锅",
           "price": 163.9,
           "spend": 8900,
@@ -3968,13 +3968,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "玻璃杯",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/ae57fec1a3ff83c6.webp",
           "leaf": "茶杯",
           "price": 78.07,
           "spend": 7500,
@@ -3986,7 +3986,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "家居家纺-家居工艺品",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
@@ -4046,7 +4046,7 @@ window.SELECTION_DATA = {
         {
           "name": "精铁锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/7e2dd071741c63cc.webp",
           "leaf": "炒锅",
           "price": 163.53,
           "spend": 5500,
@@ -4069,7 +4069,7 @@ window.SELECTION_DATA = {
         {
           "name": "拖把",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/39cbcffcdbd92b10.webp",
           "leaf": "拖把",
           "price": 84.3,
           "spend": 79536,
@@ -4081,7 +4081,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
@@ -4105,7 +4105,7 @@ window.SELECTION_DATA = {
         {
           "name": "燃气灶",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/4c6fc902dc00c509.webp",
           "leaf": "泡脚包/泡脚药包",
           "price": 23.33,
           "spend": 60805,
@@ -4117,7 +4117,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-功效品",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
@@ -4195,7 +4195,7 @@ window.SELECTION_DATA = {
         {
           "name": "支架",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/40713f3941c86f83.webp",
           "leaf": "厨卫配件",
           "price": 21.97,
           "spend": 13432,
@@ -4231,7 +4231,7 @@ window.SELECTION_DATA = {
         {
           "name": "除尘掸",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/f96411cffb93e65d.webp",
           "leaf": "保温杯/保温壶",
           "price": 33.35,
           "spend": 9497,
@@ -4243,7 +4243,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -4267,7 +4267,7 @@ window.SELECTION_DATA = {
         {
           "name": "过滤网",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/6f7f68ea5fd5415f.webp",
           "leaf": "压缩袋",
           "price": 36.4,
           "spend": 7994,
@@ -4279,13 +4279,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-收纳用品",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
           "name": "护腰",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/9304d4fc89063bb6.webp",
           "leaf": "拖把",
           "price": 40.69,
           "spend": 5784,
@@ -4339,7 +4339,7 @@ window.SELECTION_DATA = {
         {
           "name": "收纳盒",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/1aafb6b0b39a112e.webp",
           "leaf": "厨卫配件",
           "price": 60.48,
           "spend": 4013,
@@ -4351,7 +4351,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
@@ -4393,7 +4393,7 @@ window.SELECTION_DATA = {
         {
           "name": "置物架",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/1ee5571eac9256d3.webp",
           "leaf": "浴室角架/浴室置物架",
           "price": 30.3,
           "spend": 1649,
@@ -4411,7 +4411,7 @@ window.SELECTION_DATA = {
         {
           "name": "扫把",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/fd13b87cf45a76cb.webp",
           "leaf": "浴室角架/浴室置物架",
           "price": 40.67,
           "spend": 1649,
@@ -4465,7 +4465,7 @@ window.SELECTION_DATA = {
         {
           "name": "旅行茶具",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/896309f366f696a9.webp",
           "leaf": "旅行茶具",
           "price": 196.2,
           "spend": 772,
@@ -4501,7 +4501,7 @@ window.SELECTION_DATA = {
         {
           "name": "茶杯",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/9855a0fddbb139d0.webp",
           "leaf": "艾灸",
           "price": 70.04,
           "spend": 769,
@@ -4513,7 +4513,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-功效品",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         }
       ]
@@ -4866,7 +4866,7 @@ window.SELECTION_DATA = {
         {
           "name": "防油贴",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/873b0fbbfc2a011e.webp",
           "leaf": "其他生活用品",
           "price": 32.89,
           "spend": 930,
@@ -4878,13 +4878,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
           "name": "双层纱床笠",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/76d199775bf3fa44.webp",
           "leaf": "床单/床笠/床裙/隔脏睡袋",
           "price": 40.88,
           "spend": 830,
@@ -4920,7 +4920,7 @@ window.SELECTION_DATA = {
         {
           "name": "香薰线香",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/30e65bc3696a2a35.webp",
           "leaf": "其他生活用品",
           "price": 30.16,
           "spend": 700,
@@ -5051,7 +5051,7 @@ window.SELECTION_DATA = {
         {
           "name": "茶杯",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/9855a0fddbb139d0.webp",
           "leaf": "茶杯",
           "price": 75.3,
           "spend": 12347,
@@ -5063,13 +5063,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "家居家纺-家居工艺品",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
           "name": "收纳袋(通用)",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/752e17f84f778480.webp",
           "leaf": "收纳袋/收纳包",
           "price": 97.4,
           "spend": 10370,
@@ -5087,7 +5087,7 @@ window.SELECTION_DATA = {
         {
           "name": "装饰画/墙贴",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/7949175213f72d05.webp",
           "leaf": "墙贴装饰贴",
           "price": 50.2,
           "spend": 9533,
@@ -5099,7 +5099,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "家居家纺-家居工艺品",
           "dupCount": 1
         },
         {
@@ -5153,7 +5153,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "家居家纺-家居工艺品",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
@@ -5177,7 +5177,7 @@ window.SELECTION_DATA = {
         {
           "name": "床单",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/058ecd357b13622a.webp",
           "leaf": "床单/床笠/床裙/隔脏睡袋",
           "price": 76.1,
           "spend": 4058,
@@ -5225,7 +5225,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "家居家纺-家居工艺品",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
@@ -5249,7 +5249,7 @@ window.SELECTION_DATA = {
         {
           "name": "车载香薰",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/30e65bc3696a2a35.webp",
           "leaf": "车用香薰香膏",
           "price": 100.8,
           "spend": 3085,
@@ -5411,7 +5411,7 @@ window.SELECTION_DATA = {
         {
           "name": "收纳箱(通用)",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/b0d0e02ac96a3b85.webp",
           "leaf": "收纳箱/收纳盒",
           "price": 171.6,
           "spend": 784,
@@ -5434,7 +5434,7 @@ window.SELECTION_DATA = {
         {
           "name": "拖把",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/39cbcffcdbd92b10.webp",
           "leaf": "",
           "price": 49.7,
           "spend": 189737,
@@ -5446,13 +5446,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
           "name": "炒锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/fb11d2ec3cd507ea.webp",
           "leaf": "",
           "price": 254,
           "spend": 111325,
@@ -5464,7 +5464,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "餐厨水具-厨具",
           "dupCount": 1
         },
         {
@@ -5542,7 +5542,7 @@ window.SELECTION_DATA = {
         {
           "name": "控温被/纤维被",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/96e34b8b4b6fc432.webp",
           "leaf": "",
           "price": 553.6,
           "spend": 23785,
@@ -5554,13 +5554,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "家居家纺-家纺",
           "dupCount": 1
         },
         {
           "name": "家务手套",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/46039fae61c969d9.webp",
           "leaf": "",
           "price": 27.7,
           "spend": 15754,
@@ -5572,7 +5572,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
@@ -5614,7 +5614,7 @@ window.SELECTION_DATA = {
         {
           "name": "热水袋",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/dc96df7fffa0417b.webp",
           "leaf": "",
           "price": 32.2,
           "spend": 13394,
@@ -5626,7 +5626,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
@@ -5686,7 +5686,7 @@ window.SELECTION_DATA = {
         {
           "name": "茶杯",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/9855a0fddbb139d0.webp",
           "leaf": "",
           "price": 156.5,
           "spend": 9478,
@@ -5698,13 +5698,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
           "name": "微压锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/11cdcbdee395aefd.webp",
           "leaf": "",
           "price": 97.8,
           "spend": 8801,
@@ -5716,13 +5716,13 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "餐厨水具-厨具",
           "dupCount": 1
         },
         {
           "name": "高压锅",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/868afafb70be9ae6.webp",
           "leaf": "",
           "price": 364.2,
           "spend": 8589,
@@ -5734,7 +5734,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "餐厨水具-厨具",
           "dupCount": 1
         },
         {
@@ -5758,7 +5758,7 @@ window.SELECTION_DATA = {
         {
           "name": "除尘掸",
           "industry": "家居日用",
-          "image": "",
+          "image": "assets/products/f96411cffb93e65d.webp",
           "leaf": "",
           "price": 44,
           "spend": 7598,
@@ -5770,7 +5770,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-其他",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
