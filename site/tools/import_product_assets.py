@@ -33,7 +33,7 @@ def text(value):
 def norm(value):
     value = text(value).lower()
     value = re.sub(r"plant\s*master|植物大师|春禾", "", value, flags=re.I)
-    value = re.sub(r"[\s·|｜（）()【】\[\]{}，,。:：;；'\"_-]+", "", value)
+    value = re.sub(r"[\s·|｜（）()【】\[\]{}，,。:：;；'\"_\->＞]+", "", value)
     return value.replace("/", "")
 
 
@@ -176,7 +176,8 @@ def main():
         name = text(item.get("name"))
         if name in image_paths:
             item["image"] = image_paths[name]
-        track = product_tracks.get(name) or leaf_tracks.get(norm(item.get("leaf")))
+        leaf_track = classify(item.get("leaf"), item.get("leaf"), path_tracks, leaf_tracks)
+        track = leaf_track or product_tracks.get(name)
         item["category2"] = track or legacy_tracks.get(item.get("category2"), item.get("category2") or "生活日用-其他")
 
     data["meta"]["imageNote"] = "商品参考图优先使用运营提供的商品图与商品名对照表，本地静态加载"

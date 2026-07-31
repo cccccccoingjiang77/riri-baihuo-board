@@ -9,12 +9,22 @@
 </head>
 <body>
 
-<div class="topbar"><div class="wrap">
-  <div class="logo"><span class="dot">日</span>日百行业情报台</div>
-  <div class="crumb"><a href="index.html">概览</a><span class="sep">/</span>卖点 &amp; 创意分析</div>
-  <div class="spacer"></div>
-  <span class="tag-kpi">卖点 &amp; 创意分析</span>
-</div></div>
+<div class="topbar">
+  <div class="wrap brand-row">
+    <a class="logo" href="index.html"><span class="dot">日</span><span>日百行业情报台</span></a>
+    <div class="crumb"><a href="index.html">概览</a><span class="sep">/</span>卖点 &amp; 创意分析</div>
+    <div class="spacer"></div>
+    <span class="tag-kpi">卖点 &amp; 创意分析</span>
+  </div>
+  <nav class="module-nav" aria-label="模块导航">
+    <div class="wrap module-nav-inner">
+      <a href="index.html#activitySection"><span>01</span>平台限时活动</a>
+      <a href="index.html#playbookSection"><span>02</span>节点作战手册</a>
+      <a href="selection.html"><span>03</span>选品榜单</a>
+      <a class="on" href="creative.html"><span>04</span>卖点 &amp; 创意分析看板</a>
+    </div>
+  </nav>
+</div>
 
 <div class="wrap">
   <div class="page-head">
@@ -123,11 +133,11 @@ function trackCard(config){
     ${ctx}
     <div class="desc" style="min-height:auto">主要卖点：</div>
     <div class="chips">${words}</div>
-    <div class="kv" style="grid-template-columns:repeat(4,1fr);margin-top:16px">
-      <div class="box"><div class="n" style="font-size:18px">${m.creativeCount||0}</div><div class="l">创意条数</div></div>
-      <div class="box"><div class="n" style="font-size:18px">${m.ctr||0}%</div><div class="l">点击率</div></div>
-      <div class="box"><div class="n" style="font-size:18px">${m.play3s||0}%</div><div class="l">3s完播</div></div>
-      <div class="box"><div class="n" style="font-size:18px">${m.cvr||0}%</div><div class="l">CVR</div></div>
+    <div class="track-kpis">
+      <div class="track-kpi"><b>${m.creativeCount||0}</b><span>创意条数</span></div>
+      <div class="track-kpi"><b>${m.ctr||0}%</b><span>点击率</span></div>
+      <div class="track-kpi"><b>${m.play3s||0}%</b><span>3s完播</span></div>
+      <div class="track-kpi"><b>${m.cvr||0}%</b><span>CVR</span></div>
     </div>
     <div class="enter">查看赛道详情 →</div>
   </div>`;

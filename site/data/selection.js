@@ -65,7 +65,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3kmaqiaaboyais7k4tzvbwuyearjqcbca.f0.mp4",
         "landing": "#小程序://拼多多/e5yfvTAinmzeiHk",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-清洁工具",
         "dupCount": 1
       },
       {
@@ -83,7 +83,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53puaicaaasialmnsdr5vbu7ieqf6qbaka.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/xRGdrvUaGBm7Pdi",
         "createdAt": "46232",
-        "category2": "家居家纺-家纺",
+        "category2": "生活日用-功效品",
         "dupCount": 1
       },
       {
@@ -137,7 +137,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3aeakuaaaaiaar52rljvbuaieviaqbksa.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/6dYnthyGonA1hTq",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "餐厨水具-厨具",
         "dupCount": 1
       },
       {
@@ -155,7 +155,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53caaayaaajqapkdcekzvbueaebqiaadca.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/qEwhHxHMZtrossv",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-功效品",
         "dupCount": 1
       },
       {
@@ -173,7 +173,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3bibbcaacjqajmktcqzvbqcqecefaeeka.f0.mp4",
         "landing": "#小程序://拼多多/NsZBXqHEQrIBPpy",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "家居家纺-家居工艺品",
         "dupCount": 1
       },
       {
@@ -209,7 +209,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3vaa52aabjyadacc4lfvbvkae3wuadxka.f0.mp4",
         "landing": "#小程序://拼多多/pbd17FxVcfq68iC",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-功效品",
         "dupCount": 1
       },
       {
@@ -245,7 +245,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3lqah2aaaxeala2cz3nvbuxaepvoaa7ka.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/FQSoMaqlGAdnEwf",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "餐厨水具-餐具水具",
         "dupCount": 1
       },
       {
@@ -263,7 +263,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b5374bgsaaclyadekm3qfurr7yenh7qe2ka.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/Vy85uTDzUoJWFak",
         "createdAt": "46232",
-        "category2": "餐厨水具-餐具水具",
+        "category2": "生活日用-清洁工具",
         "dupCount": 1
       },
       {
@@ -299,7 +299,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53zeaguaaadaacpcwdfrurvsienleqa2sa.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/Sym8wRj3PNWV9zw",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-清洁工具",
         "dupCount": 1
       },
       {
@@ -317,7 +317,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53leaegaaa2aabyajsunvbuwieinmqaq2a.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/FO4hGISZOD1jO5c",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-清洁工具",
         "dupCount": 1
       },
       {
@@ -389,7 +389,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53d4abqaaadeakpvdfhnvbuhyedapqagca.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/UM2jJgnBCD2HZcs",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-收纳用品",
         "dupCount": 1
       },
       {
@@ -407,7 +407,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3rmbhsaacfiaaawdgc5vbrcyepgfqe6ka.f0.mp4",
         "landing": "#小程序://拼多多/8P5bGmCHLHNjH8d",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "家居家纺-家居工艺品",
         "dupCount": 1
       },
       {
@@ -425,7 +425,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53daaicaaamuankdynrzvbugaeqemabaka.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/IeBCh0FPmFUYRey",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "家居家纺-家居工艺品",
         "dupCount": 1
       },
       {
@@ -443,7 +443,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b534uaxoaabkiaclk2xevvbxzieo7sqc52a.f0.mp4",
         "landing": "#小程序://拼多多/gfQBSqvzaJf7i6d",
         "createdAt": "46232",
-        "category2": "生活日用-清洁工具",
+        "category2": "生活日用-功效品",
         "dupCount": 1
       },
       {
@@ -461,7 +461,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53q4bauaacj4abh4dcqjvbrbyebkdqecsa.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/3nLdcV0H3E1t4oA",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "餐厨水具-餐具水具",
         "dupCount": 1
       },
       {
@@ -479,7 +479,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53jyam6aaadqaipispuvvbutqez5habt2a.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/RGVIhiXD6ezM3gp",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "餐厨水具-餐具水具",
         "dupCount": 1
       },
       {
@@ -497,7 +497,7 @@ window.SELECTION_DATA = {
         "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53caatoaabjaagi7dg6nvbweaeg4iacn2a.f0.mp4",
         "landing": "#小程序://京东购物丨点外卖领国补/C3gBM1YCqQlg75A",
         "createdAt": "46232",
-        "category2": "生活日用-其他",
+        "category2": "生活日用-清洁工具",
         "dupCount": 1
       }
     ]
@@ -848,7 +848,7 @@ window.SELECTION_DATA = {
           {
             "name": "丁腈手套",
             "image": "assets/products/a19830951101766d.webp",
-            "category2": "生活日用-清洁工具",
+            "category2": "餐厨水具-餐具水具",
             "leaf": "一次性手套",
             "price": 29,
             "roi": 4.44,
@@ -1016,7 +1016,7 @@ window.SELECTION_DATA = {
           {
             "name": "家用折叠泡脚桶",
             "image": "assets/products/906dd52d4e2fe02a.webp",
-            "category2": "生活日用-清洁工具",
+            "category2": "生活日用-功效品",
             "leaf": "足浴桶",
             "price": 29,
             "roi": 3.99,
@@ -1142,7 +1142,7 @@ window.SELECTION_DATA = {
           {
             "name": "桌板坐姿调整器",
             "image": "assets/products/9070f1a2ed032db7.webp",
-            "category2": "生活日用-清洁工具",
+            "category2": "生活日用-功效品",
             "leaf": "其他",
             "price": 239,
             "roi": 3.77,
@@ -1198,7 +1198,7 @@ window.SELECTION_DATA = {
           {
             "name": "牛角梳",
             "image": "assets/products/20c66a04d2459225.webp",
-            "category2": "生活日用-清洁工具",
+            "category2": "生活日用-功效品",
             "leaf": "其他",
             "price": 1329,
             "roi": 3.64,
@@ -1226,7 +1226,7 @@ window.SELECTION_DATA = {
           {
             "name": "春联礼包",
             "image": "assets/products/e8b551c3e78c85c5.webp",
-            "category2": "家居家纺-家居工艺品",
+            "category2": "生活日用-功效品",
             "leaf": "其他",
             "price": 19,
             "roi": 3.54,
@@ -1338,7 +1338,7 @@ window.SELECTION_DATA = {
           {
             "name": "保温饭盒",
             "image": "assets/products/dbbf8d1a7dba0714.webp",
-            "category2": "餐厨水具-餐具水具",
+            "category2": "餐厨水具-厨具",
             "leaf": "炒锅",
             "price": 220,
             "roi": 3.38,
@@ -1537,7 +1537,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53uubdyaacaeahf2tcnzvbtjiehssqepca.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 2
           },
           {
@@ -1573,7 +1573,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53t4a4aaabhiaolps2vfvbxhyeycpqdqca.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1591,7 +1591,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3fqaciaaa4yaogmkh4vurulaeeqwaajca.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-清洁工具",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1609,7 +1609,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3f4a56aabi4ajhek2sfvbwlye34xqdx2a.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "家居家纺-家居工艺品",
             "dupCount": 2
           },
           {
@@ -1645,7 +1645,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53vmarqaab2yagcmsvwbvbxkyedcvqcgca.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1681,7 +1681,7 @@ window.SELECTION_DATA = {
             "material": "http://pgdt.gtimg.cn/141/20204/snscosdownload/SZ/reserved/6a27be3a000d79e62e1fc0e4c66fbc1e0000008d00004eec",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "家居家纺-家纺",
             "dupCount": 1
           },
           {
@@ -1699,7 +1699,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3hqa5waabgeafoys5qzvbwpae3m6adw2a.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "家居家纺-家纺",
             "dupCount": 2
           },
           {
@@ -1717,7 +1717,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3wicq4aafieajt4r2wbvb7mqeb2zakdsa.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "家居家纺-家居工艺品",
             "dupCount": 1
           },
           {
@@ -1735,7 +1735,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53xmac4aaakmalbob32bvbvoyef25qalsa.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1753,7 +1753,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53pma76aabqmae2ds6lnvbw6ye755qd72a.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1789,7 +1789,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53gmaawaaaz4aoedlb7jvbumyebmzqac2a.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1825,7 +1825,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53nyadcaaayaaoemlb5rvbu3qegfxaamka.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1861,7 +1861,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53zeadwaaacaapeida5vvbvsiehpeqao2a.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "家居家纺-家纺",
             "dupCount": 1
           },
           {
@@ -1897,7 +1897,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b537eankaaapqabkxkqizvbv6ie2x4qbvka.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "生活日用-功效品",
             "dupCount": 1
           },
           {
@@ -1915,7 +1915,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3ayaakaaaeiao2cjq4fvbubqeaudaabka.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "家居家纺-家居工艺品",
             "dupCount": 1
           },
           {
@@ -1933,7 +1933,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3y4clgaaez4ajmowlkvur5ryewpdqjm2a.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-其他",
+            "category2": "家居家纺-家纺",
             "dupCount": 1
           },
           {
@@ -1951,7 +1951,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3qaat2aabwmadc5sxvzvbxaaehwaacpka.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "生活日用-收纳用品",
+            "category2": "餐厨水具-餐具水具",
             "dupCount": 1
           },
           {
@@ -2005,7 +2005,7 @@ window.SELECTION_DATA = {
             "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53laaasaaanaadszs72bvbuwaebfmaacka.f0.mp4",
             "landing": "",
             "createdAt": "46233",
-            "category2": "餐厨水具-餐具水具",
+            "category2": "餐厨水具-厨具",
             "dupCount": 1
           }
         ]
@@ -2047,7 +2047,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b5334aauaaaqiapb5cekzvbvxyeblpqacsa.f0.mp4?dis_k=3941218a7fcf7e79872e4046267ffe78&dis_t=1782905443&m=e6f6e33cb4987256c2bac1e48efcfb28",
           "landing": "",
           "createdAt": "2026年7月20日",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-功效品",
           "dupCount": 297
         },
         {
@@ -2251,7 +2251,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc37ybpiaactiacxnbfinvbr7qe6t7af5ca.f0.mp4?dis_k=a78a2839332a4c04987423eb6bbbdd6f&dis_t=1780998062&m=51fb31a9a440195a9c69199bf632c1b5&sha256=ad1aacf4e5bf03c8ac6abe4df0802b047d3d9f1e77a523c818fd56cd6a64cf8e",
           "landing": "",
           "createdAt": "2026年7月20日",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-收纳用品",
           "dupCount": 16
         },
         {
@@ -2404,7 +2404,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3dqafoaaalqajbpkibnvbuhaek4oaav2a.f0.mp4?dis_k=06f735bc4fb20ef9337fc55056e39041&dis_t=1783154498&m=ef95175465f1e69bfe1f15af204316e1",
           "landing": "",
           "createdAt": "2026年7月20日",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-清洁工具",
           "dupCount": 5
         },
         {
@@ -2455,7 +2455,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53ribhwaacliahym5dwburrcqepofae62a.f0.mp4?dis_k=bd3ae71e488d622a2dcacb9ffd34d7c9&dis_t=1782464931&m=ebd02a2cf195c19b0100ad73ae6e21cb&sha256=47697e55abe6910f88aa5da971f663da36994b48ab3103e829b6740d70f6acfd",
           "landing": "",
           "createdAt": "2026年7月20日",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-清洁工具",
           "dupCount": 3
         },
         {
@@ -2557,7 +2557,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0b53wqaj4aaavmailz2pk5vbvnaet22abhsa.f0.mp4?dis_k=47120f549177d6e9b8f3adb6894868a8&dis_t=1783569234&m=705ece54c0aa2811b7cd65ac259d3385&sha256=6dabae813c26fd0ff4dc63ba875221bcfe336fbe89c165abe5fe4739e50f8aaf",
           "landing": "",
           "createdAt": "2026年7月20日",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-功效品",
           "dupCount": 2
         },
         {
@@ -2986,7 +2986,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3vma6eaabtqadjkzczvvbxkye4kvqdysa.f0.mp4",
           "landing": "4751707418",
           "createdAt": "",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
@@ -3004,7 +3004,7 @@ window.SELECTION_DATA = {
           "material": "http://adsmind.gdtimg.com/ads_svp_video__0bc3zmbcoaacrqalr6y4sjvbrsyee7fqej2a.f0.mp4",
           "landing": "4617897888",
           "createdAt": "",
-          "category2": "生活日用-收纳用品",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -3423,7 +3423,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
@@ -3842,7 +3842,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -4081,7 +4081,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-收纳用品",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -4117,7 +4117,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
@@ -4243,7 +4243,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-清洁工具",
+          "category2": "餐厨水具-餐具水具",
           "dupCount": 1
         },
         {
@@ -4279,7 +4279,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-收纳用品",
           "dupCount": 1
         },
         {
@@ -4351,7 +4351,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-收纳用品",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -4369,7 +4369,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-收纳用品",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
@@ -4441,7 +4441,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-清洁工具",
           "dupCount": 1
         },
         {
@@ -4513,7 +4513,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "餐厨水具-餐具水具",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         }
       ]
@@ -4788,7 +4788,7 @@ window.SELECTION_DATA = {
           "material": "",
           "landing": "",
           "createdAt": "",
-          "category2": "生活日用-清洁工具",
+          "category2": "生活日用-功效品",
           "dupCount": 1
         },
         {
